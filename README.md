@@ -1,8 +1,8 @@
 # IS_Development
 ## Team Members 
-_Analysis_
+__Analysis__  
 [@shenshopping](https://github.com/shenshopping)
-_Design_
+__Design__  
 [@Prye](https://github.com/Prye) && @陈宣颖
-_Development_
+__Development__
 [@baldfemale](https://github.com/baldFemale) && [@HerikkWang](https://github.com/HerikkWang)
