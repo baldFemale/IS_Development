@@ -1,6 +1,6 @@
 # IS_Development
 ## Develop Tools  
-__Python @@ Django__  
+__Python && Django__  
 为了便于后续发布，在虚拟环境中进行开发  
 ## Team Members 
 __Analysis__  
