@@ -2,6 +2,10 @@
 ## Develop Tools  
 __Python && Django__  
 为了便于后续发布，在虚拟环境中进行开发  
+## Logs  
+Date | Event
+:--- | :----
+11/2/2018 | Start project and add Database
 ## Team Members 
 __Analysis__  
 [@shenshopping](https://github.com/shenshopping)  
