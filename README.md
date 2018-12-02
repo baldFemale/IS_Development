@@ -5,7 +5,8 @@ __Python && Django__
 ## Logs  
 Date | Event
 :--- | :----
-11/2/2018 | Start project and add Database
+12/1/2018 | Start Repository
+12/2/2018 | Start project and add Database
 ## Team Members 
 __Analysis__  
 [@shenshopping](https://github.com/shenshopping)  
