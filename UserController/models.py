@@ -53,9 +53,9 @@ class Order(models.Model):
 
 
 class OrderDetail(models.Model):
-    OrderID = models.OneToOneField(Order,
-                                   on_delete=models.CASCADE,
-                                   primary_key=True)
+    ID = models.AutoField(primary_key=True)
+    OrderID = models.ForeignKey(Order,
+                                on_delete=models.CASCADE,)
     DishID = models.ForeignKey(Dish, on_delete=models.CASCADE)
     Amount = models.PositiveSmallIntegerField()
 

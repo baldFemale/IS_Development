@@ -7,11 +7,11 @@ from ApplyController.models import Restaurant
 
 
 class Table(models.Model):
+    ID = models.AutoField(primary_key=True)
     TableNum = models.PositiveSmallIntegerField()
-    RestaurantID = models.OneToOneField(
+    RestaurantID = models.ForeignKey(
         Restaurant,
         on_delete=models.CASCADE,
-        primary_key=True
     )
     Capacity = models.PositiveSmallIntegerField()
     CloseTime = models.DateTimeField(null=True)
