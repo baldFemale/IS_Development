@@ -40,6 +40,9 @@ INSTALLED_APPS = [
 
     # my app
     'assesses',
+    'ApplyController',
+    'UserController',
+    'ManagementController',
 ]
 
 MIDDLEWARE = [

@@ -1,6 +1,6 @@
 from django.shortcuts import render
 from assesses import forms
-from assesses.models import Assess
+from assesses.models import Assessor
 from django.http import HttpResponseRedirect
 from django.urls import reverse
 
