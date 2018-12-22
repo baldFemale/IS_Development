@@ -1,0 +1,11 @@
+<ul>
+    {% for coupon in coupons %}
+    <li>优惠券{{ coupon.Nmae }}</li>
+    <li>{{ coupon.Price }}抵{{coupon.Value}}!</li>
+    {% if coupon.Amount > 0 %}
+    <li>余量：{{coupon.Amount}}，<a href="">立即购买</a></li>
+    {% else %}
+    <li>暂无余量</li>
+    {% endif %}
+    {% endfor %}
+</ul>

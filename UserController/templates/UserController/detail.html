@@ -1,0 +1,15 @@
+<p>Detail</p>
+
+<ul>
+    <li><img src="/../../../{{restaurant.Image}}"></li>
+    <li>餐厅名：{{restaurant.Name}}</li>
+    <li>开始营业时间：{{restaurant.BusinessStartHour}}</li>
+    <li>结束营业时间：{{restaurant.BusinessEndHour}}</li>
+    <li>预先点餐</li>
+    {% if coupons %}
+        <li><a href="{%url 'UserController:coupon' restaurant.ID %}">优惠券</a></li>
+    {% else %}
+        <li>暂无优惠券</li>
+    {% endif %}
+
+</ul>

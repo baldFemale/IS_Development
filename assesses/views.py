@@ -1,10 +1,10 @@
 from django.shortcuts import render
 from assesses import forms
 from assesses.models import Assessor,AssessInfo
-from ApplyController.models import Restaurant
 from django.http import HttpResponseRedirect
 from django.urls import reverse
 from ApplyController.models import Restaurant
+from django.utils import timezone
 
 # Create your views here.
 
@@ -46,6 +46,7 @@ def detail(request,restaurant_id):
                 restaurant.Status = 2
             else:
                 restaurant.Status = 1
+            restaurant.OpenTime = timezone.now()
             restaurant.save()
             return HttpResponseRedirect(reverse("assesses:index"))
     form = forms.AssessForm()
