@@ -19,7 +19,6 @@ def login(requset):
             name = requset.POST["name"]
             password = requset.POST["password"]
             assess = Assess.objects.filter(name=name,password=password)
-            print(form)
             if assess:
                 return HttpResponseRedirect(reverse("assesses:index"))
             else:
