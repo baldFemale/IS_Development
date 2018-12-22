@@ -1,8 +1,9 @@
 <ul>
-    {% for assessinfo in assessinfos %}
+    {% for restaurant in restaurants %}
     <li>
-        <p>餐厅ID ：{assessinfo.ID}}</p>
-        <p><a href="{%url 'assesses:detail' assessinfo.RestaurantID%}">Detail</a> </p>
+        <p>餐厅ID ：{{restaurant.ID}}</p>
+        <p>餐厅名字：{{restaurant.Name}}</p>
+        <p><a href="{%url 'assesses:detail' restaurant.ID%}">Detail</a> </p>
     </li>
     {% empty%}
     <li>
