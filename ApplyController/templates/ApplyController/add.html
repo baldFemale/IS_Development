@@ -1,0 +1,10 @@
+{% if error_message %}
+    <a>{{ error_message }}</a>
+{% endif %}
+<form method="post">
+    {% csrf_token %}
+    {% for field in form %}
+        {{ field.label_tag }}: {{ field }}
+    {% endfor %}
+    <input type="submit" value="添加">
+</form>

@@ -1,15 +1,11 @@
 from django.db import models
 from django.core.validators import MinLengthValidator, RegexValidator
-
-import sys
-sys.path.append("..")
-
 from ApplyController.models import Merchant
 from ManagementController.models import Dish, Restaurant, Coupon
 
 
 class User(models.Model):
-    ID = models.AutoField(primary_key=True)
+    # ID = models.AutoField(primary_key=True)
     Name = models.CharField(max_length=20)
     # 密码长度至少8位
     Password = models.CharField(max_length=20, validators=[MinLengthValidator(8)])
@@ -27,13 +23,9 @@ class User(models.Model):
         return self.Name
 
 
-# class RegisterUser(User):
-#     SurePsw = models.CharField(max_length=20, validators=[MinLengthValidator(8)])
-
-
 class Review(models.Model):
-    ID = models.AutoField(primary_key=True)
-    RestaurantID = models.ForeignKey(Restaurant, on_delete=models.CASCADE)
+    # ID = models.AutoField(primary_key=True)
+    RestaurantID = models.ForeignKey(Merchant, on_delete=models.CASCADE)
     UserID = models.ForeignKey(User, on_delete=models.CASCADE)
     Score_category = (
         (0, '0'),
@@ -43,7 +35,6 @@ class Review(models.Model):
         (4, '4'),
         (5, '5'),
     )
-    Score = models.PositiveSmallIntegerField(choices=Score_category)
     Content = models.CharField(max_length=500)
     ThumbUpCount = models.PositiveIntegerField()
     ReviewTime = models.DateTimeField(auto_now_add=True)
@@ -51,7 +42,7 @@ class Review(models.Model):
 
 
 class Order(models.Model):
-    ID = models.AutoField(primary_key=True)
+    # ID = models.AutoField(primary_key=True)
     RestaurantID = models.ForeignKey(Restaurant, on_delete=models.CASCADE)
     UserID = models.ForeignKey(User, on_delete=models.CASCADE)
     OrderTime = models.DateTimeField(auto_now_add=True)
@@ -59,7 +50,7 @@ class Order(models.Model):
 
 
 class OrderDetail(models.Model):
-    ID = models.AutoField(primary_key=True)
+    # ID = models.AutoField(primary_key=True)
     OrderID = models.ForeignKey(Order,
                                 on_delete=models.CASCADE,)
     DishID = models.ForeignKey(Dish, on_delete=models.CASCADE)
@@ -67,7 +58,7 @@ class OrderDetail(models.Model):
 
 
 class CouponPurchase(models.Model):
-    ID = models.AutoField(primary_key=True)
+    # ID = models.AutoField(primary_key=True)
     CouponID = models.ForeignKey(Coupon, on_delete=models.CASCADE)
     UserID = models.ForeignKey(User, on_delete=models.CASCADE)
     BuyTime = models.DateTimeField(auto_now_add=True)

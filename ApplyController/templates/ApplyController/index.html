@@ -1,0 +1,12 @@
+<a>{{ login_user_name }}</a>
+<a href="/apply/logout/">注销</a>
+{% if apply_list %}
+    <ul>
+        {% for restaurant in apply_list %}
+            <li><a href="{{restaurant.id}}">{{ restaurant.Name }}</a></li>
+        {% endfor %}
+    </ul>
+{% else %}
+    <p>没有可显示的餐厅</p>
+{% endif %}
+<a href="/apply/add/">增加新餐厅</a>

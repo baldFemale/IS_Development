@@ -1,0 +1,17 @@
+<h1>{{ restaurant.Name }}</h1>
+{% if error_message %}
+    <a>{{ error_message }}</a>
+{% endif %}
+<ul>
+    <li>开始营业时间：{{ restaurant.BusinessStartHour }}</li>
+    <li>结束营业时间：{{ restaurant.BusinessEndHour }}</li>
+    <li>地址：{{ restaurant.Address }}</li>
+    <li>餐厅图片: {{ restaurant.Image }}</li>
+    <li>餐厅评分: {{ restaurant.Score }}</li>
+    <li>餐厅种类: {{ restaurant.get_Category_display }}</li>
+    <li>营业执照：{{ restaurant.LicenseID }}</li>
+    <li>申请状态: {{ restaurant.get_Status_display }}</li>
+    <li>审核通过时间: {{ restaurant.OpenTime }}</li>
+</ul>
+<a href="{% url 'apply:edit' restaurant.id %}">修改</a>
+<a href="/apply/">返回餐厅列表</a>
