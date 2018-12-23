@@ -31,7 +31,7 @@ def get_file_path(instance, filename):
     # 设置Restaurant的Image的上传路径
     sub = filename.split('.')[-1]
     t = time.strftime('%Y%m%d%H%M%S', time.localtime())
-    return '/image/%s/avatar/%s.%s' % (instance.MerchantID, t, sub,)
+    return 'Files/image/%s/avatar/%s.%s' % (instance.MerchantID, t, sub,)
 
 
 class Restaurant(models.Model):

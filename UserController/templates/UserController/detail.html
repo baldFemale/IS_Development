@@ -5,11 +5,62 @@
     <li>餐厅名：{{restaurant.Name}}</li>
     <li>开始营业时间：{{restaurant.BusinessStartHour}}</li>
     <li>结束营业时间：{{restaurant.BusinessEndHour}}</li>
+    {% if favorite == 1 %}
+    <li><button class="favorite" data-id="{{restaurant.ID}}">取消收藏</button></li>
+    {% else %}
+    <li><button class="favorite" data-id="{{restaurant.ID}}">收藏</button></li>
+    {% endif %}
     <li>预先点餐</li>
     {% if coupons %}
         <li><a href="{%url 'UserController:coupon' restaurant.ID %}">优惠券</a></li>
     {% else %}
         <li>暂无优惠券</li>
     {% endif %}
-
 </ul>
+
+
+<script
+  src="https://code.jquery.com/jquery-3.3.1.min.js"
+  integrity="sha256-FgpCb/KJQlLNfOu91ta32o/NMZxltwRo8QtmkMRdAu8="
+  crossorigin="anonymous"></script>
+<script type="text/javascript">
+    $(".favorite").click(function(){
+        console.log("loaded")
+        var id = $(this).data('id');
+        if($(this).html()=="收藏"){
+            $.ajax({
+                url:'../../../UserController/favorite/',
+                data:{
+                    'id':id,
+                },
+                type:"POST",
+                dataType:"json",
+                success:function(data){
+                    if (data["status"]=="ok"){
+                        window.alert("收藏成功")
+                        btn = document.getElementsByClassName("favorite")[0];
+                        btn.innerText = "取消收藏";
+                    }
+                }
+            })
+            console.log("收藏");
+        }
+        else{
+            $.ajax({
+                url:'../../../UserController/unfavorite/',
+                data:{
+                    'id':id,
+                },
+                type:"POST",
+                dataType:"json",
+                success:function(data){
+                    if (data["status"]=="ok"){
+                        window.alert("取消成功")
+                        btn = document.getElementsByClassName("favorite")[0];
+                        btn.innerText = "收藏";
+                    }
+                }
+            })
+        }
+    })
+</script>

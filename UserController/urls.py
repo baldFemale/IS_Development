@@ -15,5 +15,12 @@ urlpatterns = [
     # 优惠券界面
     url(r"^coupon/(?P<restaurant_id>\d)/$",views.coupon,name="coupon"),
     # 购买优惠券
-    # url(r"^purchase_coupon/(?P<coupon_id>\d)/$",views,name="purchase_coupon"),
+    url(r"^purchase_coupon/$",views.purchase_coupon,name="purchase_coupon"),
+    # 预点餐界面
+    url(r"^order/(?P<restaurant_id>\d)/$",views.order,name="order"),
+    # 评论界面
+    # 收藏
+    url(r"^favorite/$",views.favorite,name="favorite"),
+    # 取消收藏
+    url(r"^unfavorite/$", views.unfavorite, name="unfavorite"),
 ]

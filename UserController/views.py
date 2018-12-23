@@ -1,10 +1,12 @@
 from django.shortcuts import render
 from . import forms
-from .models import User
+from .models import User,CouponPurchase,Review
 from ApplyController.models import Restaurant
 from ManagementController.models import Coupon
-from django.http import HttpResponseRedirect
+from django.http import HttpResponseRedirect,JsonResponse
 from django.urls import reverse
+from django.views.decorators.csrf import csrf_exempt
+from django.core.paginator import Paginator
 
 # Create your views here.
 def index(request):
@@ -45,7 +47,15 @@ def register(request):
 def detail(request,restaurant_id):
     restaurant = Restaurant.objects.get(ID=restaurant_id)
     coupons = Coupon.objects.filter(RestaurantID=restaurant)
-    context = {"restaurant":restaurant,"coupons":coupons}
+    user = User.objects.get(ID=request.session["user"])
+
+    favorite = 0
+    if restaurant in user.Favorite.all():
+            print("hahahahahaha")
+            favorite = 1
+
+    reviews = Review.objects.filter(RestaurantID=restaurant)
+    context = {"restaurant": restaurant, "coupons": coupons,"favorite":favorite,"reviews":reviews}
     return render(request,"UserController/detail.html",context=context)
 
 
@@ -55,13 +65,45 @@ def coupon(request,restaurant_id):
     return render(request,"UserController/coupon.html",context={"coupons":coupons})
 
 
-# def purchase_coupon(request,coupon_id):
-#     _coupon = Coupon.objects.get(ID=coupon_id)
-#     _coupon.Amount-=1
-#     _coupon.save()
-#     restaurant = Restaurant.objects.get(ID=_coupon.RestaurantID)
-#     coupons = Coupon.objects.filter(RestaurantID=restaurant)
-#     return render(request,"UserController/coupon.html",context={"coupons":coupons})
+@ csrf_exempt
+def purchase_coupon(request):
+    coupon_id = request.POST.get('id')
+    coupon = Coupon.objects.get(ID=coupon_id)
+    if coupon.Amount>0:
+        user = User.objects.get(ID=request.session["user"])
+        coupon_parchase = CouponPurchase(CouponID=coupon,UserID=user)
+        coupon_parchase.save()
+        coupon.Amount = coupon.Amount-1
+        coupon.save()
+        return JsonResponse({"status":"ok","amount":str(coupon.Amount)})
+    else:
+        return JsonResponse({"status":"fail"})
+
+
+@ csrf_exempt
+def favorite(request):
+    restaurant_id = request.POST.get("id")
+    restaurant = Restaurant.objects.get(ID=restaurant_id)
+    user = User.objects.get(ID=request.session["user"])
+    user.Favorite.add(restaurant)
+    print(user.Favorite.all())
+    user.save()
+    return JsonResponse({"status":"ok"})
+
+
+@ csrf_exempt
+def unfavorite(request):
+    restaurant_id = request.POST.get("id")
+    restaurant = Restaurant.objects.get(ID=restaurant_id)
+    user = User.objects.get(ID=request.session["user"])
+    user.Favorite.remove(restaurant)
+    user.save()
+    return JsonResponse({"status":"ok"})
+
+
+def order(request,restaurant_id):
+    pass
+
 
 
 
