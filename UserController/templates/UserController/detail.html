@@ -1,22 +1,53 @@
 <p>Detail</p>
 
-<ul>
-    <li><img src="/../../../{{restaurant.Image}}"></li>
-    <li>餐厅名：{{restaurant.Name}}</li>
-    <li>开始营业时间：{{restaurant.BusinessStartHour}}</li>
-    <li>结束营业时间：{{restaurant.BusinessEndHour}}</li>
-    {% if favorite == 1 %}
-    <li><button class="favorite" data-id="{{restaurant.ID}}">取消收藏</button></li>
-    {% else %}
-    <li><button class="favorite" data-id="{{restaurant.ID}}">收藏</button></li>
+<div>
+    <ul>
+        <li><img src="/../../../{{restaurant.Image}}"></li>
+        <li>餐厅名：{{restaurant.Name}}</li>
+        <li>开始营业时间：{{restaurant.BusinessStartHour}}</li>
+        <li>结束营业时间：{{restaurant.BusinessEndHour}}</li>
+        {% if favorite == 1 %}
+        <li><button class="favorite" data-id="{{restaurant.ID}}">取消收藏</button></li>
+        {% else %}
+        <li><button class="favorite" data-id="{{restaurant.ID}}">收藏</button></li>
+        {% endif %}
+        <li>预先点餐</li>
+        {% if coupons %}
+            <li><a href="{%url 'UserController:coupon' restaurant.ID %}">优惠券</a></li>
+        {% else %}
+            <li>暂无优惠券</li>
+        {% endif %}
+        <li><a href="{%url 'UserController:review' restaurant.ID%}">我要点评</a> </li>
+    </ul>
+</div>
+<br>
+
+<!--评论部分-->
+<div>
+    {% if result %}
+    <ul>
+        {% for r in result %}
+        <li>用户：{{r.UserID}}</li>
+        <li>评分：{{r.Score}}</li>
+        <li>评价内容：{{r.Content}}</li>
+        <li><a class="thump" data-id="{{r.ID}}">点赞数:<span id="{{r.ID}}">{{r.ThumbUpCount}}</span></a></li>
+        <li>时间：{{r.ReviewTime}}</li>
+        <br>
+    </ul>
+        {% empty %}
+            <p>No Comment yet</p>
+        {% endfor %}
     {% endif %}
-    <li>预先点餐</li>
-    {% if coupons %}
-        <li><a href="{%url 'UserController:coupon' restaurant.ID %}">优惠券</a></li>
-    {% else %}
-        <li>暂无优惠券</li>
-    {% endif %}
-</ul>
+    <ul class="pagination">
+        {% if result.has_previous %}
+            <li><a href="/UserController/detail/{{restaurant.ID}}/?page={{result.previous_page_number}}">上一页</a> </li>
+        {% endif %}
+        {% if result.has_next %}
+            <li><a href="/UserController/detail/{{restaurant.ID}}/?page={{result.next_page_number}}">下一页</a> </li>
+        {% endif %}
+
+    </ul>
+</div>
 
 
 <script
@@ -62,5 +93,25 @@
                 }
             })
         }
+    })
+
+    $(".thump").click(function(){
+        var id = $(this).data("id");
+        console.log(id);
+        $.ajax({
+            url:'../../../UserController/thump_up/',
+            data:{
+                'id':id,
+            },
+            type:"POST",
+            dataType:"json",
+            success:function(data){
+                if (data["status"]=="ok"){
+                    console.log("点赞");
+                    var s = document.getElementById(id);
+                    s.innerText = data["num"];
+                }
+            }
+        })
     })
 </script>

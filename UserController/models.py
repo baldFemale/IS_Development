@@ -33,7 +33,7 @@ class User(models.Model):
 
 class Review(models.Model):
     ID = models.AutoField(primary_key=True)
-    RestaurantID = models.ForeignKey(Merchant, on_delete=models.CASCADE)
+    RestaurantID = models.ForeignKey(Restaurant, on_delete=models.CASCADE)
     UserID = models.ForeignKey(User, on_delete=models.CASCADE)
     Score_category = (
         (0, '0'),
@@ -43,6 +43,7 @@ class Review(models.Model):
         (4, '4'),
         (5, '5'),
     )
+    Score = models.PositiveSmallIntegerField(choices=Score_category)
     Content = models.CharField(max_length=500)
     ThumbUpCount = models.PositiveIntegerField()
     ReviewTime = models.DateTimeField(auto_now_add=True)

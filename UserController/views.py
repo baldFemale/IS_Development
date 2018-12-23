@@ -55,7 +55,12 @@ def detail(request,restaurant_id):
             favorite = 1
 
     reviews = Review.objects.filter(RestaurantID=restaurant)
-    context = {"restaurant": restaurant, "coupons": coupons,"favorite":favorite,"reviews":reviews}
+    limit = 4
+    paginator = Paginator(reviews,limit)
+    page = request.GET.get('page',1)
+    result = paginator.page(page)
+
+    context = {"restaurant": restaurant, "coupons": coupons,"favorite":favorite,"result":result}
     return render(request,"UserController/detail.html",context=context)
 
 
@@ -101,9 +106,20 @@ def unfavorite(request):
     return JsonResponse({"status":"ok"})
 
 
+@ csrf_exempt
+def thump_up(request):
+    review_id = request.POST.get("id")
+    review = Review.objects.get(ID=review_id)
+    review.ThumbUpCount = review.ThumbUpCount+1
+    num = str(review.ThumbUpCount)
+    review.save()
+    return JsonResponse({"status":"ok","num":num})
+
+
 def order(request,restaurant_id):
     pass
 
-
+def review(request,restaurant_id):
+    pass
 
 

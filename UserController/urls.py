@@ -19,8 +19,11 @@ urlpatterns = [
     # 预点餐界面
     url(r"^order/(?P<restaurant_id>\d)/$",views.order,name="order"),
     # 评论界面
+    url(r"^review/(?P<restaurant_id>\d)/$",views.review,name="review"),
     # 收藏
     url(r"^favorite/$",views.favorite,name="favorite"),
     # 取消收藏
     url(r"^unfavorite/$", views.unfavorite, name="unfavorite"),
+    # 点赞
+    url(r"^thump_up/$",views.thump_up,name="thump_up"),
 ]

@@ -1,5 +1,5 @@
 from django import forms
-from .models import User
+from .models import User,Review
 
 
 class LoginForm(forms.ModelForm):
@@ -14,3 +14,8 @@ class UserForm(forms.ModelForm):
 
         fields = ["Name","Password","Sex","PhoneNum"]
         labels = {"Name":"姓名","Password":"密码","Sex":"性别","电话":"PhoneNum"}
+
+class ReviewForm(forms.ModelForm):
+    class Meta:
+        model = Review
+        fields = []
