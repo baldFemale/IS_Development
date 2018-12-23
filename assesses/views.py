@@ -6,23 +6,24 @@ from django.urls import reverse
 
 # Create your views here.
 
+
 def index(request):
     return render(request,"assesses/index.html")
 
 
-def login(requset):
-    if requset.method!="POST":
+def login(request):
+    if request.method != "POST":
         form = forms.AccessForm()
     else:
-        form = forms.AccessForm(data=requset.POST)
+        form = forms.AccessForm(data=request.POST)
         if form.is_valid():
-            name = requset.POST["name"]
-            password = requset.POST["password"]
-            assess = Assess.objects.filter(name=name,password=password)
+            name = request.POST["name"]
+            password = request.POST["password"]
+            assess = Assessor.objects.filter(name=name,password=password)
             if assess:
                 return HttpResponseRedirect(reverse("assesses:index"))
             else:
                 return HttpResponseRedirect(reverse("assesses:login"))
     context ={"form":form}
-    return render(requset,"assesses/login.html",context)
+    return render(request,"assesses/login.html",context)
 

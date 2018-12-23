@@ -1,9 +1,6 @@
 from django.db import models
-
-import sys
-sys.path.append("..")
-
 from ApplyController.models import Restaurant
+import time
 
 
 class Table(models.Model):
@@ -53,9 +50,11 @@ class Reserve(models.Model):
     ReserveTime = models.DateTimeField(auto_now_add=True)
 
 
-def get_file_path(instance):
-    # 设置Dish的Image的上传路径
-    return 'files/image/%s/%s' % (instance.RestaurantID.code, instance.Name.code)
+def get_file_path(instance, filename):
+    # 设置Restaurant的Image的上传路径
+    sub = filename.split('.')[-1]
+    t = time.strftime('%Y%m%d%H%M%S', time.localtime())
+    return 'image/%s/dish/%s.%s' % (instance.RestaurantID, t, sub,)
 
 
 class Dish(models.Model):
@@ -78,6 +77,9 @@ class Dish(models.Model):
     Type = models.PositiveSmallIntegerField(choices=Type_category)
     RecommendCount = models.PositiveIntegerField(default=0)
 
+    def __str__(self):
+        return self.Name
+
 
 class Coupon(models.Model):
     ID = models.AutoField(primary_key=True)
@@ -87,5 +89,8 @@ class Coupon(models.Model):
     Value = models.FloatField()
     Amount = models.PositiveIntegerField()
     Notes = models.CharField(max_length=200)
+
+    def __str__(self):
+        return self.Name
 
 

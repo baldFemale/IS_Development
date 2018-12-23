@@ -14,9 +14,9 @@ def validate_identity_num(char):
 
 class Merchant(models.Model):
     ID = models.AutoField(primary_key=True)
-    Name = models.CharField(max_length=20)
+    Name = models.CharField(max_length=20, verbose_name='用户名', unique=True)
     # 密码长度至少8位
-    Password = models.CharField(max_length=20, validators=[MinLengthValidator(8)])
+    Password = models.CharField(max_length=20, validators=[MinLengthValidator(8)], verbose_name='密码')
     # 身份证长度固定为18位
     IdentityNum = models.CharField(validators=[validate_identity_num], max_length=20)
 
@@ -41,8 +41,8 @@ class Restaurant(models.Model):
     BusinessStartHour = models.TimeField()
     BusinessEndHour = models.TimeField()
     Address = models.CharField(max_length=50)
-    Image = models.ImageField(upload_to=get_file_path)
-    Score = models.FloatField(validators=[MinValueValidator(0), MaxValueValidator(5)])
+    Image = models.ImageField(upload_to=get_file_path, null=True)
+    Score = models.FloatField(validators=[MinValueValidator(0), MaxValueValidator(5)], null=True)
 
     Category_Choices = (
         ('1', '川菜'),
@@ -62,7 +62,7 @@ class Restaurant(models.Model):
         (1, '审核拒绝'),
         (2, '审核通过'),
     )
-    Status = models.SmallIntegerField(choices=Status_Choices)
+    Status = models.SmallIntegerField(choices=Status_Choices, default=0)
     OpenTime = models.DateTimeField(null=True)
 
     def __str__(self):

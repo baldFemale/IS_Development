@@ -1,9 +1,5 @@
 from django.db import models
 from django.core.validators import MinLengthValidator, RegexValidator
-
-import sys
-sys.path.append("..")
-
 from ApplyController.models import Merchant
 from ManagementController.models import Dish, Restaurant, Coupon
 
@@ -19,7 +15,7 @@ class User(models.Model):
     )
     Sex = models.PositiveSmallIntegerField(choices=Sex_category)
     PhoneNum_regex_validator = RegexValidator(regex=r'^\d{7}$', inverse_match=True)
-    PhoneNum = models.CharField(max_length=7, validators=[PhoneNum_regex_validator])
+    PhoneNum = models.CharField(max_length=11, validators=[PhoneNum_regex_validator])
     Favorite = models.ManyToManyField(Restaurant)
     UserRecommend = models.ManyToManyField(Dish)
 
