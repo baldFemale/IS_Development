@@ -31,7 +31,7 @@ def login(request):
                 user_password = data['Password']
                 login_merchant = Merchant.objects.filter(Name=user_name, Password=user_password)
                 if login_merchant:
-                    request.session['login_merchant'] = login_merchant[0].ID
+                    request.session['login_merchant'] = login_merchant[0].id
                     return HttpResponseRedirect(reverse('apply:index'))
                 else:
                     return render(request, 'ApplyController/login.html', context={
@@ -50,6 +50,11 @@ def login(request):
             })
     else:
         return HttpResponseRedirect(reverse('apply:index'))
+
+
+def logout(request):
+    request.session.pop('login_merchant')
+    return login(request)
 
 
 class DetailView(generic.DetailView):
@@ -89,9 +94,7 @@ def add_restaurant(request):
                 new_restaurant = form.save(commit=False)
                 new_restaurant.MerchantID = Merchant.objects.get(pk=login_merchant_id)
                 new_restaurant.save()
-                return render(request, 'ApplyController/index.html', context={
-                    'error_message': '添加成功',
-                })
+                return index(request)
             else:
                 return render(request, 'ApplyController/add.html', context={
                     'form': form,

@@ -13,5 +13,5 @@
     <li>申请状态: {{ restaurant.get_Status_display }}</li>
     <li>审核通过时间: {{ restaurant.OpenTime }}</li>
 </ul>
-<a href="{% url 'apply:edit' restaurant.ID %}">修改</a>
+<a href="{% url 'apply:edit' restaurant.id %}">修改</a>
 <a href="/apply/">返回餐厅列表</a>

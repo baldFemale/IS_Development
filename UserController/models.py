@@ -5,7 +5,7 @@ from ManagementController.models import Dish, Restaurant, Coupon
 
 
 class User(models.Model):
-    ID = models.AutoField(primary_key=True)
+    # ID = models.AutoField(primary_key=True)
     Name = models.CharField(max_length=20)
     # 密码长度至少8位
     Password = models.CharField(max_length=20, validators=[MinLengthValidator(8)])
@@ -24,7 +24,7 @@ class User(models.Model):
 
 
 class Review(models.Model):
-    ID = models.AutoField(primary_key=True)
+    # ID = models.AutoField(primary_key=True)
     RestaurantID = models.ForeignKey(Merchant, on_delete=models.CASCADE)
     UserID = models.ForeignKey(User, on_delete=models.CASCADE)
     Score_category = (
@@ -41,7 +41,7 @@ class Review(models.Model):
 
 
 class Order(models.Model):
-    ID = models.AutoField(primary_key=True)
+    # ID = models.AutoField(primary_key=True)
     RestaurantID = models.ForeignKey(Restaurant, on_delete=models.CASCADE)
     UserID = models.ForeignKey(User, on_delete=models.CASCADE)
     OrderTime = models.DateTimeField(auto_now_add=True)
@@ -49,7 +49,7 @@ class Order(models.Model):
 
 
 class OrderDetail(models.Model):
-    ID = models.AutoField(primary_key=True)
+    # ID = models.AutoField(primary_key=True)
     OrderID = models.ForeignKey(Order,
                                 on_delete=models.CASCADE,)
     DishID = models.ForeignKey(Dish, on_delete=models.CASCADE)
@@ -57,7 +57,7 @@ class OrderDetail(models.Model):
 
 
 class CouponPurchase(models.Model):
-    ID = models.AutoField(primary_key=True)
+    # ID = models.AutoField(primary_key=True)
     CouponID = models.ForeignKey(Coupon, on_delete=models.CASCADE)
     UserID = models.ForeignKey(User, on_delete=models.CASCADE)
     BuyTime = models.DateTimeField(auto_now_add=True)

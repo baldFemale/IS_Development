@@ -4,7 +4,7 @@ import time
 
 
 class Table(models.Model):
-    ID = models.AutoField(primary_key=True)
+    # ID = models.AutoField(primary_key=True)
     TableNum = models.PositiveSmallIntegerField()
     RestaurantID = models.ForeignKey(
         Restaurant,
@@ -26,7 +26,7 @@ class Table(models.Model):
 
 
 class Reserve(models.Model):
-    ReserveID = models.AutoField(primary_key=True)
+    # ReserveID = models.AutoField(primary_key=True)
     RestaurantID = models.ForeignKey(
         Restaurant,
         on_delete=models.CASCADE,
@@ -58,7 +58,7 @@ def get_file_path(instance, filename):
 
 
 class Dish(models.Model):
-    ID = models.AutoField(primary_key=True)
+    # ID = models.AutoField(primary_key=True)
     RestaurantID = models.ForeignKey(Restaurant, on_delete=models.CASCADE)
     Name = models.CharField(max_length=50)
     Price = models.FloatField()
@@ -82,7 +82,7 @@ class Dish(models.Model):
 
 
 class Coupon(models.Model):
-    ID = models.AutoField(primary_key=True)
+    # ID = models.AutoField(primary_key=True)
     Name = models.CharField(max_length=50)
     RestaurantID = models.ForeignKey(Restaurant, on_delete=models.CASCADE)
     Price = models.FloatField()

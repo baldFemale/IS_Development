@@ -13,7 +13,7 @@ def validate_identity_num(char):
 
 
 class Merchant(models.Model):
-    ID = models.AutoField(primary_key=True)
+    id = models.AutoField(primary_key=True)
     Name = models.CharField(max_length=20, verbose_name='用户名', unique=True)
     # 密码长度至少8位
     Password = models.CharField(max_length=20, validators=[MinLengthValidator(8)], verbose_name='密码')
@@ -35,14 +35,14 @@ def get_file_path(instance, filename):
 
 
 class Restaurant(models.Model):
-    ID = models.AutoField(primary_key=True)
+    id = models.AutoField(primary_key=True)
     MerchantID = models.ForeignKey(Merchant, on_delete=models.CASCADE)
     Name = models.CharField(max_length=20)
     BusinessStartHour = models.TimeField()
     BusinessEndHour = models.TimeField()
     Address = models.CharField(max_length=50)
     Image = models.ImageField(upload_to=get_file_path, null=True)
-    Score = models.FloatField(validators=[MinValueValidator(0), MaxValueValidator(5)], null=True)
+    Score = models.FloatField(validators=[MinValueValidator(0), MaxValueValidator(5)], default=0)
 
     Category_Choices = (
         ('1', '川菜'),
