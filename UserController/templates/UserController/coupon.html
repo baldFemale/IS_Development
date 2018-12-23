@@ -1,0 +1,54 @@
+<!--<!DOCTYPE html>-->
+<!--<html lang="en">-->
+<!--<head>-->
+    <!--<meta charset="UTF-8">-->
+    <!--<title>Title</title>-->
+<!--</head>-->
+<body>
+    <ul>
+        {% for coupon in coupons %}
+        <li>优惠券{{ coupon.Nmae }}</li>
+        <li>{{ coupon.Price }}抵{{coupon.Value}}!</li>
+        {% if coupon.Amount > 0 %}
+        <li>余量：<span id="number">{{coupon.Amount}}</span>，<a href="#" data-id="{{coupon.ID}}" data-name="haha" class="purchase">立刻购买</a></li>
+        {% else %}
+        <li>暂无余量</li>
+        {% endif %}
+        {% endfor %}
+    </ul>
+</body>
+
+<script
+  src="https://code.jquery.com/jquery-3.3.1.min.js"
+  integrity="sha256-FgpCb/KJQlLNfOu91ta32o/NMZxltwRo8QtmkMRdAu8="
+  crossorigin="anonymous"></script>
+<script type="text/javascript">
+$(document).ready(function(){
+    $(".purchase").click(function(){
+        var name = $(this).data("name");
+        var id = $(this).data("id");
+        $.ajax({
+        url:'../../../UserController/purchase_coupon/',
+        data:{
+            'id': id,
+            },
+        type:"POST",
+        dataType:'json',
+        success: function(data){
+            if (data["status"]=="ok"){
+                window.alert("购买成功");
+                var s = document.getElementById("number");
+                s.innerText = data["amount"];
+            }
+            else{
+                window.alert("暂时无法购买");
+                location.reload();
+            }
+        },
+        })
+    });
+    }
+)
+</script>
+
+

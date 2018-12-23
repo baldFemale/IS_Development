@@ -1,11 +1,13 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <title>Title</title>
-    <h>草拟吗</h>
-</head>
-<body>
-
-</body>
-</html>
+<ul>
+    {% for restaurant in restaurants %}
+    <li>
+        <p>餐厅ID ：{{restaurant.ID}}</p>
+        <p>餐厅名字：{{restaurant.Name}}</p>
+        <p><a href="{%url 'assesses:detail' restaurant.ID%}">Detail</a> </p>
+    </li>
+    {% empty%}
+    <li>
+        <p>还没有餐厅申请</p>
+    </li>
+    {% endfor %}
+</ul>

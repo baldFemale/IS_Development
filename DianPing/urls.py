@@ -22,5 +22,6 @@ from .settings import MEDIA_ROOT, MEDIA_URL
 urlpatterns = [
     path('admin/', admin.site.urls),
     path('apply/', include('ApplyController.urls')),
-    path('assess', include('assesses.urls')),
+    path('assesses/', include(('assesses.urls',"assesses"),namespace="assesses")),
+    path("UserController/",include(('UserController.urls',"UserController"),namespace="UserController")),
 ] + static(MEDIA_URL, document_root=MEDIA_ROOT)

@@ -1,7 +1,11 @@
 from django.contrib import admin
 
-from .models import *
+# <<<<<<< HEAD
+from .models import Merchant, Restaurant
 
+# =======
+from .models import *
+# >>>>>>> 03b5965d7cb27414b3cea60fac34ed80f4edc72f
+# Register your models here.
 admin.site.register(Merchant)
 admin.site.register(Restaurant)
-# Register your models here.
