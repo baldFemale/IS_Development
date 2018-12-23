@@ -11,7 +11,7 @@
         {% else %}
         <li><button class="favorite" data-id="{{restaurant.ID}}">收藏</button></li>
         {% endif %}
-        <li>预先点餐</li>
+        <li><a href="{%url 'UserController:order' restaurant.ID%}">预先点餐</a></li>
         {% if coupons %}
             <li><a href="{%url 'UserController:coupon' restaurant.ID %}">优惠券</a></li>
         {% else %}

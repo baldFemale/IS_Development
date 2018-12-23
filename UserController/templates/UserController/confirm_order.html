@@ -1,0 +1,45 @@
+<ul>
+    {% for dish in dishes %}
+    <li>菜名：{{dish.Name}}</li>
+    <li>数量：
+        {% for d,v in carts.items %}
+        {% ifequal d dish.Name %}
+            {{v}}
+        {% endifequal %}
+        {% endfor %}
+    </li>
+    <li>单价：{{dish.Price}}</li>
+    <br>
+    {% endfor %}
+</ul>
+
+<div>总价：{{value}}</div>
+备注：<input type="text" id="extra">
+<a href="{%url 'UserController:order' restaurant.ID %}">返回</a>
+<a href="{%url 'UserController:detail' restaurant.ID %}" id="confirm" data-id="{{restaurant.ID}}">确认订单</a>
+
+<script
+  src="https://code.jquery.com/jquery-3.3.1.min.js"
+  integrity="sha256-FgpCb/KJQlLNfOu91ta32o/NMZxltwRo8QtmkMRdAu8="
+  crossorigin="anonymous"></script>
+<script type="text/javascript">
+    $("#confirm").click(function(){
+        var id = $(this).data("id");
+        var text = document.getElementById("extra").value;
+        console.log(text);
+        $.ajax({
+            url:'../../../UserController/confirm/',
+            data:{
+                'id':id,
+                'note':text,
+            },
+            type:"POST",
+            dataType:"json",
+            success:function(data){
+                if (data["status"]=="ok"){
+                    console.log("下单");
+                }
+            }
+        })
+    })
+</script>

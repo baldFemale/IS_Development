@@ -26,4 +26,14 @@ urlpatterns = [
     url(r"^unfavorite/$", views.unfavorite, name="unfavorite"),
     # 点赞
     url(r"^thump_up/$",views.thump_up,name="thump_up"),
+    # 推荐
+    url(r"^recommend/(?P<restaurant_id>\d)/$", views.recommend, name="recommend"),
+    # 添加菜品
+    url(r"^add/$",views.add,name="add"),
+    # 减少菜品
+    url(r"^minus/$", views.minus, name="minus"),
+    # 下单
+    url(r"^confirm_order/$",views.confirm_order,name="confirm_order"),
+    # 确认
+    url(r"^confirm/$", views.confirm, name="confirm"),
 ]

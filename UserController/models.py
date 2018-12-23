@@ -49,6 +49,7 @@ class Review(models.Model):
     ReviewTime = models.DateTimeField(auto_now_add=True)
 
 
+
 class Order(models.Model):
     ID = models.AutoField(primary_key=True)
     RestaurantID = models.ForeignKey(Restaurant, on_delete=models.CASCADE)

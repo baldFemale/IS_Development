@@ -1,6 +1,7 @@
 from django.db import models
 
 import sys
+import time
 sys.path.append("..")
 
 from ApplyController.models import Restaurant
@@ -53,9 +54,11 @@ class Reserve(models.Model):
     ReserveTime = models.DateTimeField(auto_now_add=True)
 
 
-def get_file_path(instance):
-    # 设置Dish的Image的上传路径
-    return 'files/image/%s/%s' % (instance.RestaurantID.code, instance.Name.code)
+def get_file_path(instance, filename):
+    # 设置Restaurant的Image的上传路径
+    sub = filename.split('.')[-1]
+    t = time.strftime('%Y%m%d%H%M%S', time.localtime())
+    return 'image/%s/dish/%s.%s' % (instance.RestaurantID, t, sub,)
 
 
 class Dish(models.Model):
