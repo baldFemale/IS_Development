@@ -1,6 +1,6 @@
 from django.db import models
 from django.core.validators import MinLengthValidator, RegexValidator
-from ApplyController.models import Merchant
+from ApplyController.models import Merchant, Restaurant
 from ManagementController.models import Dish, Restaurant, Coupon
 
 
@@ -25,7 +25,7 @@ class User(models.Model):
 
 class Review(models.Model):
     # ID = models.AutoField(primary_key=True)
-    RestaurantID = models.ForeignKey(Merchant, on_delete=models.CASCADE)
+    RestaurantID = models.ForeignKey(Restaurant, on_delete=models.CASCADE)
     UserID = models.ForeignKey(User, on_delete=models.CASCADE)
     Score_category = (
         (0, '0'),

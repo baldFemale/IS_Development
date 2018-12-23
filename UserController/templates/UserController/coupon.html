@@ -10,7 +10,7 @@
         <li>优惠券{{ coupon.Nmae }}</li>
         <li>{{ coupon.Price }}抵{{coupon.Value}}!</li>
         {% if coupon.Amount > 0 %}
-        <li>余量：<span id="number">{{coupon.Amount}}</span>，<a href="#" data-id="{{coupon.ID}}" data-name="haha" class="purchase">立刻购买</a></li>
+        <li>余量：<span id="number">{{coupon.Amount}}</span>，<a href="#" data-id="{{coupon.id}}" data-name="haha" class="purchase">立刻购买</a></li>
         {% else %}
         <li>暂无余量</li>
         {% endif %}

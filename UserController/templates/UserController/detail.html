@@ -7,17 +7,17 @@
         <li>开始营业时间：{{restaurant.BusinessStartHour}}</li>
         <li>结束营业时间：{{restaurant.BusinessEndHour}}</li>
         {% if favorite == 1 %}
-        <li><button class="favorite" data-id="{{restaurant.ID}}">取消收藏</button></li>
+        <li><button class="favorite" data-id="{{restaurant.id}}">取消收藏</button></li>
         {% else %}
-        <li><button class="favorite" data-id="{{restaurant.ID}}">收藏</button></li>
+        <li><button class="favorite" data-id="{{restaurant.id}}">收藏</button></li>
         {% endif %}
-        <li><a href="{%url 'UserController:order' restaurant.ID%}">预先点餐</a></li>
+        <li><a href="{%url 'UserController:order' restaurant.id%}">预先点餐</a></li>
         {% if coupons %}
-            <li><a href="{%url 'UserController:coupon' restaurant.ID %}">优惠券</a></li>
+            <li><a href="{%url 'UserController:coupon' restaurant.id %}">优惠券</a></li>
         {% else %}
             <li>暂无优惠券</li>
         {% endif %}
-        <li><a href="{%url 'UserController:review' restaurant.ID%}">我要点评</a> </li>
+        <li><a href="{%url 'UserController:review' restaurant.id%}">我要点评</a> </li>
     </ul>
 </div>
 <br>

@@ -1,6 +1,6 @@
-<form action="{% url 'UserController:recommend' restaurant.ID %}" method="post">
+<form action="{% url 'UserController:recommend' restaurant.id %}" method="post">
     {% for dish in dishes %}
-    <input type="checkbox" value="{{dish.ID}}" name="check_box_list">{{dish.Name}}
+    <input type="checkbox" value="{{dish.id}}" name="check_box_list">{{dish.Name}}
     {% endfor %}
     <input type="submit" value="提交">
 </form>

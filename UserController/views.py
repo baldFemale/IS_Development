@@ -23,7 +23,7 @@ def login(request):
         if form.is_valid():
             user = User.objects.filter(Name=request.POST["Name"],Password=request.POST["Password"])
             if user:
-                request.session["user"] = user[0].ID
+                request.session["user"] = user[0].id
                 return HttpResponseRedirect(reverse("UserController:index"))
             else:
                 return HttpResponseRedirect(reverse("UserController:login"))
@@ -38,16 +38,16 @@ def register(request):
         form = forms.UserForm(data=request.POST)
         if form.is_valid():
             new_user = form.save()
-            request.session["user"] = new_user.ID
+            request.session["user"] = new_user.id
             return render(request,"UserController/jump.html",context={"new_user":new_user})
     context = {"form":form}
     return render(request,"UserController/register.html",context=context)
 
 
 def detail(request,restaurant_id):
-    restaurant = Restaurant.objects.get(ID=restaurant_id)
+    restaurant = Restaurant.objects.get(id=restaurant_id)
     coupons = Coupon.objects.filter(RestaurantID=restaurant)
-    user = User.objects.get(ID=request.session["user"])
+    user = User.objects.get(id=request.session["user"])
 
     favorite = 0
     if restaurant in user.Favorite.all():
@@ -64,7 +64,7 @@ def detail(request,restaurant_id):
 
 
 def coupon(request,restaurant_id):
-    restaurant = Restaurant.objects.get(ID=restaurant_id)
+    restaurant = Restaurant.objects.get(id=restaurant_id)
     coupons = Coupon.objects.filter(RestaurantID=restaurant)
     return render(request,"UserController/coupon.html",context={"coupons":coupons})
 
@@ -72,9 +72,9 @@ def coupon(request,restaurant_id):
 @ csrf_exempt
 def purchase_coupon(request):
     coupon_id = request.POST.get('id')
-    coupon = Coupon.objects.get(ID=coupon_id)
+    coupon = Coupon.objects.get(id=coupon_id)
     if coupon.Amount>0:
-        user = User.objects.get(ID=request.session["user"])
+        user = User.objects.get(id=request.session["user"])
         coupon_parchase = CouponPurchase(CouponID=coupon,UserID=user)
         coupon_parchase.save()
         coupon.Amount = coupon.Amount-1
@@ -87,8 +87,8 @@ def purchase_coupon(request):
 @ csrf_exempt
 def favorite(request):
     restaurant_id = request.POST.get("id")
-    restaurant = Restaurant.objects.get(ID=restaurant_id)
-    user = User.objects.get(ID=request.session["user"])
+    restaurant = Restaurant.objects.get(id=restaurant_id)
+    user = User.objects.get(id=request.session["user"])
     user.Favorite.add(restaurant)
     print(user.Favorite.all())
     user.save()
@@ -98,8 +98,8 @@ def favorite(request):
 @ csrf_exempt
 def unfavorite(request):
     restaurant_id = request.POST.get("id")
-    restaurant = Restaurant.objects.get(ID=restaurant_id)
-    user = User.objects.get(ID=request.session["user"])
+    restaurant = Restaurant.objects.get(id=restaurant_id)
+    user = User.objects.get(id=request.session["user"])
     user.Favorite.remove(restaurant)
     user.save()
     return JsonResponse({"status":"ok"})
@@ -108,7 +108,7 @@ def unfavorite(request):
 @ csrf_exempt
 def thump_up(request):
     review_id = request.POST.get("id")
-    review = Review.objects.get(ID=review_id)
+    review = Review.objects.get(id=review_id)
     review.ThumbUpCount = review.ThumbUpCount+1
     num = str(review.ThumbUpCount)
     review.save()
@@ -116,7 +116,7 @@ def thump_up(request):
 
 
 def order(request,restaurant_id):
-    restaurant = Restaurant.objects.get(ID=restaurant_id)
+    restaurant = Restaurant.objects.get(id=restaurant_id)
     dishes = Dish.objects.filter(RestaurantID=restaurant)
     if request.method!="POST":
         carts = request.session.get("carts", None)
@@ -130,14 +130,14 @@ def order(request,restaurant_id):
 
 
 def review(request,restaurant_id):
-    restaurant = Restaurant.objects.get(ID=restaurant_id)
+    restaurant = Restaurant.objects.get(id=restaurant_id)
     if request.method!="POST":
         form = forms.ReviewForm()
     else:
         form = forms.ReviewForm(data=request.POST)
         new_review = form.save(commit=False)
         new_review.RestaurantID = restaurant
-        new_review.UserID = User.objects.get(ID=request.session["user"])
+        new_review.UserID = User.objects.get(id=request.session["user"])
         new_review.ThumbUpCount = 0
         new_review.save()
         new_review.save()
@@ -148,16 +148,16 @@ def review(request,restaurant_id):
 
 @ csrf_exempt
 def recommend(request,restaurant_id):
-    restaurant = Restaurant.objects.get(ID=restaurant_id)
+    restaurant = Restaurant.objects.get(id=restaurant_id)
     dishes = Dish.objects.filter(RestaurantID=restaurant)
     if request.method!="POST":
         return render(request,"UserController/recommend.html",context={"dishes":dishes,"restaurant":restaurant})
     else:
         check_box_lists = request.POST.getlist("check_box_list")
-        user = User.objects.get(ID=request.session["user"])
+        user = User.objects.get(id=request.session["user"])
         for dish_id in check_box_lists:
             dish_id = int(dish_id)
-            dish = Dish.objects.get(ID=dish_id)
+            dish = Dish.objects.get(id=dish_id)
             dish.RecommendCount = dish.RecommendCount+1
             dish.save()
             user.UserRecommend.add(dish)
@@ -167,7 +167,7 @@ def recommend(request,restaurant_id):
 @ csrf_exempt
 def add(request):
     dish_id = request.POST.get("id")
-    dish = Dish.objects.get(ID=dish_id)
+    dish = Dish.objects.get(id=dish_id)
     carts = request.session["carts"]
     carts[dish.Name]+=1
     request.session["carts"] = carts
@@ -177,7 +177,7 @@ def add(request):
 @ csrf_exempt
 def minus(request):
     dish_id = request.POST.get("id")
-    dish = Dish.objects.get(ID=dish_id)
+    dish = Dish.objects.get(id=dish_id)
     carts = request.session["carts"]
     if carts[dish.Name]>0:
         carts[dish.Name]-=1
@@ -206,10 +206,10 @@ def confirm_order(request):
 @ csrf_exempt
 def confirm(request):
     restaurant_id = request.POST.get("id")
-    restaurant = Restaurant.objects.get(ID=restaurant_id)
+    restaurant = Restaurant.objects.get(id=restaurant_id)
     new_order = Order()
     new_order.RestaurantID = restaurant
-    new_order.UserID = User.objects.get(ID=request.session["user"])
+    new_order.UserID = User.objects.get(id=request.session["user"])
     new_order.Notes = request.POST.get("note")
     new_order.save()
 

@@ -7,13 +7,13 @@
     <li>类型：{{dish.Type}}</li>
     <li>被推荐次数:{{dish.RecommendCount}}</li>
     <li>
-        <button class="add" data-id="{{dish.ID}}">add</button>
+        <button class="add" data-id="{{dish.id}}">add</button>
         {% for d,v in carts.items %}
         {% ifequal d dish.Name %}
-        <span id="{{dish.ID}}">{{v}}</span>
+        <span id="{{dish.id}}">{{v}}</span>
         {% endifequal %}
         {% endfor %}
-        <button class="minus" data-id="{{dish.ID}}">minus</button>
+        <button class="minus" data-id="{{dish.id}}">minus</button>
     </li>
     {% endfor %}
 </ul>

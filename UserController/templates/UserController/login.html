@@ -1,5 +1,5 @@
 <form method="post" action="{% url 'UserController:login'%}">
-    {% csrf_token%}
+    {% csrf_token %}
     {{ form.as_p }}
     <button name="submit">登录</button>
 </form>
