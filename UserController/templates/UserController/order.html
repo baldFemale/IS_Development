@@ -9,7 +9,7 @@
     <li>
         <button class="add" data-id="{{dish.id}}">add</button>
         {% for d,v in carts.items %}
-        {% ifequal d dish.Name %}
+        {% ifequal dish.id d|add:0 %}
         <span id="{{dish.id}}">{{v}}</span>
         {% endifequal %}
         {% endfor %}

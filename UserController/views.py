@@ -121,7 +121,7 @@ def order(request,restaurant_id):
     if request.method!="POST":
         carts = request.session.get("carts", None)
         if not carts:
-            carts = {dish.Name:0 for dish in dishes}
+            carts = {dish.id:0 for dish in dishes}
             request.session["carts"] = carts
         context = {"dishes": dishes,"carts":carts}
         print(carts)
@@ -169,9 +169,9 @@ def add(request):
     dish_id = request.POST.get("id")
     dish = Dish.objects.get(id=dish_id)
     carts = request.session["carts"]
-    carts[dish.Name]+=1
+    carts[str(dish.id)]+=1
     request.session["carts"] = carts
-    return JsonResponse({"status":"ok","num":carts[dish.Name]})
+    return JsonResponse({"status":"ok","num":carts[str(dish.id)]})
 
 
 @ csrf_exempt
@@ -179,17 +179,17 @@ def minus(request):
     dish_id = request.POST.get("id")
     dish = Dish.objects.get(id=dish_id)
     carts = request.session["carts"]
-    if carts[dish.Name]>0:
-        carts[dish.Name]-=1
+    if carts[str(dish.id)]>0:
+        carts[str(dish.id)]-=1
     request.session["carts"] = carts
-    return JsonResponse({"status":"ok","num":carts[dish.Name]})
+    return JsonResponse({"status":"ok","num":carts[str(dish.id)]})
 
 
 def confirm_order(request):
     carts = request.session["carts"]
     temp = []
     for cart in carts:
-        dish = Dish.objects.filter(Name=cart)[0]
+        dish = Dish.objects.get(id=int(cart))
         temp.append(dish)
     restaurant = temp[0].RestaurantID
 
@@ -216,13 +216,19 @@ def confirm(request):
     carts = request.session["carts"]
     temp = []
     for cart in carts:
-        dish = Dish.objects.filter(Name=cart)[0]
+        dish = Dish.objects.get(id=int(cart))
         temp.append(dish)
 
     for dish in temp:
-        new_oder_detail = OrderDetail()
-        new_oder_detail.OrderID = new_order
-        new_oder_detail.DishID = dish
-        new_oder_detail.Amount = carts[dish.Name]
-        new_oder_detail.save()
+        print("order_detail")
+        if dish.RestaurantID==restaurant:
+            print("hahah")
+            new_oder_detail = OrderDetail()
+            new_oder_detail.OrderID = new_order
+            new_oder_detail.DishID = dish
+            new_oder_detail.Amount = carts[str(dish.id)]
+            new_oder_detail.save()
+
+    del request.session["carts"]
+
     return JsonResponse({"status":"ok"})

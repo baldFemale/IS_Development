@@ -1,0 +1,49 @@
+{% load bootstrap3 %}
+<p>Detail</p>
+
+<div>
+    <ul>
+        <li><img src="/../../../{{restaurant.Image}}"></li>
+        <li>餐厅名：{{restaurant.Name}}</li>
+        <li>开始营业时间：{{restaurant.BusinessStartHour}}</li>
+        <li>结束营业时间：{{restaurant.BusinessEndHour}}</li>
+        <li>地址：{{restaurant.Address}}</li>
+        <li>类型：{{restaurant.get_Category_display}}</li>
+        <li><button type="button" data-toggle="modal" data-target="#myModal">修改基本信息</button></li>
+    </ul>
+</div>
+
+<div>
+    <p><a href="{%url 'ManagementController:dish' restaurant.id%}">菜品</a> </p>
+    <p><a href="{%url 'ManagementController:coupon' restaurant.id%}">优惠券</a> </p>
+</div>
+
+<div class="modal fade" id="myModal">
+    <div class="modal-dialog">
+        <div class="model-content">
+            <div class="modal-header">
+                <h4 class="modal-title">Title</h4>
+            </div>
+            <div class="modal-body">
+                <form method="post" action="{% url 'ManagementController:detail' restaurant.id%}">
+                    {% csrf_token %}
+                    {{ form.as_p }}
+                    <button name="submit">修改</button>
+                </form>
+            </div>
+            <div class="modal-footer">
+            </div>
+        </div>
+    </div>
+</div>
+
+
+
+<script
+  src="https://code.jquery.com/jquery-3.3.1.min.js"
+  integrity="sha256-FgpCb/KJQlLNfOu91ta32o/NMZxltwRo8QtmkMRdAu8="
+  crossorigin="anonymous"></script>
+
+
+{% bootstrap_css %}
+{% bootstrap_javascript %}

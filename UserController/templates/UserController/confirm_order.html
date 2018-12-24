@@ -3,8 +3,8 @@
     <li>菜名：{{dish.Name}}</li>
     <li>数量：
         {% for d,v in carts.items %}
-        {% ifequal d dish.Name %}
-            {{v}}
+        {% ifequal dish.id d|add:0 %}
+        {{v}}
         {% endifequal %}
         {% endfor %}
     </li>

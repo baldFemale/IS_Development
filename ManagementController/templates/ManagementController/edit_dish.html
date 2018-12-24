@@ -1,0 +1,5 @@
+<form action="{%url 'ManagementController:edit_dish' dish.id%}" method="post">
+    {% csrf_token %}
+    {{form.as_p}}
+    <button name="submit">save changes</button>
+</form>

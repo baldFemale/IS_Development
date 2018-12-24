@@ -43,6 +43,9 @@ INSTALLED_APPS = [
     'ApplyController',
     'UserController',
     'ManagementController',
+
+    #第三方app
+    'bootstrap3',
 ]
 
 MIDDLEWARE = [
@@ -128,3 +131,8 @@ STATIC_URL = '/static/'
 MEDIA_ROOT = os.path.join(BASE_DIR, 'Files')
 
 MEDIA_URL = '/Files/'
+
+#bootstrap设置
+BOOTSTRAP3 = {
+    'include-jquery':True,
+}
