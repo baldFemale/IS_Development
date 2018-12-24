@@ -1,11 +1,11 @@
-<button>增加优惠券</button>
+<a href="{%url 'ManagementController:add_coupon' restaurant.id%}">增加</a>
 <ul>
     {% for coupon in coupons%}
     <br>
     <li>{{coupon.Name}}</li>
     <li>价格：{{coupon.Price}}</li>
     <li>价值：{{coupon.Value}}</li>
-    <li>数量:{{coupon.RecommendCount}}</li>
-    <li><button>修改</button></li>
+    <li>数量:{{coupon.Amount}}</li>
+    <li><a href="{%url 'ManagementController:edit_coupon' coupon.id%}">修改</a></li>
     {% endfor %}
 </ul>

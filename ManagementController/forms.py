@@ -19,16 +19,18 @@ class RestaurantForm(forms.ModelForm):
 class CouponForm(forms.ModelForm):
     class Meta:
         model = Coupon
-        fields = ["Name","Price","Value","Amount"]
+        fields = ["Name","Price","Value","Amount","Notes"]
         labels = {
             "Name":"优惠券名称",
             "Price":"价格",
             "Value":"价值",
             "Amount":"数量",
+            "Notes":"备注",
         }
 
 
 class DishForm(forms.ModelForm):
+
     class Meta:
         model =Dish
         fields = ["Name","Price","Image","Type"]
@@ -38,3 +40,4 @@ class DishForm(forms.ModelForm):
             "Image":"图片",
             "Type":"类型",
         }
+
