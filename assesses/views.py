@@ -24,7 +24,7 @@ def login(requset):
             password = requset.POST["password"]
             assess = Assessor.objects.filter(name=name,password=password)
             if assess:
-                requset.session["assessor"] = assess[0].ID
+                requset.session["assessor"] = assess[0].id
                 return HttpResponseRedirect(reverse("assesses:index"))
             else:
                 return HttpResponseRedirect(reverse("assesses:login"))
@@ -32,13 +32,13 @@ def login(requset):
     return render(requset,"assesses/login.html",context)
 
 def detail(request,restaurant_id):
-    restaurant = Restaurant.objects.get(ID=restaurant_id)
+    restaurant = Restaurant.objects.get(id=restaurant_id)
     if request.method=="POST":
         form = forms.AssessForm(data=request.POST)
         if form.is_valid():
             new_assessinfo = form.save(commit=False)
             new_assessinfo.RestaurantID = restaurant
-            assessor = Assessor.objects.get(ID=request.session["assessor"])
+            assessor = Assessor.objects.get(id=request.session["assessor"])
             new_assessinfo.AssessorID = assessor
             print(new_assessinfo)
             new_assessinfo.save()

@@ -1,5 +1,5 @@
 {% ifequal restaurant.Status 0 %}
-    <form method="post" action="{% url 'assesses:detail'  restaurant.ID%}">
+    <form method="post" action="{% url 'assesses:detail'  restaurant.id%}">
         {% csrf_token %}
         {{form.as_p}}
         <button name="submit">提交</button>

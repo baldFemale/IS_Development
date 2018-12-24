@@ -1,9 +1,9 @@
 <ul>
     {% for restaurant in restaurants %}
     <li>
-        <p>餐厅ID ：{{restaurant.ID}}</p>
+        <p>餐厅ID ：{{restaurant.id}}</p>
         <p>餐厅名字：{{restaurant.Name}}</p>
-        <p><a href="{%url 'assesses:detail' restaurant.ID%}">Detail</a> </p>
+        <p><a href="{%url 'assesses:detail' restaurant.id%}">Detail</a> </p>
     </li>
     {% empty%}
     <li>

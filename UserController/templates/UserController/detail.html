@@ -30,7 +30,7 @@
         <li>用户：{{r.UserID}}</li>
         <li>评分：{{r.Score}}</li>
         <li>评价内容：{{r.Content}}</li>
-        <li><a class="thump" data-id="{{r.ID}}">点赞数:<span id="{{r.ID}}">{{r.ThumbUpCount}}</span></a></li>
+        <li><a class="thump" data-id="{{r.id}}">点赞数:<span id="{{r.id}}">{{r.ThumbUpCount}}</span></a></li>
         <li>时间：{{r.ReviewTime}}</li>
         <br>
     </ul>
@@ -40,10 +40,10 @@
     {% endif %}
     <ul class="pagination">
         {% if result.has_previous %}
-            <li><a href="/UserController/detail/{{restaurant.ID}}/?page={{result.previous_page_number}}">上一页</a> </li>
+            <li><a href="/UserController/detail/{{restaurant.id}}/?page={{result.previous_page_number}}">上一页</a> </li>
         {% endif %}
         {% if result.has_next %}
-            <li><a href="/UserController/detail/{{restaurant.ID}}/?page={{result.next_page_number}}">下一页</a> </li>
+            <li><a href="/UserController/detail/{{restaurant.id}}/?page={{result.next_page_number}}">下一页</a> </li>
         {% endif %}
 
     </ul>
