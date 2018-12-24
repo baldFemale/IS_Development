@@ -1,7 +1,7 @@
 <ul>
     {% for restaurant in restaurants %}
     <li>
-        <p>餐厅ID ：{{restaurant.ID}}</p>
+        <p>餐厅ID ：{{restaurant.id}}</p>
         <p>餐厅名字：{{restaurant.Name}}</p>
         <p><a href="{%url 'UserController:detail' restaurant.id%}">Detail</a> </p>
     </li>
