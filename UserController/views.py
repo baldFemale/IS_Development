@@ -123,7 +123,7 @@ def order(request,restaurant_id):
         if not carts:
             carts = {dish.id:0 for dish in dishes}
             request.session["carts"] = carts
-        context = {"dishes": dishes,"carts":carts}
+        context = {"dishes": dishes,"carts":carts,"restaurant":restaurant}
         print(carts)
         return render(request,"UserController/order.html",context=context)
     pass
@@ -185,23 +185,27 @@ def minus(request):
     return JsonResponse({"status":"ok","num":carts[str(dish.id)]})
 
 
-def confirm_order(request):
+def confirm_order(request,restaurant_id):
+    restaurant = Restaurant.objects.get(id=restaurant_id)
     carts = request.session["carts"]
     temp = []
     for cart in carts:
-        dish = Dish.objects.get(id=int(cart))
-        temp.append(dish)
-    restaurant = temp[0].RestaurantID
+        if carts[cart]!=0:
+            dish = Dish.objects.get(id=int(cart))
+            temp.append(dish)
+    if temp:
+        restaurant = temp[0].RestaurantID
 
-    v = 0
-    count = 0
-    for cart in carts:
-        v+=carts[cart]*temp[count].Price
-        count+=1
-    context = {"dishes": temp, "carts": carts,"value":v,"restaurant":restaurant}
+        v = 0
+        count = 0
+        for cart in carts:
+            v+=carts[cart]*temp[count].Price
+            count+=1
+        context = {"dishes": temp, "carts": carts,"value":v,"restaurant":restaurant}
+        return render(request,"UserController/confirm_order.html",context=context)
 
-    return render(request,"UserController/confirm_order.html",context=context)
-
+    else:
+        return render(request,"UserController/confirm_order.html",context={"restaurant":restaurant})
 
 @ csrf_exempt
 def confirm(request):

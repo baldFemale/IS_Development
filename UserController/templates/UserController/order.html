@@ -1,3 +1,4 @@
+{% if dishes %}
 <ul>
     {% for dish in dishes%}
     <br>
@@ -19,8 +20,12 @@
 </ul>
 
 <div>
-    <a href="{%url 'UserController:confirm_order'%}">下单</a>
+    <a href="{%url 'UserController:confirm_order' restaurant.id %}">下单</a>
 </div>
+{% else %}
+    <p>暂无菜品</p>
+    <a href="{%url 'UserController:detail' restaurant.id %}">返回</a>
+{% endif %}
 
 
 <script
