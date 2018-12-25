@@ -33,7 +33,7 @@ urlpatterns = [
     # 减少菜品
     url(r"^minus/$", views.minus, name="minus"),
     # 下单
-    url(r"^confirm_order/$",views.confirm_order,name="confirm_order"),
+    url(r"^confirm_order/(?P<restaurant_id>\d)/$",views.confirm_order,name="confirm_order"),
     # 确认
     url(r"^confirm/$", views.confirm, name="confirm"),
 ]

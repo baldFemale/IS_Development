@@ -1,3 +1,4 @@
+{% if dishes %}
 <ul>
     {% for dish in dishes %}
     <li>菜名：{{dish.Name}}</li>
@@ -17,6 +18,10 @@
 备注：<input type="text" id="extra">
 <a href="{%url 'UserController:order' restaurant.id %}">返回</a>
 <a href="{%url 'UserController:detail' restaurant.id %}" id="confirm" data-id="{{restaurant.id}}">确认订单</a>
+{% else %}
+<p>还没点菜哦</p>
+<a href="{%url 'UserController:order' restaurant.id %}">返回</a>
+{% endif %}
 
 <script
   src="https://code.jquery.com/jquery-3.3.1.min.js"
