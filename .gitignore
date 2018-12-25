@@ -19,3 +19,4 @@ assesses/__pycache__/views.cpython-36.pyc
 DianPing/__pycache__/urls.cpython-36.pyc
 DianPing/__pycache__/settings.cpython-36.pyc
 *.pyc
+*.xml

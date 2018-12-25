@@ -1,5 +1,6 @@
 from . import views
 from django.conf.urls import url
+from django.urls import path
 
 urlpatterns = [
     #主页
@@ -20,4 +21,8 @@ urlpatterns = [
     url(r"^add_coupon/(?P<restaurant_id>\d)/$", views.add_coupon, name="add_coupon"),
     # 商家评论
     url(r"^review/(?P<restaurant_id>\d)/$", views.review, name="review"),
+    # 显示桌位列表
+    url(r"^table_info/(?P<restaurant_id>\d)/$", views.table_info, name='table_info'),
+    # 显示桌位详细信息
+    url(r"table_detail/(?P<table_id>\d)/$", views.table_detail, name="table_detail")
 ]

@@ -1,7 +1,4 @@
 from django.db import models
-import sys
-sys.path.append("..")
-
 from ApplyController.models import Restaurant
 import time
 
@@ -14,8 +11,8 @@ class Table(models.Model):
         on_delete=models.CASCADE,
     )
     Capacity = models.PositiveSmallIntegerField()
-    CloseTime = models.DateTimeField(null=True)
-    OpenTime = models.DateTimeField(auto_now=True)
+    CloseTime = models.DateTimeField(null=True, blank=True)
+    OpenTime = models.DateTimeField(auto_now_add=True)
 
     Status_Choice = (
         (0, '开放'),

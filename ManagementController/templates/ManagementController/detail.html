@@ -17,6 +17,7 @@
     <p><a href="{%url 'ManagementController:dish' restaurant.id%}">菜品</a> </p>
     <p><a href="{%url 'ManagementController:coupon' restaurant.id%}">优惠券</a> </p>
     <p><a href="{%url 'ManagementController:review' restaurant.id%}">查看评论</a> </p>
+    <p><a href="{% url 'ManagementController:table_info' restaurant.id %}">查看桌位</a> </p>
 </div>
 
 <div class="modal fade" id="myModal">

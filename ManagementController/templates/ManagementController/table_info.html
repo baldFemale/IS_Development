@@ -1,0 +1,10 @@
+<a>餐厅名: {{ restaurant_name }}</a>
+{% if table_list %}
+    <ul>
+        {% for table in table_list %}
+            <li><a href="{%url 'ManagementController:table_detail' table.id%}">桌位{{ table.TableNum }}</a></li>
+        {% endfor %}
+    </ul>
+{% else %}
+    <p>没有可显示的桌位</p>
+{% endif %}

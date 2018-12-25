@@ -1,10 +1,11 @@
 from django.shortcuts import render
 from ApplyController.models import Restaurant
 from . import forms
-from .models import Dish,Coupon
+from .models import *
 from UserController.models import Review
 from django.http import HttpResponseRedirect,JsonResponse
 from django.urls import reverse
+from django.utils import timezone
 
 # Create your views here.
 
@@ -116,3 +117,36 @@ def add_coupon(request,restaurant_id):
 
     context = {"form":form,"restaurant":restaurant}
     return render(request, "ManagementController/add_coupon.html", context=context)
+
+
+def table_info(request, restaurant_id):
+    table_list = Table.objects.filter(RestaurantID__id=restaurant_id)
+    restaurant_name = Restaurant.objects.get(pk=restaurant_id).Name
+    return render(request, 'ManagementController/table_info.html', context={
+        'table_list': table_list,
+        'restaurant_name': restaurant_name,
+    })
+
+
+def table_status_cal(table, time_now):
+    # 桌位状态计算函数
+    open_time = table.OpenTime
+    close_time = table.CloseTime
+    condition_1 = open_time >= time_now and close_time is None
+    if condition_1 or time_now >= open_time >= close_time:
+        return 0
+    if close_time > time_now and close_time > time_now:
+        return 1
+    if open_time > close_time > time_now:
+        return 2
+    if time_now > close_time > open_time:
+        return 3
+    if open_time > time_now > close_time:
+        return 4
+
+
+def table_detail(request, table_id):
+    table_details = Table.objects.get(pk=table_id)[0]
+    return render(request, 'ManagementController/table_detail.html', context={
+        'table_details': table_details,
+    })
