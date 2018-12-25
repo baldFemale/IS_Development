@@ -1,0 +1,9 @@
+<ul>
+    {% for review in reviews%}
+    <br>
+    <li>评分：{{review.Score}}</li>
+    <li>内容：{{review.Content}}</li>
+    <li>赞同数：{{review.ThumbUpCount}}</li>
+    <li>时间:{{Review.ReviewTime}}</li>
+    {% endfor %}
+</ul>

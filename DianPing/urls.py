@@ -16,6 +16,7 @@ Including another URLconf
 from django.contrib import admin
 from django.urls import path, include
 from django.conf.urls.static import static
+from django.conf.urls import url,include
 from .settings import MEDIA_ROOT, MEDIA_URL
 
 
@@ -24,4 +25,5 @@ urlpatterns = [
     path('apply/', include('ApplyController.urls')),
     path('assesses/', include(('assesses.urls',"assesses"),namespace="assesses")),
     path("UserController/",include(('UserController.urls',"UserController"),namespace="UserController")),
+    url(r"^ManagementController/",include(("ManagementController.urls","ManagementController"),namespace="ManagementController")),
 ] + static(MEDIA_URL, document_root=MEDIA_ROOT)

@@ -1,0 +1,13 @@
+<a href="{%url 'ManagementController:add_dish' restaurant.id%}">增加</a>
+<ul>
+    {% for dish in dishes%}
+    <br>
+    <li>{{dish.Image}}</li>
+    <li>{{dish.Name}}</li>
+    <li>价格：{{dish.Price}}</li>
+    <li>类型：{{dish.Type}}</li>
+    <li>被推荐次数:{{dish.RecommendCount}}</li>
+    <li><a href="{%url 'ManagementController:edit_dish' dish.id%}">修改</a></li>
+    {% endfor %}
+</ul>
+

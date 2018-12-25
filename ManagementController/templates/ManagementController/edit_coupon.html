@@ -1,0 +1,5 @@
+<form method="POST" action="{%url 'ManagementController:edit_coupon' coupon.id%}"  enctype="multipart/form-data">
+    {% csrf_token %}
+    {{form.as_p}}
+    <button name="submit">save changes</button>
+</form>

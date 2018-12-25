@@ -1,0 +1,5 @@
+<form action="{%url 'ManagementController:add_coupon' restaurant.id%}" method="post" enctype="multipart/form-data">
+    {% csrf_token %}
+    {{form.as_p}}
+    <button name="submit">Add</button>
+</form>
