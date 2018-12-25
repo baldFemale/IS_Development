@@ -1,5 +1,5 @@
 from django.shortcuts import render
-from .forms import MerchantForm, RestaurantEditForm, RestaurantAddForm
+from .forms import *
 from .models import Merchant, Restaurant
 from django.http import HttpResponseRedirect
 from django.urls import reverse
@@ -8,7 +8,6 @@ from django.views import generic
 
 def index(request):
     login_user_id = request.session.get('login_merchant')
-    print(login_user_id)
     if login_user_id:
         login_user_name = Merchant.objects.get(pk=login_user_id)
         apply_list = Restaurant.objects.filter(MerchantID=login_user_id).order_by('ApplicationTime')
@@ -109,3 +108,25 @@ def add_restaurant(request):
         return HttpResponseRedirect(reverse('apply:login'))
 
 
+def register(request):
+    login_merchant_id = request.session.get('login_merchant')
+    if login_merchant_id:
+        return index(request)
+    else:
+        if request.method == 'POST':
+            form = MerchantRegisterForm(request.POST)
+            if form.is_valid():
+                new_merchant = form.save(commit=False)
+                request.session['login_merchant'] = new_merchant.id
+                new_merchant.save()
+                return render(request, 'ApplyController/index.html', context={'error_message': '注册成功'})
+            else:
+                return render(request, 'ApplyController/register.html', context={
+                    'error_message': '注册失败',
+                    'form': form,
+                })
+        else:
+            form = MerchantRegisterForm()
+            return render(request, 'ApplyController/register.html', context={
+                'form': form,
+            })

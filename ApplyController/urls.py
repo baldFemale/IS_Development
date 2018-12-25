@@ -10,4 +10,5 @@ urlpatterns = [
     path('<int:restaurant_id>/edit/', views.edit, name='edit'),
     path('add/', views.add_restaurant, name='add'),
     path('logout/', views.logout, name='logout'),
+    path('register/', views.register, name='register'),
 ]

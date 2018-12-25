@@ -1,4 +1,4 @@
-from .models import Restaurant
+from .models import Restaurant, Merchant
 from django import forms
 
 
@@ -22,3 +22,9 @@ class RestaurantAddForm(forms.ModelForm):
     class Meta:
         model = Restaurant
         fields = ['Name', 'BusinessStartHour', 'BusinessEndHour', 'Address', 'Category', 'LicenseID']
+
+
+class MerchantRegisterForm(forms.ModelForm):
+    class Meta:
+        model = Merchant
+        fields = '__all__'
