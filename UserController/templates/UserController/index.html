@@ -1,17 +1,38 @@
 {%extends "UserController/base.html"%}
 
+{% block javascript %}
+<script type="text/javascript">
+    $(document).ready(function(){
+        window.alert("loaded")
+    })
+</script>
+{% endblock javascript %}
+
 {% block content %}
-<ul>
-    {% for restaurant in restaurants %}
-    <li>
-        <p>餐厅ID ：{{restaurant.id}}</p>
-        <p>餐厅名字：{{restaurant.Name}}</p>
-        <p><a href="{%url 'UserController:detail' restaurant.id%}">Detail</a> </p>
-    </li>
-    {% empty%}
-    <li>
-        <p>还没有餐厅</p>
-    </li>
-    {% endfor %}
-</ul>
+<div class="table-responsive" id="pstable">
+    <div class="query">
+        <button id="business_hour" class="btn btn-primary">按营业时间排序</button>
+    </div>
+    <table class="table table-bordred table-striped">
+        <th>快照</th>
+        <th>餐厅名字</th>
+        <th>营业时间</th>
+        <th>类型</th>
+        <th>详情</th>
+        {% for restaurant in restaurants %}
+        <tr>
+            <td style="height:100px"><img src="/Files/{{restaurant.Image}}" height="100%"></td>
+            <td>{{restaurant.Name}}</td>
+            <td>{{restaurant.BusinessStartHour}}-{{restaurant.BusinessEndHour}}</td>
+            <td>{{restaurant.get_Category_display}}</td>
+            <td><a href="{%url 'UserController:detail' restaurant.id%}">Detail</a> </td>
+        </tr>
+        {% empty%}
+        <tr>
+            <td>还没有餐厅申请</td>
+        </tr>
+        {% endfor %}
+    </table>
+</div>
 {% endblock content %}
+

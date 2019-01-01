@@ -13,7 +13,7 @@ import pytz
 
 # Create your views here.
 def index(request):
-    restaurants = Restaurant.objects.order_by("Name")
+    restaurants = Restaurant.objects.filter(Status=2).order_by("id")
     context = {"restaurants": restaurants}
     return render(request, "UserController/index.html", context=context)
 

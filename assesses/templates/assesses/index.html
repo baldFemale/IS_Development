@@ -18,7 +18,7 @@
         {% for restaurant in restaurants %}
         <tr>
             <td>{{restaurant.id}}</td>
-            <td><img src="/Files/{{restaurant.Image}}" height="100%" width="25%"></td>
+            <td style="height:100px"><img src="/Files/{{restaurant.Image}}" height="80%"></td>
             <td>{{restaurant.MerchantID}}</td>
             <td>{{restaurant.Name}}</td>
             <td><a href="{%url 'assesses:detail' restaurant.id%}">Detail</a> </td>
