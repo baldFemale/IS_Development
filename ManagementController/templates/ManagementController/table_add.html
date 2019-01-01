@@ -1,0 +1,8 @@
+{% if error_message %}
+    {{ error_message }}
+{% endif %}
+<form method="post">
+    {% csrf_token %}
+    {{ form.as_p }}
+    <input type="submit" value="提交">
+</form>

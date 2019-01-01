@@ -1,0 +1,17 @@
+{% if not tables %}
+    <p>根据您所选的日期和用餐人数，当前暂无可预订桌位</p>
+{% endif %}
+{% if tables %}
+    <form method="post" action="{% url 'UserController:choose_reserve' restaurant_id %}">
+    {% csrf_token %}
+    {% for table in tables %}
+        <input type="radio" name="choice" id="table{{ forloop.counter }}" value="{{ table.id }}">
+        <label for="table{{ forloop.counter }}">桌位{{ table.TableNum }} 容量{{ table.Capacity }}</label><br>
+    {% endfor %}
+{% endif %}
+<input type="submit" value="预订">
+</form>
+<script>
+    console.log("{{ request.session.datetime_chosen }}");
+    console.log("{{ request.session.dining_number }}");
+</script>

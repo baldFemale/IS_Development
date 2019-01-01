@@ -41,7 +41,7 @@ class Restaurant(models.Model):
     BusinessStartHour = models.TimeField()
     BusinessEndHour = models.TimeField()
     Address = models.CharField(max_length=50)
-    Image = models.ImageField(upload_to=get_file_path, null=True)
+    Image = models.ImageField(upload_to=get_file_path, null=True, blank=True)
     Score = models.FloatField(validators=[MinValueValidator(0), MaxValueValidator(5)], default=0)
 
     Category_Choices = (
@@ -67,4 +67,3 @@ class Restaurant(models.Model):
 
     def __str__(self):
         return self.Name
-

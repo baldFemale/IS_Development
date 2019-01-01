@@ -1,5 +1,6 @@
 from django import forms
 from .models import User,Review
+import datetime
 
 
 class LoginForm(forms.ModelForm):
@@ -21,3 +22,13 @@ class ReviewForm(forms.ModelForm):
         model = Review
         fields = ["Score","Content"]
         labels = {"Score":"评分","Content":"评价内容"}
+
+
+class MakeReservationForm(forms.Form):
+    date = forms.DateField(initial=datetime.date.today)
+    time_choices = (
+        ('lunch', '中饭'),
+        ('supper', '晚饭'),
+    )
+    occupation_time = forms.ChoiceField(choices=time_choices)
+    capacity = forms.IntegerField(min_value=1)

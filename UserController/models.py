@@ -1,6 +1,5 @@
 from django.db import models
 from django.core.validators import MinLengthValidator, RegexValidator
-from ApplyController.models import Merchant, Restaurant
 from ManagementController.models import Dish, Restaurant, Coupon
 
 
@@ -23,6 +22,24 @@ class User(models.Model):
         return self.Name
 
 
+class Reserve(models.Model):
+    # ReserveID = models.AutoField(primary_key=True)
+    RestaurantID = models.ForeignKey(
+        Restaurant,
+        on_delete=models.CASCADE,
+    )
+    TableNum = models.PositiveSmallIntegerField()
+    OccupationDate = models.DateTimeField()
+
+    OccupationTime_category = (
+        (0, '中饭'),
+        (1, '晚饭'),
+    )
+    OccupationTime = models.PositiveSmallIntegerField(choices=OccupationTime_category)
+    UserID = models.ForeignKey(User, on_delete=models.CASCADE)
+    ReserveTime = models.DateTimeField(auto_now_add=True)
+
+
 class Review(models.Model):
     # ID = models.AutoField(primary_key=True)
     RestaurantID = models.ForeignKey(Restaurant, on_delete=models.CASCADE)
@@ -39,7 +56,6 @@ class Review(models.Model):
     Content = models.CharField(max_length=500)
     ThumbUpCount = models.PositiveIntegerField()
     ReviewTime = models.DateTimeField(auto_now_add=True)
-
 
 
 class Order(models.Model):

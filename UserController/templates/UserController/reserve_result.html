@@ -1,0 +1,9 @@
+<h2>您已预订成功</h2>
+<p>预订信息：</p>
+<ul>
+    <li>预订餐厅: {{ restaurant.Name }}</li>
+    <li>用餐桌号: {{ reserve.TableNum }}</li>
+    <li>预约用餐时间: {{ reserve.OccupationDate }}</li>
+    <li>用餐类型: {{ reserve.get_OccupationTime_display }}</li>
+</ul>
+<a href="/UserController/detail/{{ restaurant.id }}/">返回商家</a>

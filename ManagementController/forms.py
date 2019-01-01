@@ -1,5 +1,5 @@
 from django import forms
-from .models import Restaurant,Coupon,Dish
+from .models import *
 
 
 class RestaurantForm(forms.ModelForm):
@@ -39,5 +39,17 @@ class DishForm(forms.ModelForm):
             "Price":"价格",
             "Image":"图片",
             "Type":"类型",
+        }
+
+
+class TableForm(forms.ModelForm):
+    class Meta:
+        model = Table
+        fields = ['TableNum', 'Capacity', 'CloseTime', 'OpenTime']
+        labels = {
+            'TableNum': '桌位号',
+            'Capacity': '桌位容量',
+            'CloseTime': '桌位关闭预订的开始时间',
+            'OpenTime': '桌位开启预订的起始时间',
         }
 

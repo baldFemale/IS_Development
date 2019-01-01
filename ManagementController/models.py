@@ -1,6 +1,7 @@
 from django.db import models
 from ApplyController.models import Restaurant
 import time
+from django.utils import timezone
 
 
 class Table(models.Model):
@@ -12,7 +13,7 @@ class Table(models.Model):
     )
     Capacity = models.PositiveSmallIntegerField()
     CloseTime = models.DateTimeField(null=True, blank=True)
-    OpenTime = models.DateTimeField(auto_now_add=True)
+    OpenTime = models.DateTimeField(default=timezone.now())
 
     Status_Choice = (
         (0, '开放'),
@@ -22,32 +23,7 @@ class Table(models.Model):
         (4, '待开放'),
     )
     # TO-DO 计算列
-    Status = models.PositiveSmallIntegerField(choices=Status_Choice, default=0)
-
-
-class Reserve(models.Model):
-    # ReserveID = models.AutoField(primary_key=True)
-    RestaurantID = models.ForeignKey(
-        Restaurant,
-        on_delete=models.CASCADE,
-    )
-    TableNum = models.PositiveSmallIntegerField()
-
-    Role_Category = (
-        (0, '商家'),
-        (1, '用户'),
-    )
-    Role = models.PositiveSmallIntegerField(choices=Role_Category)
-    OccupationDate = models.DateTimeField(auto_now=True)
-
-    OccupationTime_category = (
-        (0, '中饭'),
-        (1, '晚饭'),
-        (2, '其他'),
-    )
-    OccupationTime = models.PositiveSmallIntegerField(choices=OccupationTime_category)
-    MerchantID_or_UserID = models.CharField(max_length=50)
-    ReserveTime = models.DateTimeField(auto_now_add=True)
+    Status = models.PositiveSmallIntegerField(choices=Status_Choice, blank=True, null=True)
 
 
 def get_file_path(instance, filename):
@@ -62,7 +38,7 @@ class Dish(models.Model):
     RestaurantID = models.ForeignKey(Restaurant, on_delete=models.CASCADE)
     Name = models.CharField(max_length=50)
     Price = models.FloatField()
-    Image = models.ImageField(upload_to=get_file_path, null=True)
+    Image = models.ImageField(upload_to=get_file_path, blank=True, null=True)
 
     Type_category = (
         (0, '开胃菜'),

@@ -3,13 +3,13 @@ from django.conf.urls import url
 from django.urls import path
 
 urlpatterns = [
-    #主页
+    # 主页
     url(r"^index/$",views.index,name="index"),
-    #商家详细页
+    # 商家详细页
     url(r"^detail/(?P<restaurant_id>\d)/$",views.detail,name="detail"),
-    #商家菜品
+    # 商家菜品
     url(r"^dish/(?P<restaurant_id>\d)/$",views.dish,name="dish"),
-    #商家优惠券
+    # 商家优惠券
     url(r"^coupon/(?P<restaurant_id>\d)/$",views.coupon,name="coupon"),
     # 修改商家菜品
     url(r"^edit_dish/(?P<dish_id>\d)/$",views.edit_dish,name="edit_dish"),
@@ -24,5 +24,9 @@ urlpatterns = [
     # 显示桌位列表
     url(r"^table_info/(?P<restaurant_id>\d)/$", views.table_info, name='table_info'),
     # 显示桌位详细信息
-    url(r"table_detail/(?P<table_id>\d)/$", views.table_detail, name="table_detail")
+    url(r"table_detail/(?P<table_id>\d)/$", views.table_detail, name="table_detail"),
+    # 修改桌位
+    url(r"^table_edit/(?P<table_id>\d)/$", views.table_edit, name='table_edit'),
+    # 添加桌位
+    url(r"table_add/(?P<restaurant_id>\d)/$", views.table_add, name='table_add'),
 ]

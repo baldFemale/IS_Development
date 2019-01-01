@@ -5,7 +5,7 @@ from .models import *
 from UserController.models import Review
 from django.http import HttpResponseRedirect,JsonResponse
 from django.urls import reverse
-from django.utils import timezone
+import datetime
 
 # Create your views here.
 
@@ -125,6 +125,7 @@ def table_info(request, restaurant_id):
     return render(request, 'ManagementController/table_info.html', context={
         'table_list': table_list,
         'restaurant_name': restaurant_name,
+        'restaurant_id': restaurant_id,
     })
 
 
@@ -132,21 +133,66 @@ def table_status_cal(table, time_now):
     # 桌位状态计算函数
     open_time = table.OpenTime
     close_time = table.CloseTime
-    condition_1 = open_time >= time_now and close_time is None
-    if condition_1 or time_now >= open_time >= close_time:
-        return 0
-    if close_time > time_now and close_time > time_now:
-        return 1
-    if open_time > close_time > time_now:
-        return 2
-    if time_now > close_time > open_time:
-        return 3
-    if open_time > time_now > close_time:
-        return 4
+    if close_time is None:
+        if time_now > open_time:
+            return 0
+    else:
+        if time_now > open_time > close_time:
+            return 0
+        if close_time > time_now and close_time > time_now:
+            return 1
+        if open_time > close_time > time_now:
+            return 2
+        if time_now > close_time > open_time:
+            return 3
+        if open_time > time_now > close_time:
+            return 4
 
 
 def table_detail(request, table_id):
-    table_details = Table.objects.get(pk=table_id)[0]
+    table_details = Table.objects.get(pk=table_id)
     return render(request, 'ManagementController/table_detail.html', context={
         'table_details': table_details,
     })
+
+
+def table_edit(request, table_id):
+    table_details = Table.objects.get(pk=table_id)
+    restaurant_id = table_details.RestaurantID.id
+    if request.method == "POST":
+        form = forms.TableForm(request.POST, instance=table_details)
+        if form.is_valid():
+            # TO-DO 获取restaurant主键
+            # table_num_list = [i['TableNum'] for i in Table.objects.filter(RestaurantID__id=)]
+            new_table = form.save(commit=False)
+            new_table.Status = table_status_cal(new_table, datetime.datetime.now())
+            new_table.save()
+            return table_info(request, restaurant_id)
+        # else:
+        #     return render(request, 'ManagementController/table_edit.html', context={
+        #         'error_message': '桌位修改不成功',
+        #     })
+    else:
+        form = forms.TableForm(instance=table_details)
+        return render(request, 'ManagementController/table_edit.html', context={
+            'error_message': '桌位修改成功',
+            'form': form
+        })
+
+
+def table_add(request, restaurant_id):
+    if request.method == 'POST':
+        form = forms.TableForm(request.POST)
+        if form.is_valid():
+            new_table = form.save(commit=False)
+            new_table.Status = table_status_cal(new_table, datetime.datetime.now())
+            new_table.RestaurantID = Restaurant.objects.get(pk=restaurant_id)
+            new_table.save()
+            return table_info(request, restaurant_id)
+    else:
+        form = forms.TableForm()
+        return render(request, "ManagementController/table_add.html", context={
+            'form': form,
+        })
+
+

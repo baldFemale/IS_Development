@@ -1,0 +1,8 @@
+{% if error_message %}
+    <a>{{ error_message }}</a>
+{% endif %}
+<form method="post">
+    {% csrf_token %}
+    {{ form }}
+    <input type="submit" value="查询空闲桌位">
+</form>

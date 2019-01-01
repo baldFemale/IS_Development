@@ -36,4 +36,14 @@ urlpatterns = [
     url(r"^confirm_order/(?P<restaurant_id>\d)/$",views.confirm_order,name="confirm_order"),
     # 确认
     url(r"^confirm/$", views.confirm, name="confirm"),
+    # 输入预约时间
+    url(r"^make_reservation/(?P<restaurant_id>\d)/$", views.make_reservation, name="make_reservation"),
+    # 可预约桌位
+    url(r"^reserve_available/(?P<restaurant_id>\d)/$", views.reserve_available, name="reserve_available"),
+    # 选择预约
+    url(r"^choose_reserve/(?P<restaurant_id>\d)/$", views.choose_reserve, name='choose_reserve'),
+    # 预约结果
+    url(r"^reserve_result/(?P<restaurant_id>\d)/(?P<reserve_id>\d)/$", views.reserve_result, name='reserve_result'),
+    # 用户个人信息
+    url(r"^user_info/(?P<user_id>\d)/$", views.user_info, name='user_info'),
 ]
