@@ -27,11 +27,18 @@ def login(request):
             user = User.objects.filter(Name=request.POST["Name"], Password=request.POST["Password"])
             if user:
                 request.session["user"] = user[0].id
+                request.session["user_name"] = user[0].Name
                 return HttpResponseRedirect(reverse("UserController:index"))
             else:
                 return HttpResponseRedirect(reverse("UserController:login"))
     context = {"form": form}
     return render(request, "UserController/login.html", context)
+
+
+def logout(request):
+    del request.session["user"]
+    del request.session["user_name"]
+    return HttpResponseRedirect(reverse("UserController:login"))
 
 
 def register(request):

@@ -9,7 +9,7 @@ urlpatterns = [
     # 登录
     url(r"^login/$",views.login,name="login"),
     # 注销
-    # url(r"^logout/$",views.logout,name="logout"),
+    url(r"^logout/$",views.logout,name="logout"),
     # 详细页
     url(r"^detail/(?P<restaurant_id>\d)/$",views.detail,name="detail"),
     # 优惠券界面
