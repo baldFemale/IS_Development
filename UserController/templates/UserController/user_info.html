@@ -2,3 +2,10 @@
 <p>用户名：{{ user.Name }}</p>
 <p>用户性别: {{ user.get_Sex_display }}</p>
 <p>手机号：{{ user.PhoneNum }}</p>
+<hr>
+<b>我的收藏</b>
+<ul>
+    {% for restaurant in user.Favorite.all %}
+        <li><a href="/UserController/detail/{{ restaurant.id }}">{{ restaurant.Name }}</a></li>
+    {% endfor %}
+</ul>

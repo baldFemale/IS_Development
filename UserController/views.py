@@ -327,12 +327,12 @@ def reserve_result(request, restaurant_id, reserve_id):
 
 def user_info(request, user_id):
     user_login_id = request.session.get('user')
-    if user_id != user_login_id or not user_login_id:
+    if int(user_id) != int(user_login_id):
         return HttpResponseForbidden("您无权访问该用户信息！")
     else:
         user = User.objects.get(pk=user_id)
         user_reserve = user.reserve_set.all()
-        user_coupon = Coupon.objects.filter(UserID=user)
+        user_coupon = CouponPurchase.objects.filter(UserID=user)
         user_order = Order.objects.filter(UserID=user)
         return render(request, "UserController/user_info.html", context={
             'user': user,

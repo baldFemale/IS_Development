@@ -17,6 +17,7 @@ from django.contrib import admin
 from django.urls import path, include
 from django.conf.urls.static import static
 from django.conf.urls import url,include
+from django.conf import settings
 from .settings import MEDIA_ROOT, MEDIA_URL
 
 
@@ -26,4 +27,4 @@ urlpatterns = [
     path('assesses/', include(('assesses.urls',"assesses"),namespace="assesses")),
     path("UserController/",include(('UserController.urls',"UserController"),namespace="UserController")),
     url(r"^ManagementController/",include(("ManagementController.urls","ManagementController"),namespace="ManagementController")),
-] + static(MEDIA_URL, document_root=MEDIA_ROOT)
+] + static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)

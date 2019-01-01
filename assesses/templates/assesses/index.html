@@ -1,13 +1,48 @@
-<ul>
-    {% for restaurant in restaurants %}
-    <li>
-        <p>餐厅ID ：{{restaurant.id}}</p>
-        <p>餐厅名字：{{restaurant.Name}}</p>
-        <p><a href="{%url 'assesses:detail' restaurant.id%}">Detail</a> </p>
-    </li>
-    {% empty%}
-    <li>
-        <p>还没有餐厅申请</p>
-    </li>
-    {% endfor %}
-</ul>
+{%extends "assesses/base.html"%}
+{% block header %}
+<div class="jumbotron">
+    <h3>
+        餐厅列表
+    </h3>
+</div>
+{% endblock header %}
+
+{% block content %}
+<div class="table-responsive">
+    <table class="table table-bordred table-striped">
+        <th>ID</th>
+        <th>快照</th>
+        <th>所属商家</th>
+        <th>餐厅名字</th>
+        <th>详情</th>
+        {% for restaurant in restaurants %}
+        <tr>
+            <td>{{restaurant.id}}</td>
+            <td><img src="/Files/{{restaurant.Image}}" height="100%" width="25%"></td>
+            <td>{{restaurant.MerchantID}}</td>
+            <td>{{restaurant.Name}}</td>
+            <td><a href="{%url 'assesses:detail' restaurant.id%}">Detail</a> </td>
+        </tr>
+        {% empty%}
+        <tr>
+            <td>还没有餐厅申请</td>
+        </tr>
+        {% endfor %}
+    </table>
+
+        <ul class="pagination" >
+            {% if restaurants.has_previous %}
+            <li><a href="/assesses/index/?page={{restaurants.previous_page_number}}">上一页</a> </li>
+            {% endif %}
+
+            {% for num in restaurants.paginator.page_range %}
+            <li><a href="/assesses/index/?page={{ num }}">{{ num }}</a></li>
+            {% endfor %}
+
+            {% if restaurants.has_next %}
+            <li><a href="/assesses/index/?page={{restaurants.next_page_number}}">下一页</a> </li>
+        {% endif %}
+
+    </ul>
+</div>
+{% endblock content %}
