@@ -4,6 +4,12 @@ from django.conf.urls import url
 urlpatterns = [
     # 主页
     url(r"^index/$",views.index,name="index"),
+    # 主页排序,
+    url(r"^sort_index/$", views.sort_index, name="sort_index"),
+    # 主页排序_开张时间,
+    url(r"^sort_index_by_open_time/$", views.sort_index_by_open_time, name="sort_index_by_open_time"),
+    # 主页筛选
+    url(r"^sort_index_by_category/$", views.sort_index_by_category, name="sort_index_by_category"),
     # 注册
     url(r"^register/$",views.register,name="register"),
     # 登录

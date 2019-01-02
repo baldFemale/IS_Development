@@ -1,4 +1,4 @@
-from django.shortcuts import render, get_object_or_404
+from django.shortcuts import render, get_object_or_404,render_to_response
 from . import forms
 from .models import *
 from ManagementController.models import *
@@ -16,6 +16,25 @@ def index(request):
     restaurants = Restaurant.objects.filter(Status=2).order_by("id")
     context = {"restaurants": restaurants}
     return render(request, "UserController/index.html", context=context)
+
+
+def sort_index(request):
+    restaurants = Restaurant.objects.filter(Status=2).order_by("BusinessStartHour")
+    context = {"restaurants": restaurants}
+    return render_to_response("UserController/index.html",context)
+
+
+def sort_index_by_open_time(request):
+    restaurants = Restaurant.objects.filter(Status=2).order_by("ApplicationTime")
+    context = {"restaurants": restaurants}
+    return render_to_response("UserController/index.html",context)
+
+
+def sort_index_by_category(request):
+    category = int(request.GET.get("category"))
+    restaurants = Restaurant.objects.filter(Status=2,Category=category).order_by("id")
+    context = {"restaurants": restaurants}
+    return render_to_response("UserController/index.html", context)
 
 
 def login(request):
@@ -49,6 +68,7 @@ def register(request):
         if form.is_valid():
             new_user = form.save()
             request.session["user"] = new_user.id
+            request.session["user_name"] = new_user.Name
             return render(request, "UserController/jump.html", context={"new_user":new_user})
     context = {"form": form}
     return render(request, "UserController/register.html", context=context)
