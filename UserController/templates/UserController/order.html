@@ -1,26 +1,45 @@
-{% if dishes %}
-<ul>
-    {% for dish in dishes%}
-    <br>
-    <li>{{dish.Image}}</li>
-    <li>{{dish.Name}}</li>
-    <li>价格：{{dish.Price}}</li>
-    <li>类型：{{dish.Type}}</li>
-    <li>被推荐次数:{{dish.RecommendCount}}</li>
-    <li>
-        <button class="add" data-id="{{dish.id}}">add</button>
-        {% for d,v in carts.items %}
-        {% ifequal dish.id d|add:0 %}
-        <span id="{{dish.id}}">{{v}}</span>
-        {% endifequal %}
-        {% endfor %}
-        <button class="minus" data-id="{{dish.id}}">minus</button>
-    </li>
-    {% endfor %}
-</ul>
+{%extends "UserController/base.html"%}
+{% load bootstrap3 %}
 
+{% block content %}
+
+{% if dishes %}
+{% for dish in dishes%}
+ <div class="card-body">
+     <div class="row">
+         <div class="col-12 col-sm-12 col-md-2 text-center">
+             <img class="img-responsive" src="/Files/{{dish.Image}}" alt="prewiew" width="120" height="80">
+         </div>
+         <div class="col-12 text-sm-center col-sm-12 text-md-left col-md-6">
+             <h4 class="product-name"><strong>{{dish.Name}}</strong></h4>
+             <h4>
+                 <small>{{dish.get_Type_display}}</small>
+                 <br>
+                 <small>被推荐{{dish.RecommendCount}}次</small>
+             </h4>
+         </div>
+         <div class="col-12 col-sm-12 text-sm-center col-md-4 text-md-right row">
+             <div class="col-3 col-sm-3 col-md-6 text-md-right" style="padding-top: 10px">
+                 <h6><strong>单价：￥{{dish.Price}}</strong></h6>
+             </div>
+             <div class="col-4 col-sm-4 col-md-4" style="padding-top:10px">
+                 <div class="quantity">
+                     <button class="add" data-id="{{dish.id}}">+</button>
+                     {% for d,v in carts.items %}
+                     {% ifequal dish.id d|add:0 %}
+                     &nbsp <span id="{{dish.id}}">{{v}}</span> &nbsp
+                     {% endifequal %}
+                     {% endfor %}
+                     <button class="minus" data-id="{{dish.id}}">-</button>
+                 </div>
+             </div>
+         </div>
+     </div>
+     <hr>
+ </div>
+{% endfor %}
 <div>
-    <a href="{%url 'UserController:confirm_order' restaurant.id %}">下单</a>
+    <button class="btn btn-default"><a href="{%url 'UserController:confirm_order' restaurant.id %}">下单</a></button>
 </div>
 {% else %}
     <p>暂无菜品</p>
@@ -74,3 +93,5 @@ $(document).ready(function(){
 })
 
 </script>
+
+{%endblock content %}

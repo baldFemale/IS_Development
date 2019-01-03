@@ -1,27 +1,50 @@
-{% if dishes %}
-<ul>
-    {% for dish in dishes %}
-    <li>菜名：{{dish.Name}}</li>
-    <li>数量：
-        {% for d,v in carts.items %}
-        {% ifequal dish.id d|add:0 %}
-        {{v}}
-        {% endifequal %}
-        {% endfor %}
-    </li>
-    <li>单价：{{dish.Price}}</li>
-    <br>
-    {% endfor %}
-</ul>
+{%extends "UserController/base.html"%}
+{% load bootstrap3 %}
 
-<div>总价：{{value}}</div>
-备注：<input type="text" id="extra">
-<a href="{%url 'UserController:order' restaurant.id %}">返回</a>
-<a href="{%url 'UserController:detail' restaurant.id %}" id="confirm" data-id="{{restaurant.id}}">确认订单</a>
-{% else %}
-<p>还没点菜哦</p>
-<a href="{%url 'UserController:order' restaurant.id %}">返回</a>
-{% endif %}
+{% block content %}
+<div class="container">
+    <h1><i class="glyphicon glyphicon-shopping-cart">订单详情</i> </h1>
+    {% if dishes %}
+    <table class="table table-hover">
+        <thead>
+            <tr>
+              <th>菜名</th>
+              <th>数量</th>
+              <th>单价</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for dish in dishes %}
+            <tr>
+                <td>{{dish.Name}}</td>
+                <td>
+                    {% for d,v in carts.items %}
+                    {% ifequal dish.id d|add:0 %}
+                    {{v}}
+                    {% endifequal %}
+                    {% endfor %}
+                </td>
+                <td>{{dish.Price}}</td>
+            </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+    <div class="col-sm-12 ">
+        <div class="result pull-left"><strong>总价：{{value}}</strong></div>
+        <br>
+        <div class="result pull-left">
+            <strong>备注：</strong>
+            <input type="text" id="extra" class="form-control" placeholder="不要香菜">
+            <button class="btn btn-default"><a href="{%url 'UserController:order' restaurant.id %}">返回</a></button>
+            <button class="btn btn-default"><a href="{%url 'UserController:detail' restaurant.id %}" id="confirm" data-id="{{restaurant.id}}">确认订单</a></button>
+        </div>
+    </div>
+    {% else %}
+    <p>还没点菜哦</p>
+    <a href="{%url 'UserController:order' restaurant.id %}">返回</a>
+    {% endif %}
+</div>
+
 
 <script
   src="https://code.jquery.com/jquery-3.3.1.min.js"
@@ -48,3 +71,5 @@
         })
     })
 </script>
+
+{% endblock content %}

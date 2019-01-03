@@ -49,7 +49,7 @@
             <td>{{restaurant.Name}}</td>
             <td>{{restaurant.BusinessStartHour}}-{{restaurant.BusinessEndHour}}</td>
             <td>{{restaurant.get_Category_display}}</td>
-            <td><a href="{%url 'UserController:detail' restaurant.id%}">Detail</a> </td>
+            <td><a href="{%url 'UserController:detail' restaurant.id%}">详情</a> </td>
         </tr>
         {% empty%}
         <tr>

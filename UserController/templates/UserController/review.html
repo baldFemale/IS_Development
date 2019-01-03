@@ -1,5 +1,12 @@
+{%extends "UserController/base.html"%}
+{% load bootstrap3 %}
+
+{% block content %}
+
 <form method="post" action="{% url 'UserController:review' restaurant.id %}">
     {% csrf_token%}
     {{ form.as_p }}
     <button name="submit">发表</button>
 </form>
+
+{% endblock content %}
