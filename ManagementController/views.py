@@ -11,9 +11,9 @@ import datetime
 
 
 def index(request):
-    restaurants = Restaurant.objects.filter(MerchantID=request.session["login_merchant"],Status=2)
-    context = {"restaurants":restaurants}
-    return render(request,"ManagementController/index.html",context=context)
+    restaurants = Restaurant.objects.filter(MerchantID=request.session["login_merchant"], Status=2)
+    context = {"restaurants": restaurants}
+    return render(request, "ManagementController/index.html", context=context)
 
 
 def detail(request,restaurant_id):

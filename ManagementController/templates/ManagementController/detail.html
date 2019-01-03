@@ -1,51 +1,43 @@
+{% extends "ApplyController/base.html" %}
 {% load bootstrap3 %}
-<p>Detail</p>
-
-<div>
-    <ul>
-        <li><img src="/../../../{{restaurant.Image}}"></li>
-        <li>餐厅名：{{restaurant.Name}}</li>
-        <li>开始营业时间：{{restaurant.BusinessStartHour}}</li>
-        <li>结束营业时间：{{restaurant.BusinessEndHour}}</li>
-        <li>地址：{{restaurant.Address}}</li>
-        <li>类型：{{restaurant.get_Category_display}}</li>
-        <li><button type="button" data-toggle="modal" data-target="#myModal">修改基本信息</button></li>
-    </ul>
+{% block header %}
+<div class="container">
+    <div class="page-header" style="margin-top:0px;">
+        <h2>{{ restaurant.Name }}</h2>
+    </div>
 </div>
+{% endblock header %}
 
-<div>
-    <p><a href="{%url 'ManagementController:dish' restaurant.id%}">菜品</a> </p>
-    <p><a href="{%url 'ManagementController:coupon' restaurant.id%}">优惠券</a> </p>
-    <p><a href="{%url 'ManagementController:review' restaurant.id%}">查看评论</a> </p>
-    <p><a href="{% url 'ManagementController:table_info' restaurant.id %}">查看桌位</a> </p>
-</div>
-
-<div class="modal fade" id="myModal">
-    <div class="modal-dialog">
-        <div class="model-content">
-            <div class="modal-header">
-                <h4 class="modal-title">Title</h4>
-            </div>
-            <div class="modal-body">
-                <form method="post" action="{% url 'ManagementController:detail' restaurant.id%}">
-                    {% csrf_token %}
-                    {{ form.as_p }}
-                    <button name="submit">修改</button>
-                </form>
-            </div>
-            <div class="modal-footer">
-            </div>
+{% block content %}
+<div class="container">
+    <div class="row-fluid">
+        <div class="col-md-8">
+            <ul>
+                <li>开始营业时间：{{ restaurant.BusinessStartHour }}</li>
+                <li>结束营业时间：{{ restaurant.BusinessEndHour }}</li>
+                <li>地址：{{ restaurant.Address }}</li>
+                <li>餐厅评分: {{ restaurant.Score }}</li>
+                <li>餐厅种类: {{ restaurant.get_Category_display }}</li>
+            </ul>
+        </div>
+        <div class="col-md-4">
+            {% if restaurant.Image %}
+                <img class="img-responsive-center-block" width="400px" src="{{ restaurant.Image.url }}" />
+            {% else %}
+                <strong><p>暂无图片可显示</p></strong>
+            {% endif %}
         </div>
     </div>
 </div>
+<div class="container">
+    <hr>
+    <div class="col-md-8">
+        <button type="button" class="btn btn-default" onclick="location.href='{%url 'apply:edit' restaurant.id%}'">编辑餐厅信息</button>
+        <button type="button" class="btn btn-default" onclick="location.href='{%url 'ManagementController:dish' restaurant.id%}'">菜品</button>
+        <button type="button" class="btn btn-default" onclick="location.href='{%url 'ManagementController:coupon' restaurant.id%}'">优惠券</button>
+        <button type="button" class="btn btn-default" onclick="location.href='{%url 'ManagementController:review' restaurant.id%}'">查看评论</button>
+        <button type="button" class="btn btn-default" onclick="location.href='{%url 'ManagementController:table_info' restaurant.id%}'">查看桌位</button>
+    </div>
+</div>
 
-
-
-<script
-  src="https://code.jquery.com/jquery-3.3.1.min.js"
-  integrity="sha256-FgpCb/KJQlLNfOu91ta32o/NMZxltwRo8QtmkMRdAu8="
-  crossorigin="anonymous"></script>
-
-
-{% bootstrap_css %}
-{% bootstrap_javascript %}
+{% endblock content %}
