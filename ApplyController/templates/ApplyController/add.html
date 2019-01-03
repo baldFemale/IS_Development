@@ -1,10 +1,29 @@
-{% if error_message %}
-    <a>{{ error_message }}</a>
-{% endif %}
-<form method="post">
-    {% csrf_token %}
-    {% for field in form %}
-        {{ field.label_tag }}: {{ field }}
-    {% endfor %}
-    <input type="submit" value="添加">
-</form>
+{% extends "ApplyController/base.html" %}
+
+{% load bootstrap3 %}
+{% load static %}
+
+{% block header %}
+<div class="container">
+    <div class="page-header" style="margin-top:0px;">
+        <h2>新餐厅申请</h2>
+    </div>
+</div>
+{% endblock header %}
+
+{% block content %}
+<div class="container">
+    {% if error_message %}
+        <a>{{ error_message }}</a>
+    {% endif %}
+    <form method="post" class="form">
+        {% csrf_token %}
+        {% bootstrap_form form %}
+        {% buttons %}
+            <button type="submit" class="btn btn-info">
+                添加
+            </button>
+        {% endbuttons %}
+    </form>
+</div>
+{% endblock content %}

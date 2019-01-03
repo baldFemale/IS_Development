@@ -9,3 +9,17 @@
         <li><a href="/UserController/detail/{{ restaurant.id }}">{{ restaurant.Name }}</a></li>
     {% endfor %}
 </ul>
+<hr>
+<b>我的优惠券</b>
+<ul>
+    {% for coupon in coupons %}
+        <li>{{ coupon.Name }}</li>
+    {% endfor %}
+</ul>
+<hr>
+<b>我的预约</b>
+<ul>
+    {% for reservation in reservations %}
+        <li>{{ reservation.RestaurantID.Name }}</li>
+    {% endfor %}
+</ul>
