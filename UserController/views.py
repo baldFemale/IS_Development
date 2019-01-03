@@ -79,7 +79,7 @@ def detail(request, restaurant_id):
     coupons = Coupon.objects.filter(RestaurantID=restaurant)
     user = User.objects.get(id=request.session["user"])
     dishes = list(Dish.objects.filter(RestaurantID=restaurant))
-    reviews = list(Review.objects.filter(RestaurantID=restaurant).order_by("-ReviewTime"))
+    reviews = list(Review.objects.filter(RestaurantID=restaurant))
     score = sum(review.Score for review in reviews)/len(reviews)
 
     if len(dishes) > 8:

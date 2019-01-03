@@ -53,9 +53,12 @@ class Review(models.Model):
         (5, '5'),
     )
     Score = models.PositiveSmallIntegerField(choices=Score_category)
-    Content = models.CharField(max_length=500)
+    Content = models.TextField(max_length=500)
     ThumbUpCount = models.PositiveIntegerField()
     ReviewTime = models.DateTimeField(auto_now_add=True)
+
+    class Meta:
+        ordering = ['-ReviewTime']
 
 
 class Order(models.Model):
