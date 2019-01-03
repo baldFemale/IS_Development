@@ -1,0 +1,51 @@
+{% load bootstrap3 %}
+{% load static %}
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>小众点评欢迎您</title>
+    <script src="https://code.jquery.com/jquery-3.3.1.min.js"
+            integrity="sha256-FgpCb/KJQlLNfOu91ta32o/NMZxltwRo8QtmkMRdAu8="
+            crossorigin="anonymous"></script>
+    {% block javascript %}{% endblock javascript %}
+    {% bootstrap_css %}
+    {% bootstrap_javascript %}
+</head>
+
+<body>
+<!--导航栏-->
+    <nav class="navbar navbar-default navbar-static-top">
+        <div class="container">
+            <div class="navbar-header">
+                <button type="button" class="navbar-toggle collapsed"
+                        data-toggle = "collapse" data-target="#navbar"
+                        aria-expanded="false" aria-controls="navbar">
+                    More
+                </button>
+                <a class="navbar-brand" href="{%url 'UserController:index' %}">
+                    首页
+                </a>
+            </div>
+            <div id="navbar" class="navbar-collapse collapse">
+                <ul class="nav navbar-nav navbar-right">
+                    {%if request.session.assessor %}
+                    <li><a href="{% url 'UserController:user_info' request.session.user %}">Hello,{{request.session.user_name}}.</a></li>
+                    <li><a href="{% url 'UserController:logout' %}">log out</a> </li>
+                    {%endif%}
+                </ul>
+            </div>
+        </div>
+    </nav>
+
+    <div class="container">
+        <div class="page-header" style="margin-top:0px;">
+            {%block header%}{%endblock header%}
+        </div>
+        <div>
+            {%block content%}{%endblock content%}
+        </div>
+    </div>
+</body>
+</html>

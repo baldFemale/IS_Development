@@ -4,12 +4,18 @@ from django.conf.urls import url
 urlpatterns = [
     # 主页
     url(r"^index/$",views.index,name="index"),
+    # 主页排序,
+    url(r"^sort_index/$", views.sort_index, name="sort_index"),
+    # 主页排序_开张时间,
+    url(r"^sort_index_by_open_time/$", views.sort_index_by_open_time, name="sort_index_by_open_time"),
+    # 主页筛选
+    url(r"^sort_index_by_category/$", views.sort_index_by_category, name="sort_index_by_category"),
     # 注册
     url(r"^register/$",views.register,name="register"),
     # 登录
     url(r"^login/$",views.login,name="login"),
     # 注销
-    # url(r"^logout/$",views.logout,name="logout"),
+    url(r"^logout/$",views.logout,name="logout"),
     # 详细页
     url(r"^detail/(?P<restaurant_id>\d)/$",views.detail,name="detail"),
     # 优惠券界面

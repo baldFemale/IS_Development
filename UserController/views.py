@@ -1,4 +1,4 @@
-from django.shortcuts import render, get_object_or_404
+from django.shortcuts import render, get_object_or_404,render_to_response
 from . import forms
 from .models import *
 from ManagementController.models import *
@@ -13,9 +13,28 @@ import pytz
 
 # Create your views here.
 def index(request):
-    restaurants = Restaurant.objects.order_by("Name")
+    restaurants = Restaurant.objects.filter(Status=2).order_by("id")
     context = {"restaurants": restaurants}
     return render(request, "UserController/index.html", context=context)
+
+
+def sort_index(request):
+    restaurants = Restaurant.objects.filter(Status=2).order_by("BusinessStartHour")
+    context = {"restaurants": restaurants}
+    return render_to_response("UserController/index.html",context)
+
+
+def sort_index_by_open_time(request):
+    restaurants = Restaurant.objects.filter(Status=2).order_by("ApplicationTime")
+    context = {"restaurants": restaurants}
+    return render_to_response("UserController/index.html",context)
+
+
+def sort_index_by_category(request):
+    category = int(request.GET.get("category"))
+    restaurants = Restaurant.objects.filter(Status=2,Category=category).order_by("id")
+    context = {"restaurants": restaurants}
+    return render_to_response("UserController/index.html", context)
 
 
 def login(request):
@@ -27,11 +46,18 @@ def login(request):
             user = User.objects.filter(Name=request.POST["Name"], Password=request.POST["Password"])
             if user:
                 request.session["user"] = user[0].id
+                request.session["user_name"] = user[0].Name
                 return HttpResponseRedirect(reverse("UserController:index"))
             else:
                 return HttpResponseRedirect(reverse("UserController:login"))
     context = {"form": form}
     return render(request, "UserController/login.html", context)
+
+
+def logout(request):
+    del request.session["user"]
+    del request.session["user_name"]
+    return HttpResponseRedirect(reverse("UserController:login"))
 
 
 def register(request):
@@ -42,6 +68,7 @@ def register(request):
         if form.is_valid():
             new_user = form.save()
             request.session["user"] = new_user.id
+            request.session["user_name"] = new_user.Name
             return render(request, "UserController/jump.html", context={"new_user":new_user})
     context = {"form": form}
     return render(request, "UserController/register.html", context=context)

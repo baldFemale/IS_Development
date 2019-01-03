@@ -1,13 +1,93 @@
-<ul>
-    {% for restaurant in restaurants %}
-    <li>
-        <p>餐厅ID ：{{restaurant.id}}</p>
-        <p>餐厅名字：{{restaurant.Name}}</p>
-        <p><a href="{%url 'UserController:detail' restaurant.id%}">Detail</a> </p>
-    </li>
-    {% empty%}
-    <li>
-        <p>还没有餐厅</p>
-    </li>
-    {% endfor %}
-</ul>
+{%extends "UserController/base.html"%}
+
+
+{% block content %}
+<div class="table-responsive" style="min-height:500px">
+    <div class="query">
+        <button id="business_hour" class="btn btn-default">按营业时间排序</button>
+        <button id="open_hour" class="btn btn-default">按开张时间排序</button>
+        <div class="btn-group">
+            <button type="button" class="btn btn-default dropdown-toggle" data-toggle="dropdown">
+                按餐厅类型筛选
+                <span class="caret"></span>
+            </button>
+            <ul class="dropdown-menu" role="menu">
+                <li>
+                    <a href="#" class="res_type" data-type="1">川菜</a>
+                </li>
+                <li>
+                    <a href="#" class="res_type" data-type="2">粤菜</a>
+                </li>
+                <li>
+                    <a href="#" class="res_type" data-type="3">鲁菜</a>
+                </li>
+                <li>
+                    <a href="#" class="res_type" data-type="4">苏菜</a>
+                </li>
+                <li>
+                    <a href="#" class="res_type" data-type="5">湘菜</a>
+                </li>
+                <li>
+                    <a href="#" class="res_type" data-type="6">浙菜</a>
+                </li>
+                <li>
+                    <a href="#" class="res_type" data-type="7">其他</a>
+                </li>
+            </ul>
+        </div>
+    </div>
+
+    <table class="table table-bordred table-striped" id="pstable">
+        <th>快照</th>
+        <th>餐厅名字</th>
+        <th>营业时间</th>
+        <th>类型</th>
+        <th>详情</th>
+        {% for restaurant in restaurants %}
+        <tr>
+            <td style="height:100px"><img src="/Files/{{restaurant.Image}}" height="80%"></td>
+            <td>{{restaurant.Name}}</td>
+            <td>{{restaurant.BusinessStartHour}}-{{restaurant.BusinessEndHour}}</td>
+            <td>{{restaurant.get_Category_display}}</td>
+            <td><a href="{%url 'UserController:detail' restaurant.id%}">Detail</a> </td>
+        </tr>
+        {% empty%}
+        <tr>
+            <td>还没有开张的餐厅</td>
+        </tr>
+        {% endfor %}
+    </table>
+</div>
+
+
+<script type="text/javascript">
+    $("#business_hour").click(function(){
+        console.log("click");
+        $.get("/UserController/sort_index",
+            function(data){
+                var dtr = $("#pstable",data);
+                $("#pstable").html(dtr);
+        })
+    });
+
+    $("#open_hour").click(function(){
+        console.log("click");
+        $.get("/UserController/sort_index_by_open_time",
+            function(data){
+                var dtr = $("#pstable",data);
+                $("#pstable").html(dtr);
+        })
+    });
+
+    $(".res_type").click(function(){
+        category = $(this).data("type");
+        console.log(category);
+        $.get("/UserController/sort_index_by_category",{"category":category},
+            function(data){
+                var dtr = $("#pstable",data);
+                $("#pstable").html(dtr);
+        })
+    })
+</script>
+{% endblock content %}
+
