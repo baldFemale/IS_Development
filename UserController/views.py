@@ -78,6 +78,12 @@ def detail(request, restaurant_id):
     restaurant = Restaurant.objects.get(id=restaurant_id)
     coupons = Coupon.objects.filter(RestaurantID=restaurant)
     user = User.objects.get(id=request.session["user"])
+    dishes = list(Dish.objects.filter(RestaurantID=restaurant))
+    reviews = list(Review.objects.filter(RestaurantID=restaurant).order_by("-ReviewTime"))
+    score = sum(review.Score for review in reviews)/len(reviews)
+
+    if len(dishes) > 8:
+        dishes = dishes[:8]
 
     try:
         del request.session["carts"]
@@ -93,8 +99,7 @@ def detail(request, restaurant_id):
     paginator = Paginator(reviews,limit)
     page = request.GET.get('page',1)
     result = paginator.page(page)
-
-    context = {"restaurant": restaurant, "coupons": coupons,"favorite":favorite,"result":result}
+    context = {"restaurant": restaurant, "coupons": coupons,"favorite":favorite,"result":result,"dishes":dishes,"score":round(score)}
     return render(request,"UserController/detail.html",context=context)
 
 
@@ -232,11 +237,15 @@ def confirm_order(request,restaurant_id):
     if temp:
         restaurant = temp[0].RestaurantID
 
+
+        print(temp)
+        print(carts)
         v = 0
         count = 0
         for cart in carts:
-            v+=carts[cart]*temp[count].Price
-            count+=1
+            if carts[cart]!=0:
+                v+=carts[cart]*temp[count].Price
+                count+=1
         context = {"dishes": temp, "carts": carts,"value":v,"restaurant":restaurant}
         return render(request,"UserController/confirm_order.html",context=context)
 

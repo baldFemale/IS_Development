@@ -2,8 +2,8 @@
 {% load bootstrap3 %}
 
 {% block content %}
-<div class="detail">
-    <div class="container-fliud">
+<div class="detail" style="padding: 15px 20px 53px 20px;">
+    <div class="container-fluid">
         <div class="wrapper row">
             <div class="preview col-md-6">
                 <div><img src="/Files/{{restaurant.Image}}" height="100%" width="100%"></div>
@@ -16,6 +16,55 @@
                     <strong>餐厅地址：</strong>{{restaurant.Address}}</p>
                     <p><strong>开始营业时间：</strong>{{restaurant.BusinessStartHour}} &nbsp
                     <strong>结束营业时间：</strong>{{restaurant.BusinessEndHour}}</p>
+                    <p><strong>评分：</strong>
+                        {% ifequal score 5 %}
+                            <i class="glyphicon glyphicon-star"></i>
+                            <i class="glyphicon glyphicon-star"></i>
+                            <i class="glyphicon glyphicon-star"></i>
+                            <i class="glyphicon glyphicon-star"></i>
+                            <i class="glyphicon glyphicon-star"></i>
+                            {% endifequal %}
+
+                            {% ifequal score 4 %}
+                            <i class="glyphicon glyphicon-star"></i>
+                            <i class="glyphicon glyphicon-star"></i>
+                            <i class="glyphicon glyphicon-star"></i>
+                            <i class="glyphicon glyphicon-star"></i>
+                            <i class="glyphicon glyphicon-star-empty"></i>
+                            {% endifequal %}
+
+                            {% ifequal score 3 %}
+                            <i class="glyphicon glyphicon-star"></i>
+                            <i class="glyphicon glyphicon-star"></i>
+                            <i class="glyphicon glyphicon-star"></i>
+                            <i class="glyphicon glyphicon-star-empty"></i>
+                            <i class="glyphicon glyphicon-star-empty"></i>
+                            {% endifequal %}
+
+                            {% ifequal score 2 %}
+                            <i class="glyphicon glyphicon-star"></i>
+                            <i class="glyphicon glyphicon-star"></i>
+                            <i class="glyphicon glyphicon-star-empty"></i>
+                            <i class="glyphicon glyphicon-star-empty"></i>
+                            <i class="glyphicon glyphicon-star-empty"></i>
+                            {% endifequal %}
+
+                            {% ifequal score 1 %}
+                            <i class="glyphicon glyphicon-star"></i>
+                            <i class="glyphicon glyphicon-star-empty"></i>
+                            <i class="glyphicon glyphicon-star-empty"></i>
+                            <i class="glyphicon glyphicon-star-empty"></i>
+                            <i class="glyphicon glyphicon-star-empty"></i>
+                            {% endifequal %}
+
+                            {% ifequal score 0 %}
+                            <i class="glyphicon glyphicon-star-empty"></i>
+                            <i class="glyphicon glyphicon-star-empty"></i>
+                            <i class="glyphicon glyphicon-star-empty"></i>
+                            <i class="glyphicon glyphicon-star-empty"></i>
+                            <i class="glyphicon glyphicon-star-empty"></i>
+                            {% endifequal %}
+                    </p>
                     <p><strong>餐厅类型：</strong>{{restaurant.get_Category_display}}</p>
                 </div>
 
@@ -25,28 +74,175 @@
                     {% else %}
                     <button id="favorite" class="btn btn-default" data-id="{{restaurant.id}}">收藏</button>
                     {% endif %}
-                    <button class="btn btn-default"><a href="{%url 'UserController:order' restaurant.id%}">预点餐</a></button>
-                    <button class="btn btn-default"><a href="{%url 'UserController:review' restaurant.id%}">写点评</a></button>
-                    <button class="btn btn-default"><a href="{% url 'UserController:make_reservation' restaurant.id %}">我要预约</a></button>
+                    <button class="btn btn-default"><a href="{% url 'UserController:make_reservation' restaurant.id %}">预约座位</a></button>
+                    <button class="btn btn-default"><a href="{%url 'UserController:order' restaurant.id%}">预先点餐</a></button>
+                    <button class="btn btn-default"><a href="{%url 'UserController:review' restaurant.id%}">我要点评</a></button>
                 </div>
             </div>
+        </div>
+    </div>
+</div>
 
+<div class="detail" style="padding: 0px 20px 53px 20px;background:">
+    <div class="container-fluid">
+        <div class="wrapper row">
             <div class="col-xs-9">
-                <ul class="nav nav-tabs">
-                    <li role="presentation" class="active"><a href="#">Home</a></li>
-                    <li role="presentation"><a href="#">Profile</a></li>
-                    <li role="presentation"><a href="#">Messages</a></li>
+                <ul id="myTab" class="nav nav-tabs">
+                    <li class="active"><a href="#dish" data-toggle="tab">菜品</a></li>
+                    <li><a href="#coupon" data-toggle="tab">优惠券</a></li>
+                    <li><a href="#License" data-toggle="tab">工商信息</a></li>
                 </ul>
+                <div id="myTabContent" class="tab-content">
+	                <div class="tab-pane fade in active" id="dish">
+                        <div class="row">
+                            {% for dish in dishes %}
+                            <div class="col-xs-6 col-md-3">
+                                <a href="/Files/{{dish.Image}}" class="thumbnail">
+                                    <img src="/Files/{{dish.Image}}">
+                                </a>
+                            </div>
+                            {% endfor %}
+                            <div class="col-xs-6 col-md-3">
+                                <a href="{%url 'UserController:order' restaurant.id%}" class="thumbnail">
+                                    <img src="/Files/image/icon/more.jpg">
+                                </a>
+                            </div>
+                        </div>
+                    </div>
 
+                    <div class="tab-pane fade" id="coupon">
+		                {% if coupons %}
+                        <ul class="list-group">
+                            {% for coupon in coupons %}
+                            <li class="list-group-item"><strong>{{coupon.Name}}</strong>{{coupon.Price}}抵{{coupon.Value}}</li>
+                            {% endfor %}
+                            <li class="list-group-item"><a href="{%url 'UserController:coupon' restaurant.id %}">立即抢购</a></li>
+                        </ul>
+
+                        {% else %}
+                        <ul class="list-group">
+                            <li class="list-group-item"><strong>暂无优惠券</strong></li>
+                        </ul>
+                        {% endif %}
+	                </div>
+
+                    <div class="tab-pane fade" id="License">
+                        <ul class="list-group">
+                            <li class="list-group-item"><strong>所属商家:</strong>{{restaurant.MerchantID}}</li>
+                            <li class="list-group-item"><strong>营业执照:</strong>{{restaurant.LicenseID}}</li>
+                            <li class="list-group-item"><strong>开业时间:</strong>{{restaurant.ApplicationTime}}</li>
+                        </ul>
+	                </div>
+                </div>
             </div>
 
         </div>
     </div>
 </div>
 
-<div>
-    <br>
+
+{% if result %}
+<div class="detail" style="padding: 0px 20px 53px 20px;">
+    <p>网友点评</p>
+    <div class="container-fluid">
+        <div class="wrapper row">
+            <div class="col-xs-9">
+                {% for r in result %}
+                <div class="panel panel-default arrow left">
+                    <div class="panel-body">
+                        <header class="text-left">
+                            <div class="comment-user"><i class="glyphicon glyphicon-user"></i>  {{r.UserID}}</div>
+                            {% ifequal r.Score 5 %}
+                            <i class="glyphicon glyphicon-star"></i>
+                            <i class="glyphicon glyphicon-star"></i>
+                            <i class="glyphicon glyphicon-star"></i>
+                            <i class="glyphicon glyphicon-star"></i>
+                            <i class="glyphicon glyphicon-star"></i>
+                            {% endifequal %}
+
+                            {% ifequal r.Score 4 %}
+                            <i class="glyphicon glyphicon-star"></i>
+                            <i class="glyphicon glyphicon-star"></i>
+                            <i class="glyphicon glyphicon-star"></i>
+                            <i class="glyphicon glyphicon-star"></i>
+                            <i class="glyphicon glyphicon-star-empty"></i>
+                            {% endifequal %}
+
+                            {% ifequal r.Score 3 %}
+                            <i class="glyphicon glyphicon-star"></i>
+                            <i class="glyphicon glyphicon-star"></i>
+                            <i class="glyphicon glyphicon-star"></i>
+                            <i class="glyphicon glyphicon-star-empty"></i>
+                            <i class="glyphicon glyphicon-star-empty"></i>
+                            {% endifequal %}
+
+                            {% ifequal r.Score 2 %}
+                            <i class="glyphicon glyphicon-star"></i>
+                            <i class="glyphicon glyphicon-star"></i>
+                            <i class="glyphicon glyphicon-star-empty"></i>
+                            <i class="glyphicon glyphicon-star-empty"></i>
+                            <i class="glyphicon glyphicon-star-empty"></i>
+                            {% endifequal %}
+
+                            {% ifequal r.Score 1 %}
+                            <i class="glyphicon glyphicon-star"></i>
+                            <i class="glyphicon glyphicon-star-empty"></i>
+                            <i class="glyphicon glyphicon-star-empty"></i>
+                            <i class="glyphicon glyphicon-star-empty"></i>
+                            <i class="glyphicon glyphicon-star-empty"></i>
+                            {% endifequal %}
+
+                            {% ifequal r.Score 0 %}
+                            <i class="glyphicon glyphicon-star-empty"></i>
+                            <i class="glyphicon glyphicon-star-empty"></i>
+                            <i class="glyphicon glyphicon-star-empty"></i>
+                            <i class="glyphicon glyphicon-star-empty"></i>
+                            <i class="glyphicon glyphicon-star-empty"></i>
+                            {% endifequal %}
+                            <br>
+                            <time class="comment-date"><i class="glyphicon glyphicon-time"></i>   {{r.ReviewTime}}</time>
+                        </header>
+
+                        <div class="comment-post">
+                            <br>
+                            <p>{{r.Content}}</p>
+                        </div>
+
+                        <p class="text-right">
+                            <a class="thump" data-id="{{r.id}}"><i class="glyphicon glyphicon-thumbs-up"></i></a>
+                            <span id="{{r.id}}">{{r.ThumbUpCount}}</span>
+                        </p>
+                    </div>
+                </div>
+                {% empty %}
+                <p>No Comment yet</p>
+                {% endfor %}
+            </div>
+        </div>
+    </div>
+    <ul class="pagination">
+        {% if result.has_previous %}
+            <li><a href="/UserController/detail/{{restaurant.id}}/?page={{result.previous_page_number}}">上一页</a> </li>
+        {% endif %}
+
+        {% for num in result.paginator.page_range %}
+            {% ifequal num result.number %}
+            <li class="active"><a href="/UserController/detail/{{restaurant.id}}/?page={{ num }}">{{ num }}</a></li>
+            {% else %}
+            <li><a href="/UserController/detail/{{restaurant.id}}/?page={{ num }}">{{ num }}</a></li>
+            {% endifequal %}
+
+        {% endfor %}
+
+        {% if result.has_next %}
+            <li><a href="/UserController/detail/{{restaurant.id}}/?page={{result.next_page_number}}">下一页</a> </li>
+        {% endif %}
+    </ul>
 </div>
+
+{% endif %}
+
+
 
 <script
   src="https://code.jquery.com/jquery-3.3.1.min.js"
@@ -122,43 +318,5 @@
 {% endblock content %}
 
 
-<div>
-    <ul>
-        {% if coupons %}
-            <li><a href="{%url 'UserController:coupon' restaurant.id %}">优惠券</a></li>
-        {% else %}
-            <li>暂无优惠券</li>
-        {% endif %}
-        <li><a href="{%url 'UserController:review' restaurant.id%}">我要点评</a> </li>
-        <li><a href="{% url 'UserController:make_reservation' restaurant.id %}">我要预约</a></li>
-    </ul>
-</div>
-<br>
 
-<!--评论部分-->
-<div>
-    {% if result %}
-    <ul>
-        {% for r in result %}
-        <li>用户：{{r.UserID}}</li>
-        <li>评分：{{r.Score}}</li>
-        <li>评价内容：{{r.Content}}</li>
-        <li><a class="thump" data-id="{{r.id}}">点赞数:<span id="{{r.id}}">{{r.ThumbUpCount}}</span></a></li>
-        <li>时间：{{r.ReviewTime}}</li>
-        <br>
-    </ul>
-        {% empty %}
-            <p>No Comment yet</p>
-        {% endfor %}
-    {% endif %}
-    <ul class="pagination">
-        {% if result.has_previous %}
-            <li><a href="/UserController/detail/{{restaurant.id}}/?page={{result.previous_page_number}}">上一页</a> </li>
-        {% endif %}
-        {% if result.has_next %}
-            <li><a href="/UserController/detail/{{restaurant.id}}/?page={{result.next_page_number}}">下一页</a> </li>
-        {% endif %}
-
-    </ul>
-</div>
 

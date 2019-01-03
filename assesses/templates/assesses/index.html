@@ -21,7 +21,7 @@
             <td style="height:100px"><img src="/Files/{{restaurant.Image}}" height="80%"></td>
             <td>{{restaurant.MerchantID}}</td>
             <td>{{restaurant.Name}}</td>
-            <td><a href="{%url 'assesses:detail' restaurant.id%}">Detail</a> </td>
+            <td><a href="{%url 'assesses:detail' restaurant.id%}">详情</a> </td>
         </tr>
         {% empty%}
         <tr>
@@ -36,7 +36,11 @@
             {% endif %}
 
             {% for num in restaurants.paginator.page_range %}
+            {% ifequal num restaurants.number %}
+            <li class="active"><a href="/assesses/index/?page={{ num }}">{{ num }}</a></li>
+            {% else %}
             <li><a href="/assesses/index/?page={{ num }}">{{ num }}</a></li>
+            {% endifequal %}
             {% endfor %}
 
             {% if restaurants.has_next %}
