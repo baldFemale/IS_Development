@@ -16,17 +16,18 @@ def index(request):
     return render(request, "ManagementController/index.html", context=context)
 
 
-def detail(request,restaurant_id):
+def detail(request, restaurant_id):
     restaurant = Restaurant.objects.get(id=restaurant_id)
-    if request.method!="POST":
-        form = forms.RestaurantForm(instance=restaurant)
-        context = {"restaurant":restaurant,"form":form}
-        return render(request,"ManagementController/detail.html",context=context)
-    else:
-        form = forms.RestaurantForm(instance=restaurant, data=request.POST)
-        if form.is_valid():
-            form.save()
-            return HttpResponseRedirect(reverse("ManagementController:detail",args={restaurant_id}))
+    dishes = Dish.objects.filter(RestaurantID=restaurant)
+    tables = Table.objects.filter(RestaurantID=restaurant)
+    coupons = Coupon.objects.filter(RestaurantID=restaurant)
+    context = {
+        'restaurant': restaurant,
+        'tables': tables,
+        'dishes': dishes,
+        'coupons': coupons,
+    }
+    return render(request, "ManagementController/detail.html", context=context)
 
 
 def dish(request,restaurant_id):

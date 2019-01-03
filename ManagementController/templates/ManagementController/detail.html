@@ -19,6 +19,7 @@
                 <li>餐厅评分: {{ restaurant.Score }}</li>
                 <li>餐厅种类: {{ restaurant.get_Category_display }}</li>
             </ul>
+            <button type="button" class="btn btn-default" onclick="location.href='{%url 'apply:edit' restaurant.id%}'">编辑餐厅基本信息</button>
         </div>
         <div class="col-md-4">
             {% if restaurant.Image %}
@@ -30,9 +31,39 @@
     </div>
 </div>
 <div class="container">
+    <ul id="restaurantTab" class="nav nav-tabs">
+        <li class="active">
+            <a href="#dish-manager" data-toggle="tab">
+                菜品管理
+            </a>
+        </li>
+        <li><a href="#coupon-manager" data-toggle="tab">优惠券管理</a></li>
+        <li><a href="#table-manager" data-toggle="tab">桌位管理</a> </li>
+    </ul>
+    <div id="restaurantTabContent" class="tab-content">
+        <div class="tab-pane fade in active" id="dish-manager">
+            <div class="container">
+                <div class="row">
+                    {% for dish in dishes %}
+                        <div class="col-md-4">
+                            <div class="container">
+                                <h2>{{ dish.Name }}</h2>
+                                <p>价格：&yen{{ dish.Price }}</p>
+                                <img class="img-responsive-center-block" width="400px" src="{{ dish.Image.url }}" />
+                            </div>
+                        </div>
+                    {% empty %}
+                        <p>暂无菜品信息</p>
+                    {% endfor %}
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<div class="container">
     <hr>
     <div class="col-md-8">
-        <button type="button" class="btn btn-default" onclick="location.href='{%url 'apply:edit' restaurant.id%}'">编辑餐厅信息</button>
+
         <button type="button" class="btn btn-default" onclick="location.href='{%url 'ManagementController:dish' restaurant.id%}'">菜品</button>
         <button type="button" class="btn btn-default" onclick="location.href='{%url 'ManagementController:coupon' restaurant.id%}'">优惠券</button>
         <button type="button" class="btn btn-default" onclick="location.href='{%url 'ManagementController:review' restaurant.id%}'">查看评论</button>
