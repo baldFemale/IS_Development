@@ -128,11 +128,11 @@ USE_TZ = True
 
 STATIC_URL = '/static/'
 
-MEDIA_ROOT = os.path.join(BASE_DIR, 'Files')
+MEDIA_ROOT = os.path.join(BASE_DIR, 'Files').replace('\\', '/')
 
 MEDIA_URL = '/Files/'
 
-#bootstrap设置
+# bootstrap设置
 BOOTSTRAP3 = {
     'include-jquery':True,
 }

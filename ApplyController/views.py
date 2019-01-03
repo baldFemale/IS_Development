@@ -1,4 +1,4 @@
-from django.shortcuts import render
+from django.shortcuts import render, get_object_or_404
 from .forms import *
 from .models import Merchant, Restaurant
 from django.http import HttpResponseRedirect
@@ -31,6 +31,7 @@ def login(request):
                 login_merchant = Merchant.objects.filter(Name=user_name, Password=user_password)
                 if login_merchant:
                     request.session['login_merchant'] = login_merchant[0].id
+                    request.session['login_merchant_name'] = get_object_or_404(Merchant, pk=login_merchant[0].id).Name
                     return HttpResponseRedirect(reverse('apply:index'))
                 else:
                     return render(request, 'ApplyController/login.html', context={
@@ -66,7 +67,7 @@ def edit(request, restaurant_id):
     if login_merchant_id:
         restaurant_obj = Restaurant.objects.get(pk=restaurant_id)
         if request.method == 'POST':
-            form = RestaurantEditForm(request.POST, instance=restaurant_obj)
+            form = RestaurantEditForm(request.POST, request.FILES, instance=restaurant_obj)
             if form.is_valid():
                 form.save()
                 return HttpResponseRedirect(reverse('apply:detail', args=(restaurant_id,)))

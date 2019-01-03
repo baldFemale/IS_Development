@@ -333,10 +333,13 @@ def user_info(request, user_id):
         user = User.objects.get(pk=user_id)
         user_reserve = user.reserve_set.all()
         user_coupon = CouponPurchase.objects.filter(UserID=user)
+        coupons_list = []
+        for coupon_purchase in user_coupon:
+            coupons_list.append(coupon_purchase.CouponID)
         user_order = Order.objects.filter(UserID=user)
         return render(request, "UserController/user_info.html", context={
             'user': user,
             'reservations': user_reserve,
-            'coupons': user_coupon,
+            'coupons': coupons_list,
             'orders': user_order,
         })

@@ -1,6 +1,27 @@
-<form method="post">
-    {% csrf_token %}
-    {{ restaurant_edit_form.as_p }}
-    <input type="submit" value="提交">
-</form>
-<a href="/apply/">返回主页</a>
+{% extends "ApplyController/base.html" %}
+
+{% load bootstrap3 %}
+{% load static %}
+
+{% block header %}
+<div class="container">
+    <div class="page-header" style="margin-top:0px;">
+        <h2>餐厅修改</h2>
+    </div>
+</div>
+{% endblock header %}
+
+{% block content %}
+<div class="container">
+    <form method="post" enctype="multipart/form-data">
+        {% csrf_token %}
+        {% bootstrap_form restaurant_edit_form %}
+        {% buttons %}
+            <button type="submit" class="btn btn-info">
+                修改
+            </button>
+        {% endbuttons %}
+    </form>
+<button type="button" class="btn btn-primary" onclick="location.href='/apply/'">返回餐厅列表</button>
+</div>
+{% endblock content %}

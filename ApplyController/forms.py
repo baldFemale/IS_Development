@@ -1,5 +1,6 @@
 from .models import Restaurant, Merchant
 from django import forms
+from django.forms import widgets as wid
 
 
 class MerchantForm(forms.Form):
@@ -10,7 +11,13 @@ class MerchantForm(forms.Form):
 class RestaurantEditForm(forms.ModelForm):
     class Meta:
         model = Restaurant
-        fields = ['Name', 'BusinessStartHour', 'BusinessEndHour', 'Address', 'Category', 'Image']
+        fields = ['Name', 'BusinessStartHour', 'Image', 'BusinessEndHour', 'Address', 'Category', ]
+        labels = {'Name': '餐厅名称',
+                  'Image': '餐厅图片',
+                  'BusinessStartHour': '开始营业时间',
+                  'BusinessEndHour': '结束营业时间',
+                  'Address': '餐厅地址',
+                  'Category': '餐厅类型',}
 
     def __init__(self, *args, **kwargs):
         super(RestaurantEditForm, self).__init__(*args, **kwargs)
@@ -21,7 +28,15 @@ class RestaurantEditForm(forms.ModelForm):
 class RestaurantAddForm(forms.ModelForm):
     class Meta:
         model = Restaurant
-        fields = ['Name', 'BusinessStartHour', 'BusinessEndHour', 'Address', 'Category', 'LicenseID']
+        fields = ['Name', 'Image', 'BusinessStartHour', 'BusinessEndHour', 'Address', 'Category', 'LicenseID']
+        labels = {'Name': '餐厅名称',
+                  'Image': '餐厅图片',
+                  'BusinessStartHour': '开始营业时间',
+                  'BusinessEndHour': '结束营业时间',
+                  'Address': '餐厅地址',
+                  'Category': '餐厅类型',
+                  'LicenseID': '营业执照号码',
+                  }
 
 
 class MerchantRegisterForm(forms.ModelForm):
