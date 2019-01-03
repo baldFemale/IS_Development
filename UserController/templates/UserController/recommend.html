@@ -1,7 +1,26 @@
+{%extends "UserController/base.html"%}
+{% load bootstrap3 %}
+
+{% block header %}
+    <h3>
+        评价餐厅 II--推荐菜品
+    </h3>
+{% endblock header %}
+
+{% block content %}
 <form action="{% url 'UserController:recommend' restaurant.id %}" method="post">
     {% for dish in dishes %}
-    <input type="checkbox" value="{{dish.id}}" name="check_box_list">{{dish.Name}}
+    <div class="form-group" style="float:left">
+        <img class="img-round" src="/Files/{{dish.Image}}" alt="prewiew" width="120" height="80">
+        <input type="checkbox" value="{{dish.id}}" name="check_box_list" class="checkbox">{{dish.Name}}
+    </div>
     {% endfor %}
-    <input type="submit" value="提交">
+    <div style="float:right;width:100%;height:20px;background:black"></div>
+    <div style="float:right;width:100%;height:20px;background:black"></div>
+    <div class="btn-group">
+        <button type="submit" class="btn btn-primary">提交</button>
+    </div>
 </form>
+<div style="float:right;width:100%;height:20px;background:black"></div>
+{% endblock content %}
 

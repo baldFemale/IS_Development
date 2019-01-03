@@ -1,6 +1,13 @@
 {%extends "UserController/base.html"%}
 {% load bootstrap3 %}
 
+{% block header %}
+    <h3>
+        餐厅详情
+    </h3>
+{% endblock header %}
+
+
 {% block content %}
 <div class="detail" style="padding: 15px 20px 53px 20px;">
     <div class="container-fluid">
@@ -97,14 +104,16 @@
                         <div class="row">
                             {% for dish in dishes %}
                             <div class="col-xs-6 col-md-3">
-                                <a href="/Files/{{dish.Image}}" class="thumbnail">
-                                    <img src="/Files/{{dish.Image}}">
+
+                                <a href="/Files/{{dish.Image}}" class=" thumbnail">
+                                    <img class="img-round" src="/Files/{{dish.Image}}" alt="prewiew" style="height:100px">
                                 </a>
+
                             </div>
                             {% endfor %}
                             <div class="col-xs-6 col-md-3">
                                 <a href="{%url 'UserController:order' restaurant.id%}" class="thumbnail">
-                                    <img src="/Files/image/icon/more.jpg">
+                                    <img class="img-round" src="/Files/image/icon/more.jpg" alt="prewiew" style="height:100px">
                                 </a>
                             </div>
                         </div>
