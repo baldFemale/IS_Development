@@ -368,15 +368,25 @@ def user_info(request, user_id):
     else:
         user = User.objects.get(pk=user_id)
         user_reserve = user.reserve_set.all().order_by("-ReserveTime")
+        if len(list(user_reserve))>10:
+            user_reserve_list = user_reserve[:10]
+        else:
+            user_reserve_list = user_reserve
         user_coupon = CouponPurchase.objects.filter(UserID=user).order_by("-BuyTime")
-        coupons_list = []
-        for coupon_purchase in user_coupon:
-            coupons_list.append(coupon_purchase.CouponID)
+        if len(list(user_coupon))>10:
+            user_coupon_list = user_coupon[:10]
+        else:
+            user_coupon_list = user_coupon
         user_order = Order.objects.filter(UserID=user).order_by("-OrderTime")
         reviews = Review.objects.filter(UserID=user)
+
+
         return render(request, "UserController/user_info.html", context={
             'user': user,
             'reservations': user_reserve,
-            'coupons': coupons_list,
+            'reservations_list':user_reserve_list,
+            'coupons': user_coupon,
+            'coupons_list':user_coupon_list,
             'orders': user_order,
+            "reviews":reviews,
         })
