@@ -43,7 +43,7 @@ def login(requset):
 def logout(request):
     del request.session["assessor"]
     del request.session["assessor_name"]
-    return HttpResponseRedirect(reverse("assesses:login"))
+    return HttpResponseRedirect(reverse("login:index"))
 
 
 def detail(request,restaurant_id):

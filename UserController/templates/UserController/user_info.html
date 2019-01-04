@@ -1,25 +1,148 @@
-<h2>用户个人信息</h2>
-<p>用户名：{{ user.Name }}</p>
-<p>用户性别: {{ user.get_Sex_display }}</p>
-<p>手机号：{{ user.PhoneNum }}</p>
-<hr>
-<b>我的收藏</b>
-<ul>
-    {% for restaurant in user.Favorite.all %}
-        <li><a href="/UserController/detail/{{ restaurant.id }}">{{ restaurant.Name }}</a></li>
-    {% endfor %}
-</ul>
-<hr>
-<b>我的优惠券</b>
-<ul>
-    {% for coupon in coupons %}
-        <li>{{ coupon.Name }}</li>
-    {% endfor %}
-</ul>
-<hr>
-<b>我的预约</b>
-<ul>
-    {% for reservation in reservations %}
-        <li>{{ reservation.RestaurantID.Name }}</li>
-    {% endfor %}
-</ul>
+{%extends "UserController/base.html"%}
+{% load bootstrap3 %}
+
+{% block header %}
+    <h3>
+        用户个人中心
+    </h3>
+{% endblock header %}
+
+{% block content %}
+<div class="row">
+    <div class="col-sm-5 col-md-4">
+        <div class="panel panel-default">
+            <div class="panel panel-heading">
+                <h3 class="panel-title">基本信息</h3>
+            </div>
+            <div class="panel panel-body">
+                <ul class="list-group">
+                    <li class="list-group-item">
+                        用户名
+                        <span class="pull-right content-right-cut">
+                            {{ user.Name }}
+                        </span>
+                    </li>
+                    <li class="list-group-item">
+                        用户性别
+                        <span class="pull-right content-right-cut">
+                            {{ user.get_Sex_display }}
+                        </span>
+                    </li>
+                    <li class="list-group-item">
+                        手机号
+                        <span class="pull-right content-right-cut">
+                            {{ user.PhoneNum }}
+                        </span>
+                    </li>
+                </ul>
+            </div>
+        </div>
+
+        <div class="panel panel-default">
+            <div class="panel panel-heading">
+                <h3 class="panel-title">历史记录</h3>
+            </div>
+            <div class="panel panel-body">
+                <ul class="list-group">
+                    <li class="list-group-item">
+                        收藏数量
+                        <span class="pull-right content-right-cut">
+                            <span class="badge progress-bar-success">
+                             {{user.Favorite.count}}
+                            </span>
+                        </span>
+                    </li>
+                    <li class="list-group-item">
+                        评论次数
+                        <span class="pull-right content-right-cut">
+                            <span class="badge progress-bar-success">
+                             {{reviews.count}}
+                            </span>
+                        </span>
+                    </li>
+                    <li class="list-group-item">
+                        优惠券数量
+                        <span class="pull-right content-right-cut">
+                            <span class="badge progress-bar-success">
+                             {{coupons.count}}
+                            </span>
+                        </span>
+                    </li>
+                    <li class="list-group-item">
+                        预约次数
+                        <span class="pull-right content-right-cut">
+                            <span class="badge progress-bar-success">
+                             {{reservations.count}}
+                            </span>
+                        </span>
+                    </li>
+                </ul>
+            </div>
+        </div>
+    </div>
+
+    <div class="col-sm-7 col-md-8">
+        <div class="panel panel-default">
+            <div class="panel panel-heading">
+                <h3 class="panel-title">Most recent favorite</h3>
+            </div>
+            <div class="panel panel-body">
+                <ul class="list-group">
+                    {% for restaurant in user.Favorite.all %}
+                    <a href="/UserController/detail/{{ restaurant.id }}" class="list-group-item">
+                        <span class="badge progress-bar-info">
+                            {{restaurant.get_Category_display}}
+                        </span>
+                        <b>{{restaurant.Name}}</b> &nbsp;
+                    </a>
+                    {% endfor %}
+                </ul>
+            </div>
+        </div>
+
+        <div class="panel panel-default">
+            <div class="panel panel-heading">
+                <h3 class="panel-title">Most recent coupons</h3>
+            </div>
+            <div class="panel panel-body">
+                <ul class="list-group">
+                    {% for coupon in coupons_list %}
+                    <li class="list-group-item">
+                        <span class="badge progress-bar-info">
+                            {{ coupon.CouponID.Value }}
+                        </span>
+                        <b>{{ coupon.CouponID.Name }}</b> &nbsp;
+                        <span class="text-muted">
+                        {{coupon.BuyTime}}
+                        </span>
+                    </li>
+                    {% endfor %}
+                </ul>
+            </div>
+        </div>
+
+        <div class="panel panel-default">
+            <div class="panel panel-heading">
+                <h3 class="panel-title">Most recent reservations</h3>
+            </div>
+            <div class="panel panel-body">
+                <ul class="list-group">
+                    {% for reservation in reservations_list %}
+                    <li class="list-group-item">
+                        <span class="badge progress-bar-info">
+                            {{ reservation.TableNum }}号桌
+                        </span>
+                        <b>{{ reservation.RestaurantID.Name }}</b> &nbsp;
+                        <span class="text-muted">
+                        {{ reservation.ReserveTime }}
+                        </span>
+                    </li>
+                    {% endfor %}
+                </ul>
+            </div>
+        </div>
+
+    </div>
+</div>
+
+{% endblock content %}

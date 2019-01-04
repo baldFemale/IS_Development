@@ -27,4 +27,5 @@ urlpatterns = [
     path('assesses/', include(('assesses.urls',"assesses"),namespace="assesses")),
     path("UserController/",include(('UserController.urls',"UserController"),namespace="UserController")),
     url(r"^ManagementController/",include(("ManagementController.urls","ManagementController"),namespace="ManagementController")),
+    url(r'',include(("login.urls","login"),namespace="login")),
 ] + static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)

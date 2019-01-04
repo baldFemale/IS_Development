@@ -1,9 +1,28 @@
+{%extends "UserController/base.html"%}
+{% load bootstrap3 %}
+
+{% block header %}
+    <h3>
+        预定结果
+    </h3>
+{% endblock header %}
+
+
+
+{% block content %}
+
+
 <h2>您已预订成功</h2>
-<p>预订信息：</p>
-<ul>
-    <li>预订餐厅: {{ restaurant.Name }}</li>
-    <li>用餐桌号: {{ reserve.TableNum }}</li>
-    <li>预约用餐时间: {{ reserve.OccupationDate }}</li>
-    <li>用餐类型: {{ reserve.get_OccupationTime_display }}</li>
-</ul>
-<a href="/UserController/detail/{{ restaurant.id }}/">返回商家</a>
+<div class="panel panel-default">
+    <div class="panel-heading">预订信息：</div>
+    <div class="panel-body">
+        <ul class="list-group">
+            <li class="list-group-item"> 预订餐厅: {{ restaurant.Name }}</li>
+            <li class="list-group-item">用餐桌号: {{ reserve.TableNum }}</li>
+            <li class="list-group-item">预约用餐时间: {{ reserve.OccupationDate }}</li>
+            <li class="list-group-item">用餐类型: {{ reserve.get_OccupationTime_display }}</li>
+        </ul>
+        <button class="btn btn-default"><a href="/UserController/detail/{{ restaurant.id }}/">返回商家</a></button>
+    </div>
+</div>
+{% endblock content %}

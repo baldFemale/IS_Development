@@ -1,3 +1,15 @@
+{%extends "UserController/base.html"%}
+{% load bootstrap3 %}
+
+{% block header %}
+    <h3>
+        查询结果
+    </h3>
+{% endblock header %}
+
+
+
+{% block content %}
 {% if not tables %}
     <p>根据您所选的日期和用餐人数，当前暂无可预订桌位</p>
 {% endif %}
@@ -6,12 +18,13 @@
     {% csrf_token %}
     {% for table in tables %}
         <input type="radio" name="choice" id="table{{ forloop.counter }}" value="{{ table.id }}">
-        <label for="table{{ forloop.counter }}">桌位{{ table.TableNum }} 容量{{ table.Capacity }}</label><br>
+        <label for="table{{ forloop.counter }}">{{ table.TableNum }}号桌： 容量{{ table.Capacity }}人</label><br>
     {% endfor %}
 {% endif %}
-<input type="submit" value="预订">
-</form>
+        <button type="submit" class="btn btn-primary">预订</button>
+    </form>
 <script>
     console.log("{{ request.session.datetime_chosen }}");
     console.log("{{ request.session.dining_number }}");
 </script>
+{% endblock content %}

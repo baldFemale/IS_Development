@@ -42,6 +42,7 @@ def login(request):
         form = forms.LoginForm()
     else:
         form = forms.LoginForm(data=request.POST)
+        print(form)
         if form.is_valid():
             user = User.objects.filter(Name=request.POST["Name"], Password=request.POST["Password"])
             if user:
@@ -57,7 +58,7 @@ def login(request):
 def logout(request):
     del request.session["user"]
     del request.session["user_name"]
-    return HttpResponseRedirect(reverse("UserController:login"))
+    return HttpResponseRedirect(reverse("login:index"))
 
 
 def register(request):
@@ -367,15 +368,26 @@ def user_info(request, user_id):
         return HttpResponseForbidden("您无权访问该用户信息！")
     else:
         user = User.objects.get(pk=user_id)
-        user_reserve = user.reserve_set.all()
-        user_coupon = CouponPurchase.objects.filter(UserID=user)
-        coupons_list = []
-        for coupon_purchase in user_coupon:
-            coupons_list.append(coupon_purchase.CouponID)
-        user_order = Order.objects.filter(UserID=user)
+        user_reserve = user.reserve_set.all().order_by("-ReserveTime")
+        if len(list(user_reserve))>10:
+            user_reserve_list = user_reserve[:10]
+        else:
+            user_reserve_list = user_reserve
+        user_coupon = CouponPurchase.objects.filter(UserID=user).order_by("-BuyTime")
+        if len(list(user_coupon))>10:
+            user_coupon_list = user_coupon[:10]
+        else:
+            user_coupon_list = user_coupon
+        user_order = Order.objects.filter(UserID=user).order_by("-OrderTime")
+        reviews = Review.objects.filter(UserID=user)
+
+
         return render(request, "UserController/user_info.html", context={
             'user': user,
             'reservations': user_reserve,
-            'coupons': coupons_list,
+            'reservations_list':user_reserve_list,
+            'coupons': user_coupon,
+            'coupons_list':user_coupon_list,
             'orders': user_order,
+            "reviews":reviews,
         })
