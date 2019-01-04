@@ -1,8 +1,19 @@
+{%extends "UserController/base.html"%}
+{% load bootstrap3 %}
+
+{% block header %}
+<h3>查询余位</h3>
+{% endblock header %}
+
+{% block content %}
+
 {% if error_message %}
     <a>{{ error_message }}</a>
 {% endif %}
-<form method="post">
+<form method="post" class="form">
     {% csrf_token %}
-    {{ form }}
-    <input type="submit" value="查询空闲桌位">
+    {% bootstrap_form form %}
+    <button type="submit" class="btn btn-primary">查询空闲桌位</button>
 </form>
+
+{% endblock content %}

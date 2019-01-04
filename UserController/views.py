@@ -367,12 +367,13 @@ def user_info(request, user_id):
         return HttpResponseForbidden("您无权访问该用户信息！")
     else:
         user = User.objects.get(pk=user_id)
-        user_reserve = user.reserve_set.all()
-        user_coupon = CouponPurchase.objects.filter(UserID=user)
+        user_reserve = user.reserve_set.all().order_by("-ReserveTime")
+        user_coupon = CouponPurchase.objects.filter(UserID=user).order_by("-BuyTime")
         coupons_list = []
         for coupon_purchase in user_coupon:
             coupons_list.append(coupon_purchase.CouponID)
-        user_order = Order.objects.filter(UserID=user)
+        user_order = Order.objects.filter(UserID=user).order_by("-OrderTime")
+        reviews = Review.objects.filter(UserID=user)
         return render(request, "UserController/user_info.html", context={
             'user': user,
             'reservations': user_reserve,

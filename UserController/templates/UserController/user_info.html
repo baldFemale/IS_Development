@@ -1,3 +1,74 @@
+{%extends "UserController/base.html"%}
+{% load bootstrap3 %}
+
+{% block header %}
+    <h3>
+        用户个人中心
+    </h3>
+{% endblock header %}
+
+{% block content %}
+<div class="row">
+    <div class="col-sm-5 col-md-4">
+        <div class="panel panel-default">
+            <div class="panel panel-heading">
+                <h3 class="panel-title">基本信息</h3>
+            </div>
+            <div class="panel panel-body">
+                <ul class="list-group">
+                    <li class="list-group-item">
+                        用户名
+                        <span class="pull-right content-right-cut">
+                            {{ user.Name }}
+                        </span>
+                    </li>
+                    <li class="list-group-item">
+                        用户性别
+                        <span class="pull-right content-right-cut">
+                            {{ user.get_Sex_display }}
+                        </span>
+                    </li>
+                    <li class="list-group-item">
+                        手机号
+                        <span class="pull-right content-right-cut">
+                            {{ user.PhoneNum }}
+                        </span>
+                    </li>
+                </ul>
+            </div>
+        </div>
+
+        <div class="panel panel-default">
+            <div class="panel panel-heading">
+                <h3 class="panel-title">历史记录</h3>
+            </div>
+            <div class="panel panel-body">
+                <ul class="list-group">
+                    <li class="list-group-item">
+                        用户名
+                        <span class="pull-right content-right-cut">
+                            {{ user.Name }}
+                        </span>
+                    </li>
+                    <li class="list-group-item">
+                        用户性别
+                        <span class="pull-right content-right-cut">
+                            {{ user.get_Sex_display }}
+                        </span>
+                    </li>
+                    <li class="list-group-item">
+                        手机号
+                        <span class="pull-right content-right-cut">
+                            {{ user.PhoneNum }}
+                        </span>
+                    </li>
+                </ul>
+            </div>
+        </div>
+
+    </div>
+</div>
+
 <h2>用户个人信息</h2>
 <p>用户名：{{ user.Name }}</p>
 <p>用户性别: {{ user.get_Sex_display }}</p>
@@ -14,6 +85,7 @@
 <ul>
     {% for coupon in coupons %}
         <li>{{ coupon.Name }}</li>
+        <li>{{ coupon.BuyTime }}</li>
     {% endfor %}
 </ul>
 <hr>
@@ -21,5 +93,8 @@
 <ul>
     {% for reservation in reservations %}
         <li>{{ reservation.RestaurantID.Name }}</li>
+        <li>{{ reservation.ReserveTime }}</li>
     {% endfor %}
 </ul>
+
+{% endblock content %}
