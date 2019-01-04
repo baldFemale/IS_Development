@@ -42,6 +42,7 @@ def login(request):
         form = forms.LoginForm()
     else:
         form = forms.LoginForm(data=request.POST)
+        print(form)
         if form.is_valid():
             user = User.objects.filter(Name=request.POST["Name"], Password=request.POST["Password"])
             if user:
@@ -57,7 +58,7 @@ def login(request):
 def logout(request):
     del request.session["user"]
     del request.session["user_name"]
-    return HttpResponseRedirect(reverse("UserController:login"))
+    return HttpResponseRedirect(reverse("login:index"))
 
 
 def register(request):

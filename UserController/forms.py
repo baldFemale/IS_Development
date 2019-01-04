@@ -3,6 +3,7 @@ from .models import User,Review
 import datetime
 
 
+
 class LoginForm(forms.ModelForm):
     class Meta:
         model = User

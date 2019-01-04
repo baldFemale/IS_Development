@@ -30,7 +30,7 @@
             </div>
             <div id="navbar" class="navbar-collapse collapse">
                 <ul class="nav navbar-nav navbar-right">
-                    {%if request.session.assessor %}
+                    {%if request.session.user %}
                     <li><a href="{% url 'UserController:user_info' request.session.user %}">Hello,{{request.session.user_name}}.</a></li>
                     <li><a href="{% url 'UserController:logout' %}">log out</a> </li>
                     {%endif%}

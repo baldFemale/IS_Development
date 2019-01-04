@@ -43,6 +43,7 @@ INSTALLED_APPS = [
     'ApplyController',
     'UserController',
     'ManagementController',
+    'login',
 
     #第三方app
     'bootstrap3',
