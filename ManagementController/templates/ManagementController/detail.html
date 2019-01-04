@@ -9,6 +9,13 @@
 {% endblock header %}
 
 {% block content %}
+<script
+  src="https://code.jquery.com/jquery-3.3.1.min.js"
+  integrity="sha256-FgpCb/KJQlLNfOu91ta32o/NMZxltwRo8QtmkMRdAu8="
+  crossorigin="anonymous"></script>
+<link rel="stylesheet" href="https://cdn.staticfile.org/twitter-bootstrap/3.3.7/css/bootstrap.min.css">
+<script src="https://cdn.staticfile.org/jquery/2.1.1/jquery.min.js"></script>
+<script src="https://cdn.staticfile.org/twitter-bootstrap/3.3.7/js/bootstrap.min.js"></script>
 <div class="container">
     <div class="row-fluid">
         <div class="col-md-8">
@@ -31,6 +38,7 @@
     </div>
 </div>
 <div class="container">
+    <hr>
     <ul id="restaurantTab" class="nav nav-tabs">
         <li class="active">
             <a href="#dish-manager" data-toggle="tab">
@@ -44,21 +52,127 @@
         <div class="tab-pane fade in active" id="dish-manager">
             <div class="container">
                 <div class="row">
+                    <div class="col-md-3">
+                        <div class="panel panel-default">
+                            <div class="panel-heading">
+                                <h3 class="panel-title">添加新菜品</h3>
+                            </div>
+                            <div class="panel-body">
+                                <a href="/ManagementController/add_dish/{{ restaurant.id }}" class="thumbnail">
+                                    <img class="img-thumbnail-center-block" style="height:100px" src="/Files/image/icon/add.svg">
+                                </a>
+                            </div>
+                        </div>
+                    </div>
                     {% for dish in dishes %}
-                        <div class="col-md-4">
-                            <div class="container">
-                                <h2>{{ dish.Name }}</h2>
-                                <p>价格：&yen{{ dish.Price }}</p>
-                                <img class="img-responsive-center-block" width="400px" src="{{ dish.Image.url }}" />
+                        <div class="col-md-3">
+                            <div class="panel panel-info">
+                                <div class="panel-heading">
+                                    <h3 class="panel-title">{{ dish.Name }}</h3>
+                                </div>
+                                <div class="panel-body">
+                                    <p><strong>价格: &yen</strong>{{ dish.Price }}</p>
+                                    <div class="text-center">
+                                        <a href="{{ dish.Image.url }}" class="thumbnail">
+                                            <img class="img-thumbnail-center-block" style="height:100px;" src="{{ dish.Image.url }}" />
+                                        </a>
+                                    </div>
+                                    <button type="button"
+                                            class="btn btn-default"
+                                            onclick="location.href='{% url 'ManagementController:edit_dish' dish.id %}'">修改</button>
+                                </div>
+                            </div>
+                        </div>
+                    {% endfor %}
+                </div>
+            </div>
+        </div>
+        <div class="tab-pane fade" id="coupon-manager">
+            <div class="container">
+                <div class="row">
+                    <div class="col-md-3">
+                        <div class="panel panel-default">
+                            <div class="panel-heading">
+                                <h3 class="panel-title">添加新优惠券</h3>
+                            </div>
+                            <div class="panel-body">
+                                <a href="/ManagementController/add_coupon/{{ restaurant.id }}" class="thumbnail">
+                                    <img class="img-thumbnail-center-block" style="height:100px" src="/Files/image/icon/add.svg">
+                                </a>
+                            </div>
+                        </div>
+                    </div>
+                    {% for coupon in coupons %}
+                        <div class="col-md-3">
+                            <div class="panel panel-info">
+                                <div class="panel-heading">
+                                    <h3 class="panel-title">{{ coupon.Name }}</h3>
+                                </div>
+                                <div class="panel-body">
+                                    <p><strong>发行价格: </strong>{{ coupon.Price }}</p>
+                                    <p><strong>抵用金额: </strong>{{ coupon.Value }}</p>
+                                    <p><strong>发行数量: </strong>{{ coupon.Amount }}</p>
+                                    <p><strong>备注: </strong>{{ coupon.Notes }}</p>
+                                    <button type="button"
+                                            class="btn btn-default"
+                                            onclick="location.href='{% url 'ManagementController:edit_coupon' coupon.id %}'">修改</button>
+                                </div>
                             </div>
                         </div>
                     {% empty %}
-                        <p>暂无菜品信息</p>
+                        <div class="col-md-4">
+                            <div class="text-center">
+                                <h2>暂无优惠券</h2>
+                            </div>
+                        </div>
+                    {% endfor %}
+                </div>
+            </div>
+        </div>
+        <div class="tab-pane fade" id="table-manager">
+            <div class="container">
+                <div class="row">
+                    <div class="col-md-3">
+                        <div class="panel panel-default">
+                            <div class="panel-heading">
+                                <h3 class="panel-title">添加新的桌位</h3>
+                            </div>
+                            <div class="panel-body">
+                                <a href="/ManagementController/table_add/{{ restaurant.id }}" class="thumbnail">
+                                    <img class="img-thumbnail-center-block" style="height:100px" src="/Files/image/icon/add.svg">
+                                </a>
+                            </div>
+                        </div>
+                    </div>
+                    {% for table in tables %}
+                        <div class="col-md-3">
+                            <div class="panel panel-primary">
+                                <div class="panel-heading">
+                                    <h3 class="panel-title">桌号 {{ table.TableNum }}</h3>
+                                </div>
+                                <div class="panel-body">
+                                    <p><strong>桌位容量：</strong>{{ table.Capacity }}</p>
+                                    <p><strong>对外预订开启时间：</strong>{{ table.OpenTime|date:"Y-m-d" }}</p>
+                                    {% if table.CloseTime %}
+                                        <p><strong>对外预订关闭时间：</strong>
+                                            {{ table.CloseTime|date:"Y-m-d" }}
+                                        </p>
+                                    {% else %}
+                                        <p>
+                                            <strong>对外预订关闭时间：</strong>
+                                            无
+                                        </p>
+                                    {% endif %}
+                                    <button type="button" class="btn btn-default" onclick="location.href='{%url 'ManagementController:table_edit' table.id%}'">修改</button>
+                                </div>
+                            </div>
+                        </div>
                     {% endfor %}
                 </div>
             </div>
         </div>
     </div>
+
 </div>
 <div class="container">
     <hr>
@@ -70,5 +184,7 @@
         <button type="button" class="btn btn-default" onclick="location.href='{%url 'ManagementController:table_info' restaurant.id%}'">查看桌位</button>
     </div>
 </div>
+
+
 
 {% endblock content %}

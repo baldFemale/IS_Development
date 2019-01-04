@@ -1,6 +1,30 @@
-<form action="{%url 'ManagementController:add_dish' restaurant.id%}" method="post" enctype="multipart/form-data">
-    {% csrf_token %}
-    {{form.as_p}}
-    <button name="submit">Add</button>
-</form>
+{% extends "ApplyController/base.html" %}
+
+{% load bootstrap3 %}
+{% load static %}
+
+{% block header %}
+<div class="container">
+    <div class="page-header" style="margin-top:0px;">
+        <h2>{{ restaurant.Name }}——增加菜品</h2>
+    </div>
+</div>
+{% endblock header %}
+
+{% block content %}
+<div class="container">
+    {% if error_message %}
+        <p>{{ error_message }}</p>
+    {% endif %}
+    <form action="{%url 'ManagementController:add_dish' restaurant.id%}" method="post" enctype="multipart/form-data">
+        {% csrf_token %}
+        {% bootstrap_form form %}
+        {% buttons %}
+            <button type="submit" class="btn btn-info">
+                添加
+            </button>
+        {% endbuttons %}
+    </form>
+</div>
+{% endblock content %}
 

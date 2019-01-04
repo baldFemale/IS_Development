@@ -1,5 +1,29 @@
-<form method="POST" action="{%url 'ManagementController:edit_dish' dish.id%}"  enctype="multipart/form-data">
-    {% csrf_token %}
-    {{form.as_p}}
-    <button name="submit">save changes</button>
-</form>
+{% extends "ApplyController/base.html" %}
+
+{% load bootstrap3 %}
+{% load static %}
+
+{% block header %}
+<div class="container">
+    <div class="page-header" style="margin-top:0px;">
+        <h2>{{ restaurant.Name }}——修改菜品</h2>
+    </div>
+</div>
+{% endblock header %}
+
+{% block content %}
+<div class="container">
+    {% if error_message %}
+        <p>{{ error_message }}</p>
+    {% endif %}
+    <form action="{%url 'ManagementController:edit_dish' dish.id%}" method="post" enctype="multipart/form-data">
+        {% csrf_token %}
+        {% bootstrap_form form %}
+        {% buttons %}
+            <button type="submit" class="btn btn-info">
+                修改
+            </button>
+        {% endbuttons %}
+    </form>
+</div>
+{% endblock content %}

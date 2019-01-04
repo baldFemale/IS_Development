@@ -51,26 +51,27 @@ def review(request,restaurant_id):
     return render(request,"ManagementController/review.html",context=context)
 
 
-def edit_dish(request,dish_id):
-    dish = Dish.objects.get(id=dish_id)
-    restaurant_id = dish.RestaurantID.id
-    if request.method!="POST":
-        form = forms.DishForm(instance=dish)
-        context = {"form": form,"dish":dish}
-        return render(request,"ManagementController/edit_dish.html",context=context)
+def edit_dish(request, dish_id):
+    dish_edit = Dish.objects.get(id=dish_id)
+    restaurant = dish_edit.RestaurantID
+    restaurant_id = dish_edit.RestaurantID.id
+    if request.method != "POST":
+        form = forms.DishForm(instance=dish_edit)
+        context = {"form": form, "dish": dish_edit, 'restaurant': restaurant, }
+        return render(request, "ManagementController/edit_dish.html", context=context)
     else:
-        form = forms.DishForm(instance=dish,data=request.POST)
+        form = forms.DishForm(instance=dish_edit, data=request.POST, files=request.FILES)
         if form.is_valid():
             form.save()
             return HttpResponseRedirect(reverse("ManagementController:dish", args={restaurant_id}))
 
 
-def add_dish(request,restaurant_id):
+def add_dish(request, restaurant_id):
     restaurant = Restaurant.objects.get(id=restaurant_id)
-    if request.method!="POST":
+    if request.method != "POST":
         form = forms.DishForm()
     else:
-        form = forms.DishForm(data=request.POST)
+        form = forms.DishForm(request.POST, request.FILES)
         print("hahahahahaha")
         print(form.is_valid())
         print(form.errors)
@@ -160,15 +161,26 @@ def table_detail(request, table_id):
 def table_edit(request, table_id):
     table_details = Table.objects.get(pk=table_id)
     restaurant_id = table_details.RestaurantID.id
+    restaurant = table_details.RestaurantID
     if request.method == "POST":
         form = forms.TableForm(request.POST, instance=table_details)
         if form.is_valid():
             # TO-DO 获取restaurant主键
             # table_num_list = [i['TableNum'] for i in Table.objects.filter(RestaurantID__id=)]
             new_table = form.save(commit=False)
+            new_table_num = new_table.TableNum
+            for table in Table.objects.filter(RestaurantID=restaurant):
+                if table.TableNum == new_table_num:
+                    form = forms.TableForm(instance=table_details)
+                    return render(request, "ManagementController/table_edit.html", context={
+                        'form': form,
+                        'restaurant': restaurant,
+                        'table': table_details,
+                        'error_message': '您想更改的桌号已存在',
+                    })
             new_table.Status = table_status_cal(new_table, datetime.datetime.now())
             new_table.save()
-            return table_info(request, restaurant_id)
+            return detail(request, restaurant_id)
         # else:
         #     return render(request, 'ManagementController/table_edit.html', context={
         #         'error_message': '桌位修改不成功',
@@ -176,8 +188,9 @@ def table_edit(request, table_id):
     else:
         form = forms.TableForm(instance=table_details)
         return render(request, 'ManagementController/table_edit.html', context={
-            'error_message': '桌位修改成功',
-            'form': form
+            'form': form,
+            'restaurant': restaurant,
+            'table': table_details,
         })
 
 
@@ -186,6 +199,14 @@ def table_add(request, restaurant_id):
         form = forms.TableForm(request.POST)
         if form.is_valid():
             new_table = form.save(commit=False)
+            table_num = new_table.TabelNum
+            for table in Table.objects.filter(RestaurantID=Restaurant.objects.get(pk=restaurant_id)):
+                if table.TableNum == table_num:
+                    form = forms.TableForm()
+                    return render(request, "ManagementController/table_add.html", context={
+                        'form': form,
+                        'error_message': '您想添加桌位的桌号已存在',
+                    })
             new_table.Status = table_status_cal(new_table, datetime.datetime.now())
             new_table.RestaurantID = Restaurant.objects.get(pk=restaurant_id)
             new_table.save()
