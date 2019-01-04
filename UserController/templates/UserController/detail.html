@@ -93,7 +93,7 @@
 <div class="detail" style="padding: 0px 20px 53px 20px;background:">
     <div class="container-fluid">
         <div class="wrapper row">
-            <div class="col-xs-9">
+            <div class="col-md-12">
                 <ul id="myTab" class="nav nav-tabs">
                     <li class="active"><a href="#dish" data-toggle="tab">菜品</a></li>
                     <li><a href="#coupon" data-toggle="tab">优惠券</a></li>
@@ -152,80 +152,82 @@
 
 {% if result %}
 <div class="detail" style="padding: 0px 20px 53px 20px;">
-    <p>网友点评</p>
+    <h3>网友点评</h3>
     <div class="container-fluid">
         <div class="wrapper row">
-            <div class="col-xs-9">
-                {% for r in result %}
-                <div class="panel panel-default arrow left">
-                    <div class="panel-body">
-                        <header class="text-left">
-                            <div class="comment-user"><i class="glyphicon glyphicon-user"></i>  {{r.UserID}}</div>
-                            {% ifequal r.Score 5 %}
-                            <i class="glyphicon glyphicon-star"></i>
-                            <i class="glyphicon glyphicon-star"></i>
-                            <i class="glyphicon glyphicon-star"></i>
-                            <i class="glyphicon glyphicon-star"></i>
-                            <i class="glyphicon glyphicon-star"></i>
-                            {% endifequal %}
+            <div class="col-md-12">
+                <div class="panel">
+                    {% for r in result %}
+                    <div class="panel panel-default arrow left">
+                        <div class="panel-body">
+                            <header class="text-left">
+                                <div class="comment-user"><i class="glyphicon glyphicon-user"></i>  {{r.UserID}}</div>
+                                {% ifequal r.Score 5 %}
+                                <i class="glyphicon glyphicon-star"></i>
+                                <i class="glyphicon glyphicon-star"></i>
+                                <i class="glyphicon glyphicon-star"></i>
+                                <i class="glyphicon glyphicon-star"></i>
+                                <i class="glyphicon glyphicon-star"></i>
+                                {% endifequal %}
 
-                            {% ifequal r.Score 4 %}
-                            <i class="glyphicon glyphicon-star"></i>
-                            <i class="glyphicon glyphicon-star"></i>
-                            <i class="glyphicon glyphicon-star"></i>
-                            <i class="glyphicon glyphicon-star"></i>
-                            <i class="glyphicon glyphicon-star-empty"></i>
-                            {% endifequal %}
+                                {% ifequal r.Score 4 %}
+                                <i class="glyphicon glyphicon-star"></i>
+                                <i class="glyphicon glyphicon-star"></i>
+                                <i class="glyphicon glyphicon-star"></i>
+                                <i class="glyphicon glyphicon-star"></i>
+                                <i class="glyphicon glyphicon-star-empty"></i>
+                                {% endifequal %}
 
-                            {% ifequal r.Score 3 %}
-                            <i class="glyphicon glyphicon-star"></i>
-                            <i class="glyphicon glyphicon-star"></i>
-                            <i class="glyphicon glyphicon-star"></i>
-                            <i class="glyphicon glyphicon-star-empty"></i>
-                            <i class="glyphicon glyphicon-star-empty"></i>
-                            {% endifequal %}
+                                {% ifequal r.Score 3 %}
+                                <i class="glyphicon glyphicon-star"></i>
+                                <i class="glyphicon glyphicon-star"></i>
+                                <i class="glyphicon glyphicon-star"></i>
+                                <i class="glyphicon glyphicon-star-empty"></i>
+                                <i class="glyphicon glyphicon-star-empty"></i>
+                                {% endifequal %}
 
-                            {% ifequal r.Score 2 %}
-                            <i class="glyphicon glyphicon-star"></i>
-                            <i class="glyphicon glyphicon-star"></i>
-                            <i class="glyphicon glyphicon-star-empty"></i>
-                            <i class="glyphicon glyphicon-star-empty"></i>
-                            <i class="glyphicon glyphicon-star-empty"></i>
-                            {% endifequal %}
+                                {% ifequal r.Score 2 %}
+                                <i class="glyphicon glyphicon-star"></i>
+                                <i class="glyphicon glyphicon-star"></i>
+                                <i class="glyphicon glyphicon-star-empty"></i>
+                                <i class="glyphicon glyphicon-star-empty"></i>
+                                <i class="glyphicon glyphicon-star-empty"></i>
+                                {% endifequal %}
 
-                            {% ifequal r.Score 1 %}
-                            <i class="glyphicon glyphicon-star"></i>
-                            <i class="glyphicon glyphicon-star-empty"></i>
-                            <i class="glyphicon glyphicon-star-empty"></i>
-                            <i class="glyphicon glyphicon-star-empty"></i>
-                            <i class="glyphicon glyphicon-star-empty"></i>
-                            {% endifequal %}
+                                {% ifequal r.Score 1 %}
+                                <i class="glyphicon glyphicon-star"></i>
+                                <i class="glyphicon glyphicon-star-empty"></i>
+                                <i class="glyphicon glyphicon-star-empty"></i>
+                                <i class="glyphicon glyphicon-star-empty"></i>
+                                <i class="glyphicon glyphicon-star-empty"></i>
+                                {% endifequal %}
 
-                            {% ifequal r.Score 0 %}
-                            <i class="glyphicon glyphicon-star-empty"></i>
-                            <i class="glyphicon glyphicon-star-empty"></i>
-                            <i class="glyphicon glyphicon-star-empty"></i>
-                            <i class="glyphicon glyphicon-star-empty"></i>
-                            <i class="glyphicon glyphicon-star-empty"></i>
-                            {% endifequal %}
-                            <br>
-                            <time class="comment-date"><i class="glyphicon glyphicon-time"></i>   {{r.ReviewTime}}</time>
-                        </header>
+                                {% ifequal r.Score 0 %}
+                                <i class="glyphicon glyphicon-star-empty"></i>
+                                <i class="glyphicon glyphicon-star-empty"></i>
+                                <i class="glyphicon glyphicon-star-empty"></i>
+                                <i class="glyphicon glyphicon-star-empty"></i>
+                                <i class="glyphicon glyphicon-star-empty"></i>
+                                {% endifequal %}
+                                <br>
+                                <time class="comment-date"><i class="glyphicon glyphicon-time"></i>   {{r.ReviewTime}}</time>
+                            </header>
 
-                        <div class="comment-post">
-                            <br>
-                            <p>{{r.Content}}</p>
+                            <div class="comment-post">
+                                <br>
+                                <p>{{r.Content}}</p>
+                            </div>
+
+                            <p class="text-right">
+                                <a class="thump" data-id="{{r.id}}"><i class="glyphicon glyphicon-thumbs-up"></i></a>
+                                <span id="{{r.id}}">{{r.ThumbUpCount}}</span>
+                            </p>
                         </div>
-
-                        <p class="text-right">
-                            <a class="thump" data-id="{{r.id}}"><i class="glyphicon glyphicon-thumbs-up"></i></a>
-                            <span id="{{r.id}}">{{r.ThumbUpCount}}</span>
-                        </p>
                     </div>
+                    {% empty %}
+                    <p>No Comment yet</p>
+                    {% endfor %}
                 </div>
-                {% empty %}
-                <p>No Comment yet</p>
-                {% endfor %}
             </div>
         </div>
     </div>
