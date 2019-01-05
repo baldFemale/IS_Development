@@ -1,0 +1,29 @@
+{% extends 'ApplyController/base.html' %}
+{% load bootstrap3 %}
+{% load static %}
+
+{% block header %}
+<div class="container">
+    <div class="page-header" style="margin-top:0px;">
+        <h2>用户个人信息</h2>
+    </div>
+</div>
+{% endblock header %}
+
+{% block content %}
+
+{% if error_message %}
+    <a>{{ error_message }}</a>
+{% endif %}
+<div class="container">
+    <div class="row-fluid">
+        <div class="col-md-8">
+            <ul>
+                <li>用户名：{{ merchant.Name }}</li>
+                <li>身份证号码：{{ merchant.IdentityNum }}</li>
+                <li>手机号码: {{ merchant.PhoneNum }}</li>
+            </ul>
+        </div>
+    </div>
+</div>
+{% endblock content %}

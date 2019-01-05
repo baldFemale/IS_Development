@@ -1,7 +1,7 @@
 from django.shortcuts import render, get_object_or_404
 from .forms import *
 from .models import Merchant, Restaurant
-from django.http import HttpResponseRedirect
+from django.http import HttpResponseRedirect, HttpResponseNotAllowed
 from django.urls import reverse
 from django.views import generic
 
@@ -16,7 +16,7 @@ def index(request):
             'login_user_name': login_user_name,
         })
     else:
-        return HttpResponseRedirect(reverse('apply:login'))
+        return HttpResponseRedirect(reverse('login:index'))
 
 
 def login(request):
@@ -54,7 +54,7 @@ def login(request):
 
 def logout(request):
     request.session.pop('login_merchant')
-    return login(request)
+    return HttpResponseRedirect(reverse('apply:index'))
 
 
 class DetailView(generic.DetailView):
@@ -82,7 +82,7 @@ def edit(request, restaurant_id):
             'error_message': '修改成功',
         })
     else:
-        return HttpResponseRedirect(reverse('apply:login'))
+        return HttpResponseRedirect(reverse('login:index'))
 
 
 def add_restaurant(request):
@@ -106,7 +106,7 @@ def add_restaurant(request):
                 'form': form,
             })
     else:
-        return HttpResponseRedirect(reverse('apply:login'))
+        return HttpResponseRedirect(reverse('login:index'))
 
 
 def register(request):
@@ -131,3 +131,12 @@ def register(request):
             return render(request, 'ApplyController/register.html', context={
                 'form': form,
             })
+
+
+def merchant_detail(request):
+    merchant_id = request.session.get('login_merchant')
+    if merchant_id:
+        merchant = Merchant.objects.get(pk=merchant_id)
+        return render(request, 'ApplyController/merchant.html', context={'merchant': merchant})
+    else:
+        return HttpResponseNotAllowed()

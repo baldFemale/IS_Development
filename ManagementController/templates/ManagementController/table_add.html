@@ -1,8 +1,29 @@
-{% if error_message %}
-    {{ error_message }}
-{% endif %}
-<form method="post">
-    {% csrf_token %}
-    {{ form.as_p }}
-    <input type="submit" value="提交">
-</form>
+{% extends "ApplyController/base.html" %}
+
+{% load bootstrap3 %}
+{% load static %}
+
+{% block header %}
+<div class="container">
+    <div class="page-header" style="margin-top:0px;">
+        <h2>{{ restaurant.Name }}——添加新的桌位</h2>
+    </div>
+</div>
+{% endblock header %}
+
+{% block content %}
+<div class="container">
+    {% if error_message %}
+        <p>{{ error_message }}</p>
+    {% endif %}
+    <form action="{%url 'ManagementController:table_add' restaurant.id%}" method="post" enctype="multipart/form-data">
+        {% csrf_token %}
+        {% bootstrap_form form %}
+        {% buttons %}
+            <button type="submit" class="btn btn-info">
+                添加
+            </button>
+        {% endbuttons %}
+    </form>
+</div>
+{% endblock content %}

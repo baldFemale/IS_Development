@@ -1,5 +1,6 @@
 from django import forms
 from django.core.validators import MinLengthValidator, RegexValidator
+from ApplyController.models import Merchant
 
 
 class LoginForm(forms.Form):
@@ -22,7 +23,14 @@ class UserForm(forms.Form):
         (0, '男'),
         (1, '女'),
     )
-    sex = forms.ChoiceField(choices=Sex_category)
+    sex = forms.ChoiceField(choices=Sex_category, label='性别')
     PhoneNum_regex_validator = RegexValidator(regex=r'^\d{7}$', inverse_match=True)
-    PhoneNum = forms.CharField(max_length=11, validators=[PhoneNum_regex_validator])
+    PhoneNum = forms.CharField(max_length=11, validators=[PhoneNum_regex_validator], label='手机号码')
 
+
+class MerchantRegisterForm(forms.ModelForm):
+    class Meta:
+        model = Merchant
+        fields = '__all__'
+        labels = {'IdentityNum': '身份证号码',
+                  'PhoneNum': '手机号码', }

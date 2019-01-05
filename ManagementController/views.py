@@ -1,11 +1,11 @@
 from django.shortcuts import render
-from ApplyController.models import Restaurant
 from . import forms
 from .models import *
 from UserController.models import Review
-from django.http import HttpResponseRedirect,JsonResponse
+from django.http import HttpResponseRedirect
 from django.urls import reverse
 import datetime
+from django.core.paginator import Paginator
 
 # Create your views here.
 
@@ -45,10 +45,13 @@ def coupon(request,restaurant_id):
 
 
 def review(request,restaurant_id):
-    restaurant =  Restaurant.objects.get(id=restaurant_id)
+    restaurant = Restaurant.objects.get(id=restaurant_id)
     reviews = Review.objects.filter(RestaurantID=restaurant)
-    context = {"reviews":reviews,"restaurant":restaurant}
-    return render(request,"ManagementController/review.html",context=context)
+    paginator = Paginator(reviews, 8)
+    page = request.GET.get('page', 1)
+    result = paginator.page(page)
+    context = {"reviews": reviews, "restaurant": restaurant, 'result': result}
+    return render(request, "ManagementController/review.html", context=context)
 
 
 def edit_dish(request, dish_id):
@@ -195,6 +198,7 @@ def table_edit(request, table_id):
 
 
 def table_add(request, restaurant_id):
+    restaurant = Restaurant.objects.get(pk=restaurant_id)
     if request.method == 'POST':
         form = forms.TableForm(request.POST)
         if form.is_valid():
@@ -215,6 +219,7 @@ def table_add(request, restaurant_id):
         form = forms.TableForm()
         return render(request, "ManagementController/table_add.html", context={
             'form': form,
+            'restaurant': restaurant,
         })
 
 

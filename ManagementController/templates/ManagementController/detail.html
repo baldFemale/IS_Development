@@ -27,6 +27,7 @@
                 <li>餐厅种类: {{ restaurant.get_Category_display }}</li>
             </ul>
             <button type="button" class="btn btn-default" onclick="location.href='{%url 'apply:edit' restaurant.id%}'">编辑餐厅基本信息</button>
+            <button type="button" class="btn btn-default" onclick="location.href='{%url 'ManagementController:review' restaurant.id%}'">查看餐厅评论</button>
         </div>
         <div class="col-md-4">
             {% if restaurant.Image %}
@@ -172,19 +173,5 @@
             </div>
         </div>
     </div>
-
 </div>
-<div class="container">
-    <hr>
-    <div class="col-md-8">
-
-        <button type="button" class="btn btn-default" onclick="location.href='{%url 'ManagementController:dish' restaurant.id%}'">菜品</button>
-        <button type="button" class="btn btn-default" onclick="location.href='{%url 'ManagementController:coupon' restaurant.id%}'">优惠券</button>
-        <button type="button" class="btn btn-default" onclick="location.href='{%url 'ManagementController:review' restaurant.id%}'">查看评论</button>
-        <button type="button" class="btn btn-default" onclick="location.href='{%url 'ManagementController:table_info' restaurant.id%}'">查看桌位</button>
-    </div>
-</div>
-
-
-
 {% endblock content %}

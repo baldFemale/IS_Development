@@ -9,4 +9,6 @@ urlpatterns = [
     url(r"^login/$",views.login,name="login"),
     # 用户注册
     url(r"^user_register/$", views.user_register, name="user_register"),
+    # 商家注册
+    url(r"^merchant_register/$", views.merchant_register, name="merchant_register",)
     ]

@@ -3,16 +3,18 @@ from UserController.models import User
 from assesses.models import Assessor
 from django.http import HttpResponseRedirect
 from django.urls import reverse
-from .forms import LoginForm,UserForm
+from .forms import *
 
 # Create your views here.
 
 
 def index(request):
     login_form = LoginForm()
-    user_register_form = UserForm
-    context = {"login_form":login_form,"user_register_form":user_register_form}
-    return render(request,"login/index.html",context=context)
+    user_register_form = UserForm()
+    merchant_register_form = MerchantRegisterForm()
+    context = {"login_form": login_form, "user_register_form": user_register_form,
+               'merchant_register_form': merchant_register_form}
+    return render(request, "login/index.html", context=context)
 
 
 def login(request):
@@ -25,7 +27,14 @@ def login(request):
             return HttpResponseRedirect(reverse("UserController:index"))
         else:
             return HttpResponseRedirect(reverse("login:index"))
-    elif account=="3":
+    elif account == "2":
+        merchant = Merchant.objects.filter(Name=request.POST["account"], Password=request.POST["password"])
+        if merchant:
+            request.session["login_merchant"] = merchant[0].id
+            return HttpResponseRedirect(reverse("apply:index"))
+        else:
+            return HttpResponseRedirect(reverse("login:index"))
+    elif account == "3":
         assess = Assessor.objects.filter(name=request.POST["account"], password=request.POST["password"])
         if assess:
             request.session["assessor"] = assess[0].id
@@ -51,3 +60,14 @@ def user_register(request):
         request.session["user_name"] = new_user.Name
         return render(request, "UserController/jump.html", context={"new_user": new_user})
     pass
+
+
+def merchant_register(request):
+    form = MerchantRegisterForm(data=request.POST)
+    if form.is_valid():
+        new_merchant = form.save(commit=False)
+        request.session['login_merchant'] = new_merchant.id
+        new_merchant.save()
+        return render(request, 'ApplyController/index.html', context={'error_message': '注册成功'})
+    else:
+        return index(request)
