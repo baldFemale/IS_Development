@@ -1,6 +1,7 @@
 from django import forms
 from django.core.validators import MinLengthValidator, RegexValidator
 from ApplyController.models import Merchant
+from django.forms import widgets as wid
 
 
 class LoginForm(forms.Form):
@@ -34,3 +35,6 @@ class MerchantRegisterForm(forms.ModelForm):
         fields = '__all__'
         labels = {'IdentityNum': '身份证号码',
                   'PhoneNum': '手机号码', }
+        widgets = {
+            'Password': wid.PasswordInput()
+        }

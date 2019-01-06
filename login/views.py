@@ -66,8 +66,9 @@ def merchant_register(request):
     form = MerchantRegisterForm(data=request.POST)
     if form.is_valid():
         new_merchant = form.save(commit=False)
-        request.session['login_merchant'] = new_merchant.id
         new_merchant.save()
+        request.session['login_merchant'] = new_merchant.id
+        print(request.session['login_merchant'])
         return render(request, 'ApplyController/index.html', context={'error_message': '注册成功'})
     else:
         return index(request)

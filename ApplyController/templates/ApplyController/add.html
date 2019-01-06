@@ -16,7 +16,7 @@
     {% if error_message %}
         <p>{{ error_message }}</p>
     {% endif %}
-    <form method="post" class="form">
+    <form method="post" class="form" enctype="multipart/form-data">
         {% csrf_token %}
         {% bootstrap_form form %}
         {% buttons %}

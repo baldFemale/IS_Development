@@ -81,7 +81,10 @@ def detail(request, restaurant_id):
     user = User.objects.get(id=request.session["user"])
     dishes = list(Dish.objects.filter(RestaurantID=restaurant))
     reviews = list(Review.objects.filter(RestaurantID=restaurant))
-    score = sum(review.Score for review in reviews)/len(reviews)
+    if reviews:
+        score = sum(review.Score for review in reviews)/len(reviews)
+    else:
+        score = 0
 
     if len(dishes) > 8:
         dishes = dishes[:8]

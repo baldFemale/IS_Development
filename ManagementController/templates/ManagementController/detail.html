@@ -31,7 +31,7 @@
         </div>
         <div class="col-md-4">
             {% if restaurant.Image %}
-                <img class="img-responsive-center-block" width="400px" src="{{ restaurant.Image.url }}" />
+                <img class="img-responsive-center-block" width="300px" src="{{ restaurant.Image.url }}" />
             {% else %}
                 <strong><p>暂无图片可显示</p></strong>
             {% endif %}
@@ -110,20 +110,14 @@
                                     <h3 class="panel-title">{{ coupon.Name }}</h3>
                                 </div>
                                 <div class="panel-body">
-                                    <p><strong>发行价格: </strong>{{ coupon.Price }}</p>
-                                    <p><strong>抵用金额: </strong>{{ coupon.Value }}</p>
-                                    <p><strong>发行数量: </strong>{{ coupon.Amount }}</p>
+                                    <p><strong>发行价格: &yen</strong>{{ coupon.Price }}</p>
+                                    <p><strong>抵用金额: &yen</strong>{{ coupon.Value }}</p>
+                                    <p><strong>发行数量: </strong>{{ coupon.Amount }}张</p>
                                     <p><strong>备注: </strong>{{ coupon.Notes }}</p>
                                     <button type="button"
                                             class="btn btn-default"
                                             onclick="location.href='{% url 'ManagementController:edit_coupon' coupon.id %}'">修改</button>
                                 </div>
-                            </div>
-                        </div>
-                    {% empty %}
-                        <div class="col-md-4">
-                            <div class="text-center">
-                                <h2>暂无优惠券</h2>
                             </div>
                         </div>
                     {% endfor %}
@@ -155,9 +149,7 @@
                                     <p><strong>桌位容量：</strong>{{ table.Capacity }}</p>
                                     <p><strong>对外预订开启时间：</strong>{{ table.OpenTime|date:"Y-m-d" }}</p>
                                     {% if table.CloseTime %}
-                                        <p><strong>对外预订关闭时间：</strong>
-                                            {{ table.CloseTime|date:"Y-m-d" }}
-                                        </p>
+                                        <p><strong>对外预订关闭时间：</strong>{{ table.CloseTime|date:"Y-m-d" }}</p>
                                     {% else %}
                                         <p>
                                             <strong>对外预订关闭时间：</strong>

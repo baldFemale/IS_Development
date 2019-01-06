@@ -89,7 +89,7 @@ def add_restaurant(request):
     login_merchant_id = request.session.get('login_merchant')
     if login_merchant_id:
         if request.method == 'POST':
-            form = RestaurantAddForm(request.POST)
+            form = RestaurantAddForm(request.POST, request.FILES)
             if form.is_valid():
                 new_restaurant = form.save(commit=False)
                 new_restaurant.MerchantID = Merchant.objects.get(pk=login_merchant_id)

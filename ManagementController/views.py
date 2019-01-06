@@ -6,7 +6,7 @@ from django.http import HttpResponseRedirect
 from django.urls import reverse
 import datetime
 from django.core.paginator import Paginator
-
+import pytz
 # Create your views here.
 
 
@@ -66,7 +66,7 @@ def edit_dish(request, dish_id):
         form = forms.DishForm(instance=dish_edit, data=request.POST, files=request.FILES)
         if form.is_valid():
             form.save()
-            return HttpResponseRedirect(reverse("ManagementController:dish", args={restaurant_id}))
+            return HttpResponseRedirect(reverse("ManagementController:detail", args={restaurant_id}))
 
 
 def add_dish(request, restaurant_id):
@@ -83,7 +83,7 @@ def add_dish(request, restaurant_id):
             new_dish.RestaurantID = restaurant
             new_dish.RecommendCount = 0
             new_dish.save()
-        return HttpResponseRedirect(reverse("ManagementController:dish", args={restaurant_id}))
+        return HttpResponseRedirect(reverse("ManagementController:detail", args={restaurant_id}))
 
     context = {"form":form,"restaurant":restaurant}
     return render(request, "ManagementController/add_dish.html", context=context)
@@ -103,7 +103,7 @@ def edit_coupon(request,coupon_id):
         print(form.is_valid())
         if form.is_valid():
             form.save()
-            return HttpResponseRedirect(reverse("ManagementController:coupon", args={restaurant_id}))
+            return HttpResponseRedirect(reverse("ManagementController:detail", args={restaurant_id}))
 
 
 def add_coupon(request,restaurant_id):
@@ -118,7 +118,7 @@ def add_coupon(request,restaurant_id):
             new_coupon = form.save(commit=False)
             new_coupon.RestaurantID = restaurant
             new_coupon.save()
-        return HttpResponseRedirect(reverse("ManagementController:coupon", args={restaurant_id}))
+        return HttpResponseRedirect(reverse("ManagementController:detail", args={restaurant_id}))
 
     context = {"form":form,"restaurant":restaurant}
     return render(request, "ManagementController/add_coupon.html", context=context)
@@ -172,16 +172,17 @@ def table_edit(request, table_id):
             # table_num_list = [i['TableNum'] for i in Table.objects.filter(RestaurantID__id=)]
             new_table = form.save(commit=False)
             new_table_num = new_table.TableNum
-            for table in Table.objects.filter(RestaurantID=restaurant):
-                if table.TableNum == new_table_num:
-                    form = forms.TableForm(instance=table_details)
-                    return render(request, "ManagementController/table_edit.html", context={
-                        'form': form,
-                        'restaurant': restaurant,
-                        'table': table_details,
-                        'error_message': '您想更改的桌号已存在',
-                    })
-            new_table.Status = table_status_cal(new_table, datetime.datetime.now())
+            if new_table.TableNum != table_details.TableNum:
+                for table in Table.objects.filter(RestaurantID=restaurant):
+                    if table.TableNum == new_table_num:
+                        form = forms.TableForm(instance=table_details)
+                        return render(request, "ManagementController/table_edit.html", context={
+                            'form': form,
+                            'restaurant': restaurant,
+                            'table': table_details,
+                            'error_message': '您想更改的桌号已存在',
+                        })
+            new_table.Status = table_status_cal(new_table, datetime.datetime.now().astimezone(pytz.timezone("UTC")))
             new_table.save()
             return detail(request, restaurant_id)
         # else:
@@ -203,7 +204,7 @@ def table_add(request, restaurant_id):
         form = forms.TableForm(request.POST)
         if form.is_valid():
             new_table = form.save(commit=False)
-            table_num = new_table.TabelNum
+            table_num = new_table.TableNum
             for table in Table.objects.filter(RestaurantID=Restaurant.objects.get(pk=restaurant_id)):
                 if table.TableNum == table_num:
                     form = forms.TableForm()
@@ -211,10 +212,10 @@ def table_add(request, restaurant_id):
                         'form': form,
                         'error_message': '您想添加桌位的桌号已存在',
                     })
-            new_table.Status = table_status_cal(new_table, datetime.datetime.now())
+            new_table.Status = table_status_cal(new_table, datetime.datetime.now().astimezone(pytz.timezone("UTC")))
             new_table.RestaurantID = Restaurant.objects.get(pk=restaurant_id)
             new_table.save()
-            return table_info(request, restaurant_id)
+            return detail(request, restaurant_id)
     else:
         form = forms.TableForm()
         return render(request, "ManagementController/table_add.html", context={
