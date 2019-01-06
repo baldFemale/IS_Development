@@ -280,7 +280,8 @@ def confirm(request):
             new_oder_detail.OrderID = new_order
             new_oder_detail.DishID = dish
             new_oder_detail.Amount = carts[str(dish.id)]
-            new_oder_detail.save()
+            if new_oder_detail.Amount!=0:
+                new_oder_detail.save()
 
     del request.session["carts"]
 
@@ -381,7 +382,12 @@ def user_info(request, user_id):
             user_coupon_list = user_coupon[:10]
         else:
             user_coupon_list = user_coupon
+
         user_order = Order.objects.filter(UserID=user).order_by("-OrderTime")
+
+        if len(list(user_order))>0:
+            recent_order = list(user_order)[0]
+            dishes = OrderDetail.objects.filter(OrderID=recent_order)
         reviews = Review.objects.filter(UserID=user)
 
 
@@ -392,5 +398,7 @@ def user_info(request, user_id):
             'coupons': user_coupon,
             'coupons_list':user_coupon_list,
             'orders': user_order,
+            'recent_order': recent_order,
+            'dishes':dishes,
             "reviews":reviews,
         })
