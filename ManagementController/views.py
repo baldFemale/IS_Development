@@ -7,6 +7,7 @@ from django.urls import reverse
 import datetime
 from django.core.paginator import Paginator
 import pytz
+from UserController.models import Reserve
 # Create your views here.
 
 
@@ -28,6 +29,18 @@ def detail(request, restaurant_id):
         'coupons': coupons,
     }
     return render(request, "ManagementController/detail.html", context=context)
+
+
+def reserves(request, restaurant_id):
+    restaurant = Restaurant.objects.get(id=restaurant_id)
+    reservations = Reserve.objects.filter(RestaurantID=restaurant)
+    paginator = Paginator(reservations, 8)
+    page = request.GET.get('page', 1)
+    result = paginator.page(page)
+    return render(request, "ManagementController/reservations.html", context={
+        "reserves": reservations,
+        "result": result,
+        'restaurant': restaurant})
 
 
 def dish(request,restaurant_id):

@@ -28,6 +28,7 @@
             </ul>
             <button type="button" class="btn btn-default" onclick="location.href='{%url 'apply:edit' restaurant.id%}'">编辑餐厅基本信息</button>
             <button type="button" class="btn btn-default" onclick="location.href='{%url 'ManagementController:review' restaurant.id%}'">查看餐厅评论</button>
+            <button type="button" class="btn btn-default" onclick="location.href='{% url 'ManagementController:reserves' restaurant.id %}'">查看餐厅预约</button>
         </div>
         <div class="col-md-4">
             {% if restaurant.Image %}

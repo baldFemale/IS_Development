@@ -29,4 +29,6 @@ urlpatterns = [
     url(r"^table_edit/(?P<table_id>\d)/$", views.table_edit, name='table_edit'),
     # 添加桌位
     url(r"table_add/(?P<restaurant_id>\d)/$", views.table_add, name='table_add'),
+    # 餐厅预约信息
+    url(r"reservations/(?P<restaurant_id>\d)/$", views.reserves, name="reserves")
 ]

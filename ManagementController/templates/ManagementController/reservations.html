@@ -1,0 +1,51 @@
+{% extends "ApplyController/base.html" %}
+{% load bootstrap3 %}
+{% block header %}
+<div class="container">
+    <div class="page-header" style="margin-top:0px;">
+        <h2>{{ restaurant.Name }}——用户预约</h2>
+    </div>
+</div>
+{% endblock header %}
+
+{% block content %}
+<div class="container">
+    <div class="container">
+        <div class="wrapper row">
+            <div class="panel">
+                {% for reserve in reserves %}
+                    <div class="panel panel-default arrow left">
+                        <div class="panel-body">
+                            <p><strong>预约桌号: </strong>{{ reserve.TableNum }}</p>
+                            <p><strong>预约日期: </strong>{{ reserve.OccupationDate|date:"Y-m-d" }}</p>
+                            <p><strong>预约类型: </strong>{{ reserve.get_OccupationTime_display }}</p>
+                            <p><strong>预约用户: </strong>{{ reserve.UserID }}</p>
+                            <p><strong>预约用户手机号: </strong>{{ reserve.UserID.PhoneNum }}</p>
+                        </div>
+                    </div>
+                {% empty %}
+                    <h2>暂无预约信息</h2>
+                {% endfor %}
+            </div>
+        </div>
+    </div>
+    <ul class="pagination">
+        {% if result.has_previous %}
+            <li><a href="/ManagementController/reservations/{{restaurant.id}}/?page={{result.previous_page_number}}">上一页</a> </li>
+        {% endif %}
+
+        {% for num in result.paginator.page_range %}
+            {% ifequal num result.number %}
+            <li class="active"><a href="/ManagementController/reservations/{{restaurant.id}}/?page={{ num }}">{{ num }}</a></li>
+            {% else %}
+            <li><a href="/ManagementController/reservations/{{restaurant.id}}/?page={{ num }}">{{ num }}</a></li>
+            {% endifequal %}
+
+        {% endfor %}
+
+        {% if result.has_next %}
+            <li><a href="/ManagementController/reservations/{{restaurant.id}}/?page={{result.next_page_number}}">下一页</a> </li>
+        {% endif %}
+    </ul>
+</div>
+{% endblock content %}
