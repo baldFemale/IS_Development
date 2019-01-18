@@ -31,6 +31,7 @@ def login(request):
         merchant = Merchant.objects.filter(Name=request.POST["account"], Password=request.POST["password"])
         if merchant:
             request.session["login_merchant"] = merchant[0].id
+            request.session['login_merchant_name'] = merchant[0].Name
             return HttpResponseRedirect(reverse("apply:index"))
         else:
             return HttpResponseRedirect(reverse("login:index"))
@@ -68,6 +69,7 @@ def merchant_register(request):
         new_merchant = form.save(commit=False)
         new_merchant.save()
         request.session['login_merchant'] = new_merchant.id
+        request.session['login_merchant_name'] = new_merchant.Name
         print(request.session['login_merchant'])
         return render(request, 'ApplyController/index.html', context={'error_message': '注册成功'})
     else:

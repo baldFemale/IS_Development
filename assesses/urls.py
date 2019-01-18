@@ -9,5 +9,5 @@ urlpatterns =[
     # 注销
     url(r"^logout/$",views.logout,name="logout"),
     # 查看待审核餐厅详情
-    url(r'^detail/(?P<restaurant_id>\d+)/$',views.detail,name="detail"),
+    url(r'^detail/(?P<restaurant_id>\d*)/$',views.detail,name="detail"),
 ]
