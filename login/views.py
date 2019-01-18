@@ -31,6 +31,7 @@ def login(request):
         merchant = Merchant.objects.filter(Name=request.POST["account"], Password=request.POST["password"])
         if merchant:
             request.session["login_merchant"] = merchant[0].id
+            request.session['login_merchant_name'] = "zzz"
             return HttpResponseRedirect(reverse("apply:index"))
         else:
             return HttpResponseRedirect(reverse("login:index"))
