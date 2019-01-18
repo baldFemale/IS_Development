@@ -54,6 +54,7 @@ def login(request):
 
 def logout(request):
     request.session.pop('login_merchant')
+    request.session.pop('login_merchant_name')
     return HttpResponseRedirect(reverse('apply:index'))
 
 
