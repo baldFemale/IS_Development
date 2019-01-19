@@ -13,7 +13,7 @@
     <div class="container-fluid">
         <div class="wrapper row">
             <div class="preview col-md-6">
-                <div><img src="/Files/{{restaurant.Image}}" height="100%" width="100%"></div>
+                <div><img src="{{restaurant.Image.url}}" height="100%" width="100%"></div>
             </div>
 
             <div class="details col-md-6">
@@ -105,7 +105,7 @@
                             {% for dish in dishes %}
                             <div class="col-xs-6 col-md-3">
 
-                                <a href="/Files/{{dish.Image}}" class=" thumbnail">
+                                <a href="{{dish.Image.url}}" class=" thumbnail">
                                     <img class="img-round" src="/Files/{{dish.Image}}" alt="prewiew" style="height:100px">
                                 </a>
 

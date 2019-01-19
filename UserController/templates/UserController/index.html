@@ -51,7 +51,7 @@
         <th>详情</th>
         {% for restaurant in restaurants %}
         <tr>
-            <td style="height:100px"><img src="/Files/{{restaurant.Image}}" height="80%"></td>
+            <td style="height:100px"><img src="{{ restaurant.Image.url }}" height="80%"></td>
             <td>{{restaurant.Name}}</td>
             <td>{{restaurant.BusinessStartHour}}-{{restaurant.BusinessEndHour}}</td>
             <td>{{restaurant.get_Category_display}}</td>
